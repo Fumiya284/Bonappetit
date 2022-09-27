@@ -1,6 +1,6 @@
 package com.graduation_work.bonappetit.model.data
 
-import com.graduation_work.bonappetit.model.SortType
+import com.graduation_work.bonappetit.model.enums.SortType
 import java.time.LocalDate
 
 data class StockList(

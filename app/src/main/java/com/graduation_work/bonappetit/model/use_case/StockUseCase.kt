@@ -1,6 +1,6 @@
 package com.graduation_work.bonappetit.model.use_case
 
-import com.graduation_work.bonappetit.model.SortType
+import com.graduation_work.bonappetit.model.enums.SortType
 import com.graduation_work.bonappetit.model.data.StockList
 import com.graduation_work.bonappetit.repository.StockRepository
 import kotlinx.coroutines.flow.MutableStateFlow
