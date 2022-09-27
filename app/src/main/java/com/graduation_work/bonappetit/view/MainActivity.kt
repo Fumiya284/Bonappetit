@@ -3,7 +3,7 @@ package com.graduation_work.bonappetit.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.graduation_work.bonappetit.R
-import com.graduation_work.bonappetit.model.repository.FoodRepository
+import com.graduation_work.bonappetit.repository.FoodRepository
 import com.graduation_work.bonappetit.test_util.FoodRepoTest
 
 class MainActivity : AppCompatActivity() {

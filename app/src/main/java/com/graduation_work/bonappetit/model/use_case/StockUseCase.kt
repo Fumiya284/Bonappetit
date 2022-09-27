@@ -1,9 +1,8 @@
 package com.graduation_work.bonappetit.model.use_case
 
 import com.graduation_work.bonappetit.model.SortType
-import com.graduation_work.bonappetit.model.data.Stock
 import com.graduation_work.bonappetit.model.data.StockList
-import com.graduation_work.bonappetit.model.repository.StockRepository
+import com.graduation_work.bonappetit.repository.StockRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -15,11 +14,11 @@ class StockUseCase(
 	val list: StateFlow<StockList> = _list
 	
 	suspend fun loadStocks() {
-		_list.value = stockRepository.getByName()
+		_list.value = stockRepository.get()
 	}
 	
 	suspend fun searchStockByName(name: String) {
-		_list.value = stockRepository.getByName(name)
+		_list.value = stockRepository.get(name)
 	}
 	
 	fun sortByRegistrationOrderAsc() {

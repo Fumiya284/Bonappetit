@@ -1,4 +1,4 @@
-package com.graduation_work.bonappetit.model.repository
+package com.graduation_work.bonappetit.repository
 
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.database.entities.StockEntity
@@ -17,12 +17,12 @@ class StockRepository(
     private val stockDao = database.stockDao()
     private val stockWithFoodDao = database.stockWithFoodDao()
     
-    suspend fun getByName(name: String? = null) = withContext(defaultDispatcher) {
-        if(name.isNullOrEmpty()) {
+    suspend fun get(foodName: String? = null) = withContext(defaultDispatcher) {
+        if(foodName.isNullOrEmpty()) {
             val stockEntities = stockWithFoodDao.selectAll()
             return@withContext toStockList(stockEntities)
         } else {
-            val stockEntities = stockWithFoodDao.selectByName(name)
+            val stockEntities = stockWithFoodDao.selectByName(foodName)
             return@withContext toStockList(stockEntities)
         }
     }

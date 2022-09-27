@@ -1,4 +1,4 @@
-package com.graduation_work.bonappetit.model.repository
+package com.graduation_work.bonappetit.repository
 
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.database.entities.FoodEntity
