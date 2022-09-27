@@ -36,7 +36,6 @@ object StockConverter {
 				stock.limit.date,
 				stock.limit.bestOrExpiry
 			)
-			
 		} else {
 			StockEntity.create4Insert(
 				stock.foodName,

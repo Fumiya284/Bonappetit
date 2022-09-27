@@ -5,17 +5,18 @@ import com.graduation_work.bonappetit.database.entities.StockWithFoodView
 import com.graduation_work.bonappetit.model.data.StockList
 import com.graduation_work.bonappetit.repository.converter.StockConverter
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 // あとで例外処理かく　たぶん
 class StockRepository(
-    private val defaultDispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     private val database = MyApplication.database
     private val stockDao = database.stockDao()
     private val stockWithFoodDao = database.stockWithFoodDao()
     
-    suspend fun get(foodName: String? = null) = withContext(defaultDispatcher) {
+    suspend fun get(foodName: String? = null) = withContext(dispatcher) {
         if(foodName.isNullOrEmpty()) {
             val stockEntities = stockWithFoodDao.selectAll()
             return@withContext toStockList(stockEntities)
