@@ -17,18 +17,14 @@ class StockRepository(
     private val stockDao = database.stockDao()
     private val stockWithFoodDao = database.stockWithFoodDao()
     
-    suspend fun deleteAll() = withContext(defaultDispatcher) {
-        stockDao.deleteAll()
-    }
-    
-    suspend fun register(newStock: Stock) = withContext(defaultDispatcher) {
-        val newEntity = toEntity(newStock)
-        return@withContext stockDao.insert(newEntity)
-    }
-
-    suspend fun getAll(): StockList {
-        val stockEntities = stockWithFoodDao.selectAll()
-        return toStockList(stockEntities)
+    suspend fun getByName(name: String? = null) = withContext(defaultDispatcher) {
+        if(name.isNullOrEmpty()) {
+            val stockEntities = stockWithFoodDao.selectAll()
+            return@withContext toStockList(stockEntities)
+        } else {
+            val stockEntities = stockWithFoodDao.selectByName(name)
+            return@withContext toStockList(stockEntities)
+        }
     }
     
     private fun toStockList(entityList: List<StockWithFoodView>): StockList {
