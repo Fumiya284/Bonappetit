@@ -26,11 +26,11 @@ data class StockEntity(
     @ColumnInfo(name = "limit")
     val limit: LocalDate?,
     @ColumnInfo(name = "best_or_expiry")
-    val bestOrExpiry: Boolean? // tureでbest falseでexpiry　あとでほかの人と話して決める SealClassのほうがよさげ　DBにはString
+    val bestOrExpiry: String? // tureでbest falseでexpiry　あとでほかの人と話して決める SealClassのほうがよさげ　DBにはString
 )
 {
     companion object {
-        fun create4Insert(foodName: String, count: Int, limit: LocalDate? = null, bestOrExpiry: Boolean? = null): StockEntity {
+        fun create4Insert(foodName: String, count: Int, limit: LocalDate? = null, bestOrExpiry: String? = null): StockEntity {
             return StockEntity(0, foodName, count, limit, bestOrExpiry)
         }
     }

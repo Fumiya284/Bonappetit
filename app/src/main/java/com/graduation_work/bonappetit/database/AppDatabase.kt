@@ -13,13 +13,13 @@ import com.graduation_work.bonappetit.database.entities.StockEntity
 import com.graduation_work.bonappetit.database.entities.StockWithFoodView
 
 @Database(
-    version = 2,
+    version = 3,
     entities = [FoodEntity::class, StockEntity::class],
     views = [StockWithFoodView::class],
     autoMigrations = [
         AutoMigration(
-            from = 1,
-            to = 2
+            from = 2,
+            to = 3
         )
     ]
 )

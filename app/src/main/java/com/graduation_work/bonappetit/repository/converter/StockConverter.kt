@@ -29,17 +29,18 @@ object StockConverter {
 	}
 	
 	fun toEntity(stock: Stock): StockEntity {
-		return if(stock.limit == null) {
-			StockEntity.create4Insert(
-				stock.foodName,
-				stock.count
-			)
-		} else {
+		return if(stock.limit != null) {
 			StockEntity.create4Insert(
 				stock.foodName,
 				stock.count,
 				stock.limit.date,
 				stock.limit.bestOrExpiry
+			)
+			
+		} else {
+			StockEntity.create4Insert(
+				stock.foodName,
+				stock.count
 			)
 		}
 	}

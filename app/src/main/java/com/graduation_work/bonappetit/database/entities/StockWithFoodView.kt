@@ -16,5 +16,5 @@ data class StockWithFoodView(
 	val count: Int,
 	val limit: LocalDate? = null,
 	@ColumnInfo(name = "best_or_expiry")
-	val bestOrExpiry: Boolean? = null
+	val bestOrExpiry: String? = null
 )

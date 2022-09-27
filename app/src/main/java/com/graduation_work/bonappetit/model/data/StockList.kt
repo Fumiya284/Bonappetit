@@ -6,7 +6,6 @@ import java.time.LocalDate
 data class StockList(
 	val value: List<Stock> = emptyList()
 ) {
-	
 	fun sort(type: SortType): StockList {
 		val sortedList = when(type) {
 			SortType.ID_ASC -> {
@@ -31,5 +30,5 @@ data class Stock(
 
 data class Limit(
 	val date: LocalDate,
-	val bestOrExpiry: Boolean
+	val bestOrExpiry:String
 )
