@@ -1,6 +1,6 @@
 package com.graduation_work.bonappetit.model.use_case
 
-import com.graduation_work.bonappetit.model.enums.SortType
+import com.graduation_work.bonappetit.model.enums.StockSortType
 import com.graduation_work.bonappetit.model.data.StockList
 import com.graduation_work.bonappetit.repository.StockRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,15 +17,11 @@ class StockUseCase(
 		_list.value = stockRepository.get()
 	}
 	
-	suspend fun searchStockByName(name: String) {
+	suspend fun searchStocksByName(name: String) {
 		_list.value = stockRepository.get(name)
 	}
 	
-	fun sortByRegistrationOrderAsc() {
-		_list.value = _list.value.sort(SortType.ID_ASC)
-	}
-	
-	fun sortByRegistrationOrderDesc() {
-		_list.value = _list.value.sort(SortType.ID_DESC)
+	fun sortStocks(stockSortType: StockSortType) {
+		_list.value = _list.value.sort(stockSortType)
 	}
 }

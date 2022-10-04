@@ -1,6 +1,6 @@
 package com.graduation_work.bonappetit.model.enums
 
-enum class SortType {
+enum class StockSortType {
 	ID_ASC,
 	ID_DESC
 }

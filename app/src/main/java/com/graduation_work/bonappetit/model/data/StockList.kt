@@ -1,17 +1,17 @@
 package com.graduation_work.bonappetit.model.data
 
-import com.graduation_work.bonappetit.model.enums.SortType
+import com.graduation_work.bonappetit.model.enums.StockSortType
 import java.time.LocalDate
 
 data class StockList(
 	val value: List<Stock> = emptyList()
 ) {
-	fun sort(type: SortType): StockList {
+	fun sort(type: StockSortType): StockList {
 		val sortedList = when(type) {
-			SortType.ID_ASC -> {
+			StockSortType.ID_ASC -> {
 				value.sortedWith(compareBy { it.stockId })
 			}
-			SortType.ID_DESC -> {
+			StockSortType.ID_DESC -> {
 				value.sortedWith(compareByDescending { it.stockId })
 			}
 		}
