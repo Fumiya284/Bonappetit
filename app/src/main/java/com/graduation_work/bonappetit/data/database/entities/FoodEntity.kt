@@ -1,7 +1,6 @@
-package com.graduation_work.bonappetit.database.entities
+package com.graduation_work.bonappetit.data.database.entities
 
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
 // create4Insertを使ってインスタンスを取得すること ほんとはconstructorをprivateにしたかった

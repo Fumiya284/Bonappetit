@@ -1,4 +1,4 @@
-package com.graduation_work.bonappetit.database.entities
+package com.graduation_work.bonappetit.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView

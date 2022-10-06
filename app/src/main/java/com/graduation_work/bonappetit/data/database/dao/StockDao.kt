@@ -1,11 +1,11 @@
-package com.graduation_work.bonappetit.database.dao
+package com.graduation_work.bonappetit.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.graduation_work.bonappetit.database.entities.StockEntity
+import com.graduation_work.bonappetit.data.database.entities.StockEntity
 
 @Dao
 interface StockDao {

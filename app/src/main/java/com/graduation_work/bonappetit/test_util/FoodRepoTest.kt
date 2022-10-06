@@ -1,8 +1,8 @@
 package com.graduation_work.bonappetit.test_util
 
 import android.util.Log
-import com.graduation_work.bonappetit.database.entities.FoodEntity
-import com.graduation_work.bonappetit.repository.FoodRepository
+import com.graduation_work.bonappetit.data.database.entities.FoodEntity
+import com.graduation_work.bonappetit.data.repository.FoodRepository
 import kotlinx.coroutines.runBlocking
 
 //テスト用クラス

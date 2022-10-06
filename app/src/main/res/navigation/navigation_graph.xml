@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/stockListFragment">
+
+    <fragment
+        android:id="@+id/stockListFragment"
+        android:name="com.graduation_work.bonappetit.ui.StockListFragment"
+        android:label="stock_list_fragment"
+        tools:layout="@layout/stock_list_fragment" >
+    </fragment>
+</navigation>

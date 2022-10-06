@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "36608d7d66c918d6477c231f55955d76",
+    "identityHash": "36c4422eacb73af065c6f0360565ff85",
     "entities": [
       {
         "tableName": "food",
@@ -32,7 +32,7 @@
       },
       {
         "tableName": "stock",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `food_name` TEXT NOT NULL, `count` INTEGER NOT NULL, `limit` TEXT, `best_or_expiry` INTEGER, FOREIGN KEY(`food_name`) REFERENCES `food`(`name`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `food_name` TEXT NOT NULL, `count` INTEGER NOT NULL, `limit` TEXT, `best_or_expiry` TEXT, FOREIGN KEY(`food_name`) REFERENCES `food`(`name`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -61,7 +61,7 @@
           {
             "fieldPath": "bestOrExpiry",
             "columnName": "best_or_expiry",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": false
           }
         ],
@@ -100,12 +100,12 @@
     "views": [
       {
         "viewName": "stock_with_food",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT * FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT stock.id, stock.food_name, stock.count, food.unit, stock.`limit`, stock.best_or_expiry FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '36608d7d66c918d6477c231f55955d76')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '36c4422eacb73af065c6f0360565ff85')"
     ]
   }
 }

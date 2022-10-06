@@ -1,4 +1,4 @@
-package com.graduation_work.bonappetit.database.converter
+package com.graduation_work.bonappetit.data.database.converter
 
 import androidx.room.TypeConverter
 import java.time.LocalDate

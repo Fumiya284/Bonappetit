@@ -1,7 +1,7 @@
 package com.graduation_work.bonappetit.test_util
 
-import com.graduation_work.bonappetit.repository.FoodRepository
-import com.graduation_work.bonappetit.repository.StockRepository
+import com.graduation_work.bonappetit.data.repository.FoodRepository
+import com.graduation_work.bonappetit.data.repository.StockRepository
 
 class StockRepoTest(
     private val stockRepo: StockRepository,

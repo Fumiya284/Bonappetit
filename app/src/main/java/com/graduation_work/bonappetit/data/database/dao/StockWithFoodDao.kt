@@ -1,9 +1,8 @@
-package com.graduation_work.bonappetit.database.dao
+package com.graduation_work.bonappetit.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.RewriteQueriesToDropUnusedColumns
-import com.graduation_work.bonappetit.database.entities.StockWithFoodView
+import com.graduation_work.bonappetit.data.database.entities.StockWithFoodView
 
 @Dao
 interface StockWithFoodDao {

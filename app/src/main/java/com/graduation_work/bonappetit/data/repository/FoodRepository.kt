@@ -1,7 +1,7 @@
-package com.graduation_work.bonappetit.repository
+package com.graduation_work.bonappetit.data.repository
 
 import com.graduation_work.bonappetit.MyApplication
-import com.graduation_work.bonappetit.database.entities.FoodEntity
+import com.graduation_work.bonappetit.data.database.entities.FoodEntity
 
 // 例外処理は後回し
 class FoodRepository {
