@@ -1,6 +1,7 @@
 package com.graduation_work.bonappetit.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.graduation_work.bonappetit.ui.view_model.StockListViewModel
 import kotlinx.coroutines.launch
 
 class StockListFragment: Fragment() {
-	private val viewModel = StockListViewModel()
+	private val viewModel = StockListViewModel() // DIにしないと画面回転するたびに新しいの作ることになる
 	private lateinit var stockListAdapter: StockListAdapter
 	
 	override fun onCreateView(
@@ -45,7 +46,7 @@ class StockListFragment: Fragment() {
 	}
 	
 	override fun onResume() {
-		viewModel.initStockList()
+		Log.d("my_info", "onResume called")
 		super.onResume()
 	}
 }

@@ -1,5 +1,6 @@
 package com.graduation_work.bonappetit.ui.view_model
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.data.repository.StockRepository
@@ -13,9 +14,10 @@ class StockListViewModel : ViewModel() {
 	
 	val stockList: StateFlow<List<Stock>> = useCase.list
 	
-	fun initStockList() {
+	init {
 		viewModelScope.launch {
 			useCase.loadStocks()
+			Log.d("my_info", "init")
 		}
 	}
 }

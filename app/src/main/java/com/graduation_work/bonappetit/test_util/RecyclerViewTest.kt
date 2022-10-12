@@ -1,9 +1,11 @@
 package com.graduation_work.bonappetit.test_util
 
+import android.util.Log
 import com.graduation_work.bonappetit.data.database.entities.FoodEntity
 import com.graduation_work.bonappetit.data.repository.FoodRepository
 import com.graduation_work.bonappetit.data.repository.StockRepository
 import com.graduation_work.bonappetit.domain.dto.Stock
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 class RecyclerViewTest {
@@ -14,9 +16,8 @@ class RecyclerViewTest {
 	
 	fun startTest() {
 		runBlocking {
-			fRepo.register(FoodEntity("キュウリ", "個"))
+			// fRepo.register(FoodEntity("キュウリ", "個"))
 			sRepo.register(sampleStock)
-			
 		}
 	}
 }
