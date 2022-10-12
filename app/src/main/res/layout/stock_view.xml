@@ -4,11 +4,11 @@
     <data>
         <variable
             name="stock"
-            type="com.graduation_work.bonappetit.domain.dto.StockDto" />
+            type="com.graduation_work.bonappetit.domain.dto.Stock" />
 
         <variable
             name="viewModel"
-            type="com.graduation_work.bonappetit.ui.StockListViewModel" />
+            type="com.graduation_work.bonappetit.ui.view_model.StockListViewModel" />
     </data>
 
     <LinearLayout

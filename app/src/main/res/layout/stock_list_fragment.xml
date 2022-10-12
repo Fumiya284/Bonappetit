@@ -4,7 +4,9 @@
     tools:context=".StockListFragment">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.graduation_work.bonappetit.ui.view_model.StockListViewModel" />
     </data>
 
     <LinearLayout
@@ -32,6 +34,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stock_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

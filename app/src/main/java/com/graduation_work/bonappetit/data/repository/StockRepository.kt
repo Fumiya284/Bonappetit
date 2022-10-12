@@ -1,6 +1,8 @@
 package com.graduation_work.bonappetit.data.repository
 
 import com.graduation_work.bonappetit.MyApplication
+import com.graduation_work.bonappetit.data.database.entities.StockEntity
+import com.graduation_work.bonappetit.domain.dto.Stock
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,5 +21,10 @@ class StockRepository(
         } else {
             return@withContext stockWithFoodDao.selectByName(foodName)
         }
+    }
+    
+    suspend fun register(stock: Stock) = withContext(dispatcher) {
+        val entity = stock.toStockEntity()
+        stockDao.insert(entity)
     }
 }
