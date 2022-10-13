@@ -16,8 +16,7 @@ class RecyclerViewTest {
 	
 	fun startTest() {
 		runBlocking {
-			// fRepo.register(FoodEntity("キュウリ", "個"))
-			sRepo.register(sampleStock)
+		
 		}
 	}
 }

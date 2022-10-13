@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.graduation_work.bonappetit.databinding.StockListFragmentBinding
 import com.graduation_work.bonappetit.ui.adapter.StockListAdapter
 import com.graduation_work.bonappetit.ui.view_model.StockListViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class StockListFragment: Fragment() {
@@ -35,18 +37,9 @@ class StockListFragment: Fragment() {
 				adapter = stockListAdapter
 			}
 		}.also {
-			lifecycleScope.launch {
-				repeatOnLifecycle(Lifecycle.State.STARTED) {
-					viewModel.stockList.collect {
-						stockListAdapter.submitList(it)
-					}
-				}
-			}
+			viewModel.stockList.onEach {    // onEachの挙動がよくわからない
+				stockListAdapter.submitList(it)
+			}.launchIn(lifecycleScope)
 		}.root
-	}
-	
-	override fun onResume() {
-		Log.d("my_info", "onResume called")
-		super.onResume()
 	}
 }

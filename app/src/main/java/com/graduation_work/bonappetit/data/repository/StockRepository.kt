@@ -23,8 +23,7 @@ class StockRepository(
         }
     }
     
-    suspend fun register(stock: Stock) = withContext(dispatcher) {
-        val entity = stock.toStockEntity()
-        stockDao.insert(entity)
+    suspend fun register(stock: StockEntity) = withContext(dispatcher) {
+        stockDao.insert(stock)
     }
 }
