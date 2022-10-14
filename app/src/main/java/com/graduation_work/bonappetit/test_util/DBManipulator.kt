@@ -14,16 +14,22 @@ class DBManipulator {
 		FoodEntity("豆腐", "グラム"),
 		FoodEntity("白菜", "個"),
 		FoodEntity("トマト", "個"),
-		FoodEntity("しいたけ", "個")
+		FoodEntity("しいたけ", "個"),
+		FoodEntity("orange", "個"),
+		FoodEntity("grape", "個")
 	)
 	private val sampleStockList = listOf<StockEntity>(
 		StockEntity.create4Insert("きゅうり", 2),
 		StockEntity.create4Insert("白菜", 1),
-		StockEntity.create4Insert("豆腐", 50)
+		StockEntity.create4Insert("豆腐", 50),
+		StockEntity.create4Insert("grape", 3),
+		StockEntity.create4Insert("orange", 2)
 	)
 	
 	fun registerDummyFood() {
 		runBlocking{
+			stockDao.deleteAll()
+			foodDao.deleteAll()
 			sampleFoodList.onEach {
 				foodDao.insertFood(it)
 			}
@@ -32,6 +38,7 @@ class DBManipulator {
 	
 	fun registerDummyStock() {
 		runBlocking {
+			stockDao.deleteAll()
 			sampleStockList.onEach {
 				stockDao.insert(it)
 			}

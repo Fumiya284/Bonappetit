@@ -17,11 +17,7 @@ class StockUseCase(
 	private val _list = MutableStateFlow<List<Stock>>(emptyList())
 	val list: StateFlow<List<Stock>> = _list
 	
-	suspend fun loadStocks() {
-		_list.value = stockRepository.get().map { Stock.fromView(it) }
-	}
-	
-	suspend fun searchStocksByName(name: String) {
+	suspend fun loadStocks(name:String? = null) {
 		_list.value = stockRepository.get(name).map { Stock.fromView(it) }
 	}
 	

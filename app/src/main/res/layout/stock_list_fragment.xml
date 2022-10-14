@@ -24,17 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:hint="@string/stock_list_search_by_name_et"
-                android:text="@={viewModel.targetName}"
-                android:afterTextChanged="@{() -> viewModel.updateSearchBtnStatus()}" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="@string/stock_list_search_by_name_exec_btn"
-                android:textSize="12sp"
-                android:onClick="@{() -> viewModel.searchStock()}"
-                android:enabled="@{viewModel.isSearchByNameEnable()}" />
+                android:text="@={viewModel.targetName}" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

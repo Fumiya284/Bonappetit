@@ -10,6 +10,7 @@ import com.graduation_work.bonappetit.domain.enums.StockSortType
 import com.graduation_work.bonappetit.domain.use_case.StockUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -27,19 +28,14 @@ class StockListViewModel : ViewModel() {
 	val sortType = _sortType
 	
 	init {
-		viewModelScope.launch {
-			useCase.loadStocks()
-		}
+		targetName.onEach {
+			updateDisplayItem()
+		}.launchIn(viewModelScope)
 	}
 	
-	fun searchStock() {
+	private fun updateDisplayItem() {
 		viewModelScope.launch {
-			useCase.searchStocksByName(targetName.value)
+			useCase.loadStocks("*" + targetName.value + "*")
 		}
-	}
-	
-	fun updateSearchBtnStatus() {
-		_isSearchByNameEnable.value = !targetName.value.isNullOrBlank()
-		Log.d("my_info", "${targetName.value}")
 	}
 }
