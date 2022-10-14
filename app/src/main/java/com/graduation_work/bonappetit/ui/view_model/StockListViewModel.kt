@@ -35,7 +35,7 @@ class StockListViewModel : ViewModel() {
 	
 	private fun updateDisplayItem() {
 		viewModelScope.launch {
-			useCase.loadStocks("*" + targetName.value + "*")
+			useCase.loadStocks(targetName.value)
 		}
 	}
 }
