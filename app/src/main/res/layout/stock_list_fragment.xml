@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:hint="@string/stock_list_search_by_name_et"
-                android:text="@={viewModel.targetName}" />
+                android:text="@={viewModel.searchString}" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -45,7 +45,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/stock_list_sort_desc" />
+                android:text="@={viewModel.sortTypeText}"
+                android:onClick="@{() -> viewModel.switchSortType()}"/>
 
             <Button
                 android:layout_width="wrap_content"
