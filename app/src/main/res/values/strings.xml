@@ -6,6 +6,4 @@
     <string name="stock_list_search_btn">絞り込み:OFF</string>
     <string name="stock_list_search_by_name_et">検索</string>
     <string name="stock_list_search_by_name_exec_btn">虫眼鏡のアイコン</string>
-    <string name="stock_list_sort_desc">↓降順:登録順</string>
-
 </resources>

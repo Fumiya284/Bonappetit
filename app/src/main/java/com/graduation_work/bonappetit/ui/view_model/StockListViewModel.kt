@@ -17,44 +17,38 @@ import kotlinx.coroutines.launch
 
 class StockListViewModel : ViewModel() {
 	private val useCase = StockUseCase(StockRepository())
+	private var currentSortType = StockSortType.ID_ASC
 	
 	val searchString = MutableStateFlow<String>("")
 	
 	val stockList: StateFlow<List<Stock>> = useCase.list
 	
-	private val _sortTypeText = MutableStateFlow<String>(StockSortType.ID_ASC.text)
+	private val _sortTypeText = MutableStateFlow<String>(currentSortType.text)
 	val sortTypeText = _sortTypeText
-	
-	private val currentSortType = MutableStateFlow<StockSortType>(StockSortType.ID_ASC)
 	
 	init {
 		searchString.onEach {
 			updateDisplayItem()
 		}.launchIn(viewModelScope)
-		
-		currentSortType.onEach {
-			sortDisplayItem()
-		}.launchIn(viewModelScope)
 	}
 	
 	fun switchSortType() {
-		currentSortType.value = if (currentSortType.value == StockSortType.ID_ASC) {
+		currentSortType = if (currentSortType == StockSortType.ID_ASC) {
 			StockSortType.ID_DESC
 		} else {
 			StockSortType.ID_ASC
 		}
 		
-		_sortTypeText.value = currentSortType.value.text
-	}
-	
-	private fun sortDisplayItem() {
-		useCase.sortStocks(currentSortType.value)
+		useCase.sortStocks(currentSortType)
+		_sortTypeText.value = currentSortType.text
 	}
 	
 	private fun updateDisplayItem() {
 		viewModelScope.launch {
-			useCase.loadStocks(searchString.value)
-			useCase.sortStocks(currentSortType.value)
+			useCase.run {
+				loadStocks(searchString.value)
+				sortStocks(currentSortType)
+			}
 		}
 	}
 }
