@@ -6,8 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.graduation_work.bonappetit.databinding.StockListFragmentBinding
-import com.graduation_work.bonappetit.databinding.StockViewBinding
+import com.graduation_work.bonappetit.databinding.StockListItemBinding
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.ui.view_model.StockListViewModel
 
@@ -18,7 +17,7 @@ class StockListAdapter(
 ) : ListAdapter<Stock, StockListAdapter.StockViewHolder>(DiffCallback) {
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
 		val layoutInflater = LayoutInflater.from(parent.context)
-		return StockViewHolder(StockViewBinding.inflate(layoutInflater, parent, false))
+		return StockViewHolder(StockListItemBinding.inflate(layoutInflater, parent, false))
 	}
 	
 	override fun onBindViewHolder(holder: StockViewHolder, position: Int) {
@@ -35,7 +34,7 @@ class StockListAdapter(
 		}
 	}
 
-	class StockViewHolder(private val binding: StockViewBinding) :
+	class StockViewHolder(private val binding: StockListItemBinding) :
 		RecyclerView.ViewHolder(binding.root) {
 		fun bind(item: Stock, viewLifecycleOwner: LifecycleOwner, viewModel: StockListViewModel) {
 			binding.run {

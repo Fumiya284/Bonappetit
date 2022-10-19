@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class StockListFragment: Fragment() {
-	private val viewModel = StockListViewModel() // DIにしないと画面回転するたびに新しいの作ることになる
+	private val viewModel = StockListViewModel()// DIにしないと画面回転するたびに新しいの作ることになる
 	private lateinit var stockListAdapter: StockListAdapter
 	
 	override fun onCreateView(
@@ -27,13 +27,13 @@ class StockListFragment: Fragment() {
 			it.viewModel = viewModel
 			it.lifecycleOwner = viewLifecycleOwner
 			
-			it.stockList.apply {
-				layoutManager = GridLayoutManager(this.context, 3, RecyclerView.VERTICAL, false)
+			it.stockListRv.apply {
+				layoutManager = GridLayoutManager(activity, 3, RecyclerView.VERTICAL, false)
 				stockListAdapter = StockListAdapter(viewLifecycleOwner, viewModel)
 				adapter = stockListAdapter
 			}
 		}.also {
-			viewModel.stockList.onEach {    // onEachの挙動がよくわからない
+			viewModel.stockList.onEach {
 				stockListAdapter.submitList(it)
 			}.launchIn(lifecycleScope)
 		}.root

@@ -76,4 +76,7 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui:1.0.0"
     implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
     implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
+
+    implementation "io.insert-koin:koin-android:$koin_version"
 }
+

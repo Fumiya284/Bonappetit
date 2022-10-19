@@ -28,7 +28,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/stock_list"
+            android:id="@+id/stock_list_rv"
             android:layout_width="match_parent"
             android:layout_height="300dp" />
 
@@ -45,8 +45,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.sortTypeText}"
-                android:onClick="@{() -> viewModel.switchSortType()}"/>
+                android:text="@={viewModel.sortBtnText}"
+                android:onClick="@{() -> viewModel.onSortBtnTap()}"/>
 
             <Button
                 android:layout_width="wrap_content"
