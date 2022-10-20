@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/tetsu/Bonappetit/app/src/main/res/layout/activity_main.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/tetsu/Bonappetit/app/src/main/res/layout/stock_list_fragment.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/tetsu/Bonappetit/app/src/main/res/layout/stock_list_item.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/tetsu/Bonappetit/app/src/main/res/layout/tag_select_dialog.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/tetsu/Bonappetit/app/src/main/res/layout/tag_select_item.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/activity_main.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_list_fragment.xml" value="0.33" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_view.xml" value="0.19479166666666667" />
@@ -11,7 +16,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
