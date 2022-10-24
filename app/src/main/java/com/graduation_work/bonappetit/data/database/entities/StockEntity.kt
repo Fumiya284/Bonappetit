@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.graduation_work.bonappetit.domain.dto.Stock
 import java.time.LocalDate
 
 // create4Insertを使ってインスタンスを取得すること ほんとはconstructorをprivateにしたかった
@@ -23,14 +24,18 @@ data class StockEntity(
     val foodName: String,
     val count: Int,
     @ColumnInfo(name = "limit")
-    val limit: LocalDate?,
+    val limit: LocalDate? = null,
     @ColumnInfo(name = "best_or_expiry")
-    val bestOrExpiry: String? // tureでbest falseでexpiry　あとでほかの人と話して決める SealClassのほうがよさげ　DBにはString
+    val bestOrExpiry: String? = null // tureでbest falseでexpiry　あとでほかの人と話して決める SealClassのほうがよさげ　DBにはString
 )
 {
     companion object {
-        fun create4Insert(foodName: String, count: Int, limit: LocalDate? = null, bestOrExpiry: String? = null): StockEntity {
-            return StockEntity(0, foodName, count, limit, bestOrExpiry)
+        fun create4Insert(stock: Stock): StockEntity {
+            return if(stock.limit != null) {
+                StockEntity(0, stock.foodName, stock.count, stock.limit.date, stock.limit.bestOrExpiry)
+            } else {
+                StockEntity(0, stock.foodName, stock.count)
+            }
         }
     }
 }

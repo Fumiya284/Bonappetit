@@ -1,13 +1,14 @@
 package com.graduation_work.bonappetit.domain.use_case
 
-import com.graduation_work.bonappetit.data.repository.StockRepository
 import com.graduation_work.bonappetit.domain.enums.StockSortType
 import com.graduation_work.bonappetit.domain.dto.Stock
+import com.graduation_work.bonappetit.domain.repository.StockRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.koin.java.KoinJavaComponent.inject
 
-class StockUseCase {
-	private val stockRepository = StockRepository()
+class StockListUseCase {
+	private val stockRepository: StockRepository by inject(StockRepository::class.java)
 	
 	private val _list = MutableStateFlow<List<Stock>>(emptyList())
 	val list: StateFlow<List<Stock>> = _list
@@ -16,7 +17,7 @@ class StockUseCase {
 	val selectedTag = _selectedTag
 	
 	suspend fun loadStocks(name:String? = null) {
-		_list.value = stockRepository.get(name).map { Stock.fromView(it) }
+		_list.value = stockRepository.get(name)
 	}
 	
 	fun sortStocks(stockSortType: StockSortType) {

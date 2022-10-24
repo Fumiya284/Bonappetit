@@ -13,9 +13,10 @@ import com.graduation_work.bonappetit.ui.adapter.StockListAdapter
 import com.graduation_work.bonappetit.ui.view_model.StockListViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StockListFragment: Fragment() {
-	private val viewModel = StockListViewModel()// DIにしないと画面回転するたびに新しいの作ることになる
+	private val viewModel: StockListViewModel by viewModel()
 	private lateinit var stockListAdapter: StockListAdapter
 	
 	override fun onCreateView(

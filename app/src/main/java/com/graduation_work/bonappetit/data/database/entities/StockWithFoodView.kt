@@ -2,6 +2,8 @@ package com.graduation_work.bonappetit.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
+import com.graduation_work.bonappetit.domain.dto.Limit
+import com.graduation_work.bonappetit.domain.dto.Stock
 import java.time.LocalDate
 
 @DatabaseView(
@@ -17,4 +19,12 @@ data class StockWithFoodView(
 	val limit: LocalDate? = null,
 	@ColumnInfo(name = "best_or_expiry")
 	val bestOrExpiry: String? = null
-)
+) {
+	fun convertToStock(): Stock {
+		return if (limit != null && bestOrExpiry != null) {
+			Stock(id, foodName, unit, count, Limit(limit, bestOrExpiry))
+		} else {
+			Stock(id, foodName, unit, count, null)
+		}
+	}
+}

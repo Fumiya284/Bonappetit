@@ -1,11 +1,9 @@
 package com.graduation_work.bonappetit.test_util
 
-import com.graduation_work.bonappetit.data.repository.FoodRepository
-import com.graduation_work.bonappetit.data.repository.StockRepository
+import com.graduation_work.bonappetit.data.repository.StockRepositoryImpl
 
 class StockRepoTest(
-    private val stockRepo: StockRepository,
-    private val foodRepo: FoodRepository
+	private val stockRepo: StockRepositoryImpl
 ) {
 /*
     init {
