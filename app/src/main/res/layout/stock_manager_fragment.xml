@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.graduation_work.bonappetit.ui.view_model.StockListViewModel" />
+            type="com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel" />
     </data>
 
     <LinearLayout
@@ -45,7 +45,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.sortBtnText}"
+                android:text="@{viewModel.sortBtnText.text}"
                 android:onClick="@{() -> viewModel.onSortBtnTap()}"/>
 
             <Button

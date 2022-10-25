@@ -16,11 +16,20 @@ class StockRepositoryImpl(
     private val stockDao = database.stockDao()
     private val stockWithFoodDao = database.stockWithFoodDao()
     
-    override suspend fun get(foodName: String?, tag: List<String>) : List<Stock> = withContext(dispatcher) {
-        if(foodName.isNullOrEmpty()) {
-            return@withContext stockWithFoodDao.selectAll().map { it.convertToStock() }
+    override suspend fun fetchAll(): List<Stock> = withContext(dispatcher) {
+        return@withContext stockWithFoodDao.selectAll().map { it.convertToStock() }
+    }
+    
+    override suspend fun searchByCondition(
+        searchString: String,
+        category: Array<String>
+    ): List<Stock> = withContext(dispatcher) {
+        return@withContext if(searchString.isBlank()) {
+            stockWithFoodDao.selectByCategory(*category).map{ it.convertToStock() }
+        } else if(category.isEmpty()) {
+            stockWithFoodDao.selectByName(searchString).map { it.convertToStock() }
         } else {
-            return@withContext stockWithFoodDao.selectByName(foodName).map { it.convertToStock() }
+            stockWithFoodDao.selectByNameAndCategory(searchString, *category).map { it.convertToStock() }
         }
     }
     

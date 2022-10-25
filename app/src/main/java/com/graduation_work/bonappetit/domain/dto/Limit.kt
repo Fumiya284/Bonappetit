@@ -4,5 +4,5 @@ import java.time.LocalDate
 
 data class Limit(
 	val date: LocalDate,
-	val bestOrExpiry: String
+	val limitType: String
 )

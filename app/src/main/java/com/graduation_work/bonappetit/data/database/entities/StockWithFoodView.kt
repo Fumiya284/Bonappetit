@@ -8,10 +8,11 @@ import java.time.LocalDate
 
 @DatabaseView(
 	viewName = "stock_with_food",
-	value = "SELECT stock.id, stock.food_name, stock.count, food.unit, stock.`limit`, stock.limit_type FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
+	value = "SELECT stock.id, stock.food_name, stock.count, stock.`limit`, stock.limit_type, food.unit, food.category FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
 )
 data class StockWithFoodView(
 	val id: Long,
+	val category: String,
 	@ColumnInfo(name = "food_name")
 	val foodName: String,
 	val unit: String,
@@ -22,9 +23,9 @@ data class StockWithFoodView(
 ) {
 	fun convertToStock(): Stock {
 		return if (limit != null && limitType != null) {
-			Stock(id, foodName, unit, count, Limit(limit, limitType))
+			Stock(id, category, foodName, unit, count, Limit(limit, limitType))
 		} else {
-			Stock(id, foodName, unit, count, null)
+			Stock(id, category, foodName, unit, count, null)
 		}
 	}
 }

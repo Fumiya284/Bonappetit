@@ -32,7 +32,7 @@ data class StockEntity(
     companion object {
         fun create4Insert(stock: Stock): StockEntity {
             return if(stock.limit != null) {
-                StockEntity(0, stock.foodName, stock.count, stock.limit.date, stock.limit.bestOrExpiry)
+                StockEntity(0, stock.foodName, stock.count, stock.limit.date, stock.limit.limitType)
             } else {
                 StockEntity(0, stock.foodName, stock.count)
             }

@@ -1,11 +1,10 @@
 package com.graduation_work.bonappetit.ui.view_model
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.enums.StockSortType
-import com.graduation_work.bonappetit.domain.use_case.StockListUseCase
+import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -14,13 +13,12 @@ import org.koin.java.KoinJavaComponent.inject
 
 /*
 	ViewModelの役割は
-	・UIに表示する情報の保持
-	・UIの状態保持
-	・イベント（ボタンのタップなど）を必要に応じてUseCaseに波及させる
+	・表示する情報の保持
+	・UIの状態管理
+	・イベントの処理
  */
-class StockListViewModel : ViewModel() {
-	private val useCase: StockListUseCase by inject(StockListUseCase::class.java)
-	private var currentSortType = StockSortType.ID_ASC
+class StockManagerViewModel : ViewModel() {
+	private val useCase: StockManagerUseCase by inject(StockManagerUseCase::class.java)
 	
 	// 在庫管理画面の名前検索用の文字列
 	val searchString = MutableStateFlow<String>("")
@@ -29,29 +27,19 @@ class StockListViewModel : ViewModel() {
 	val stockList: StateFlow<List<Stock>> = useCase.list
 	
 	// 在庫管理画面のソートボタンに表示するテキスト
-	private val _sortBtnText = MutableStateFlow<String>(currentSortType.text)
-	val sortBtnText = _sortBtnText
+	val sortBtnText: StateFlow<StockSortType> = useCase.currentSortType
 	
 	init {
 		searchString.onEach {
-			useCase.run {
-				loadStocks(searchString.value)
-				sortStocks(currentSortType)
-			}
+			useCase.run { updateStockList(searchString.value) }
+		}.launchIn(viewModelScope)
+		
+		useCase.selectedCategory.onEach {
+			useCase.run { updateStockList(searchString.value) }
 		}.launchIn(viewModelScope)
 	}
 	
 	fun onSortBtnTap() {
-		currentSortType = when(currentSortType) {
-			StockSortType.ID_ASC -> {
-				StockSortType.ID_DESC
-			}
-			StockSortType.ID_DESC -> {
-				StockSortType.ID_ASC
-			}
-		}
-		
-		useCase.sortStocks(currentSortType)
-		_sortBtnText.value = currentSortType.text
+		useCase.changeSortType()
 	}
 }

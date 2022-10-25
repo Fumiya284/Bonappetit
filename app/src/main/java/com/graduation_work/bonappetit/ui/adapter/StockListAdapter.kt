@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.graduation_work.bonappetit.databinding.StockListItemBinding
 import com.graduation_work.bonappetit.domain.dto.Stock
-import com.graduation_work.bonappetit.ui.view_model.StockListViewModel
+import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
 
 
 class StockListAdapter(
 	private val viewLifecycleOwner: LifecycleOwner,
-	private val viewModel: StockListViewModel
+	private val viewModel: StockManagerViewModel
 ) : ListAdapter<Stock, StockListAdapter.StockViewHolder>(DiffCallback) {
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
 		val layoutInflater = LayoutInflater.from(parent.context)
@@ -36,7 +36,7 @@ class StockListAdapter(
 
 	class StockViewHolder(private val binding: StockListItemBinding) :
 		RecyclerView.ViewHolder(binding.root) {
-		fun bind(item: Stock, viewLifecycleOwner: LifecycleOwner, viewModel: StockListViewModel) {
+		fun bind(item: Stock, viewLifecycleOwner: LifecycleOwner, viewModel: StockManagerViewModel) {
 			binding.run {
 				lifecycleOwner = viewLifecycleOwner //現状では必要ない　こっちは使わないかも
 				stock = item

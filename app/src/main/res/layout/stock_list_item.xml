@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.graduation_work.bonappetit.ui.view_model.StockListViewModel" />
+            type="com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel" />
     </data>
 
     <LinearLayout
@@ -20,6 +20,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{stock.foodName}" />
-
     </LinearLayout>
 </layout>
