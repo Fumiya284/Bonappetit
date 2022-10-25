@@ -13,11 +13,11 @@ class StockListUseCase {
 	private val _list = MutableStateFlow<List<Stock>>(emptyList())
 	val list: StateFlow<List<Stock>> = _list
 	
-	private val _selectedTag = MutableStateFlow<String>("")
+	private val _selectedTag = MutableStateFlow<List<String>>(listOf(""))
 	val selectedTag = _selectedTag
 	
-	suspend fun loadStocks(name:String? = null) {
-		_list.value = stockRepository.get(name)
+	suspend fun loadStocks(name: String? = null, tag: List<String>? = null) {
+		_list.value = stockRepository.get(name, selectedTag.value)
 	}
 	
 	fun sortStocks(stockSortType: StockSortType) {
@@ -31,7 +31,4 @@ class StockListUseCase {
 		}
 	}
 	
-	fun getTagList() {
-	
-	}
 }

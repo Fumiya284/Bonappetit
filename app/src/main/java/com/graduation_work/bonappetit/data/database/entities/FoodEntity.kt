@@ -3,7 +3,7 @@ package com.graduation_work.bonappetit.data.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-// create4Insertを使ってインスタンスを取得すること ほんとはconstructorをprivateにしたかった
+// create4Insertを使ってインスタンスを取得すること
 @Entity(tableName = "food")
 data class FoodEntity (
     @PrimaryKey

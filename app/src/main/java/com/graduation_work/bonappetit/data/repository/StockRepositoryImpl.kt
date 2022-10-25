@@ -16,7 +16,7 @@ class StockRepositoryImpl(
     private val stockDao = database.stockDao()
     private val stockWithFoodDao = database.stockWithFoodDao()
     
-    override suspend fun get(foodName: String?) : List<Stock> = withContext(dispatcher) {
+    override suspend fun get(foodName: String?, tag: List<String>) : List<Stock> = withContext(dispatcher) {
         if(foodName.isNullOrEmpty()) {
             return@withContext stockWithFoodDao.selectAll().map { it.convertToStock() }
         } else {
