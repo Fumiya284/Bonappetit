@@ -1,5 +1,6 @@
 package com.graduation_work.bonappetit.data.database.entities
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,12 +9,7 @@ import androidx.room.PrimaryKey
 data class FoodEntity (
     @PrimaryKey
     val name: String,
-    val unit: String
+    val unit: String,
+    @ColumnInfo(defaultValue = "sample")
+    val category: String
 )
-{
-    companion object {
-        fun create4Insert(name: String, unit: String): FoodEntity {
-            return FoodEntity( name, unit)
-        }
-    }
-}

@@ -25,8 +25,8 @@ data class StockEntity(
     val count: Int,
     @ColumnInfo(name = "limit")
     val limit: LocalDate? = null,
-    @ColumnInfo(name = "best_or_expiry")
-    val bestOrExpiry: String? = null // tureでbest falseでexpiry　あとでほかの人と話して決める SealClassのほうがよさげ　DBにはString
+    @ColumnInfo(name = "limit_type") // best_or_expiry
+    val limitType: String? = null //
 )
 {
     companion object {
