@@ -52,9 +52,9 @@ class StockManagerUseCase {
 		sortStocks(_currentSortType.value)
 	}
 	
-	fun changeCategoryStatus(categoryName: String, nextStatus: Boolean) {
-		if (nextStatus != _categoryList.value[categoryName]) {
-			_categoryList.value[categoryName] = nextStatus
+	fun changeCategoryStatus(category: String, nextStatus: Boolean) {
+		if (nextStatus != _categoryList.value[category]) {
+			_categoryList.value[category] = nextStatus
 		}
 	}
 	

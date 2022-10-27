@@ -77,10 +77,10 @@ class StockManagerViewModel : ViewModel() {
 		}
 	}
 	
-	fun onDialogItemClick(categoryName: String, nextStatus: Boolean) {
+	fun onDialogItemClick(category: String, nextStatus: Boolean) {
 		viewModelScope.launch {
 			useCase.run {
-				changeCategoryStatus(categoryName, nextStatus)
+				changeCategoryStatus(category, nextStatus)
 				updateStockList(searchString.value)
 			}
 		}
