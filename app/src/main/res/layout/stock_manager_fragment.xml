@@ -38,17 +38,21 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/search_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/stock_list_search_btn" />
+                android:text="@{viewModel.searchBtnText}"
+                android:onClick="@{() -> viewModel.onSearchBtnClick()}"/>
 
             <Button
+                android:id="@+id/sort_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.sortBtnText.text}"
-                android:onClick="@{() -> viewModel.onSortBtnTap()}"/>
+                android:text="@{viewModel.sortBtnText}"
+                android:onClick="@{() -> viewModel.onSortBtnClick()}"/>
 
             <Button
+                android:id="@+id/register_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stock_list_register_btn" />
