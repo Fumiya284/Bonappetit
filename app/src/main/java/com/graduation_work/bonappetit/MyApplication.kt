@@ -3,7 +3,9 @@ package com.graduation_work.bonappetit
 import android.app.Application
 import androidx.room.Room
 import com.graduation_work.bonappetit.data.database.AppDatabase
+import com.graduation_work.bonappetit.data.repository.FoodRepositoryImpl
 import com.graduation_work.bonappetit.data.repository.StockRepositoryImpl
+import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
 import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
@@ -14,15 +16,18 @@ import org.koin.dsl.module
 class MyApplication : Application() {
     companion object {
         lateinit var database: AppDatabase
+        
         private val useCaseModule = module {
             single { StockManagerUseCase() }
         }
+        
         private val repositoryModule = module {
             single<StockRepository> { StockRepositoryImpl() }
+            single<FoodRepository> { FoodRepositoryImpl() }
         }
         
         private val viewModelModule = module {
-            viewModel { StockManagerViewModel() }
+            single { StockManagerViewModel() }      // viewModelにしたいけど絞り込みのdialog開くごとに新しいインスタンス作られる 助けてください　singleにするとviewとライフサイクル一致しないからだめらしいけど何がまずいのかわからん
         }
     }
 
