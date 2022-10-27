@@ -20,7 +20,7 @@ class StockRepositoryImpl(
         return@withContext stockWithFoodDao.selectAll().map { it.convertToStock() }
     }
     
-    override suspend fun searchByCondition(
+    override suspend fun fetchByCondition(
         searchString: String,
         category: Array<String>
     ): List<Stock> = withContext(dispatcher) {

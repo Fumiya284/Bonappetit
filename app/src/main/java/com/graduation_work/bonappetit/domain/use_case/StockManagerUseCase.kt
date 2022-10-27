@@ -46,7 +46,7 @@ class StockManagerUseCase {
 		_stockList.value = if(searchString.isEmpty() && selectedCategory.isEmpty()) {
 			stockRepository.fetchAll()
 		} else {
-			stockRepository.searchByCondition(searchString, selectedCategory)
+			stockRepository.fetchByCondition(searchString, selectedCategory)
 		}
 		
 		sortStocks(_currentSortType.value)
