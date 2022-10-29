@@ -51,16 +51,16 @@ class StockManagerViewModel : ViewModel() {
 	val sortBtnText: StateFlow<String> = _sortBtnText
 	
 	init {
-		viewModelScope.launch {
-			useCase.run {
-				loadAllStock()
-				loadAllCategory()
-			}
-		}
-		
 		searchString.onEach {
 			useCase.updateStockList(searchString.value)
 		}.launchIn(viewModelScope)
+		
+		viewModelScope.launch {
+			useCase.run {
+				loadStockList()
+				loadCategoryList()
+			}
+		}
 		
 		updateSearchBtnText()
 		updateSortBtnText()

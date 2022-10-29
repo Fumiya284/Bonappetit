@@ -7,8 +7,7 @@ import androidx.fragment.app.DialogFragment
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
 import org.koin.java.KoinJavaComponent.inject
 
-class CategorySelectDFragment : DialogFragment() {
-	private val viewModel: StockManagerViewModel by inject(StockManagerViewModel::class.java)
+class CategorySelectDFragment(private val viewModel: StockManagerViewModel) : DialogFragment() {
 	
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val categoryList = viewModel.categoryList.value.keys.toTypedArray()

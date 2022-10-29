@@ -14,10 +14,11 @@ import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel.Message
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.inject
 
 class StockManagerFragment: Fragment() {
-	private val viewModel: StockManagerViewModel by inject(StockManagerViewModel::class.java)
+	private val viewModel: StockManagerViewModel by viewModel()
 	private lateinit var stockListAdapter: StockListAdapter
 	
 	override fun onCreateView(
@@ -52,6 +53,6 @@ class StockManagerFragment: Fragment() {
 	}
 	
 	private fun onMessageSearch(message: Message.Search) {
-		CategorySelectDFragment().show(parentFragmentManager, "Search Dialog")
+		CategorySelectDFragment(viewModel).show(parentFragmentManager, "Search Dialog")
 	}
 }

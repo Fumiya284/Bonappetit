@@ -4,8 +4,11 @@ import com.graduation_work.bonappetit.domain.enums.StockSortType
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 /*
@@ -32,11 +35,11 @@ class StockManagerUseCase {
 	private val _currentSortType = MutableStateFlow(StockSortType.ID_ASC)
 	val currentSortType: StateFlow<StockSortType> = _currentSortType
 	
-	suspend fun loadAllStock() {
+	suspend fun loadStockList() {
 		_stockList.value = stockRepository.fetchAll()
 	}
 	
-	suspend fun loadAllCategory() {
+	suspend fun loadCategoryList() {
 		_categoryList.value = foodRepository.fetchAllCategory().associateWith { false }.toMutableMap()
 	}
 	

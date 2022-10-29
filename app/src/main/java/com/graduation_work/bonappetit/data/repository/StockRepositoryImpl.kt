@@ -33,7 +33,7 @@ class StockRepositoryImpl(
         }
     }
     
-    override suspend fun register(stock: Stock) = withContext(dispatcher) {
+    override suspend fun save(stock: Stock) = withContext(dispatcher) {
         val entity = StockEntity.create4Insert(stock)
         stockDao.insert(entity)
     }

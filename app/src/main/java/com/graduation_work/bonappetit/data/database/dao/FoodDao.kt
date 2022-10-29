@@ -10,11 +10,14 @@ import com.graduation_work.bonappetit.data.database.entities.FoodEntity
 @Dao
 interface FoodDao {
     @Insert
-    suspend fun insertFood(foodEntity: FoodEntity): Long
+    suspend fun insert(foodEntity: FoodEntity): Long
     
     @Query("DELETE FROM food")
     suspend fun deleteAll()
     
     @Query("SELECT DISTINCT category FROM food")   // categoryは重複する　別のテーブルにするべきかもしれないがカラム一つしかできないからめんどくささが勝る
     suspend fun selectAllCategory(): List<String>
+    
+    @Query("SELECT * FROM food")
+    suspend fun selectAll(): List<FoodEntity>
 }

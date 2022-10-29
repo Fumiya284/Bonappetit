@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "5e4c93df99019f341ab6c5bf1de0c5e4",
+    "identityHash": "956907aec678bd014a46f52bfbb19111",
     "entities": [
       {
         "tableName": "food",
@@ -107,12 +107,12 @@
     "views": [
       {
         "viewName": "stock_with_food",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT stock.id, stock.food_name, stock.count, food.unit, stock.`limit`, stock.limit_type FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT stock.id, stock.food_name, stock.count, stock.`limit`, stock.limit_type, food.unit, food.category FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5e4c93df99019f341ab6c5bf1de0c5e4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '956907aec678bd014a46f52bfbb19111')"
     ]
   }
 }

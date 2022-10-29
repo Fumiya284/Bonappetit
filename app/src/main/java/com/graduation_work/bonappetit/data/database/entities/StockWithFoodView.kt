@@ -2,6 +2,7 @@ package com.graduation_work.bonappetit.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
+import com.graduation_work.bonappetit.domain.dto.Food
 import com.graduation_work.bonappetit.domain.dto.Limit
 import com.graduation_work.bonappetit.domain.dto.Stock
 import java.time.LocalDate
@@ -23,9 +24,9 @@ data class StockWithFoodView(
 ) {
 	fun convertToStock(): Stock {
 		return if (limit != null && limitType != null) {
-			Stock(id, category, foodName, unit, count, Limit(limit, limitType))
+			Stock(id, Food(foodName, unit, category), count, Limit(limit, limitType))
 		} else {
-			Stock(id, category, foodName, unit, count, null)
+			Stock(id, Food(foodName, unit, category), count, null)
 		}
 	}
 }

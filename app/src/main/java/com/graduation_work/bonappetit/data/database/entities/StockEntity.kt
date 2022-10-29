@@ -14,7 +14,7 @@ import java.time.LocalDate
         entity = FoodEntity::class,
         parentColumns = arrayOf("name"),
         childColumns = arrayOf("food_name"),
-        onDelete = ForeignKey.CASCADE                               //登録した食材を削除した場合stockの情報を消してもいいか
+        onDelete = ForeignKey.CASCADE
     )]
 )
 data class StockEntity(
@@ -25,16 +25,16 @@ data class StockEntity(
     val count: Int,
     @ColumnInfo(name = "limit")
     val limit: LocalDate? = null,
-    @ColumnInfo(name = "limit_type") // best_or_expiry
-    val limitType: String? = null //
+    @ColumnInfo(name = "limit_type")
+    val limitType: String? = null
 )
 {
     companion object {
         fun create4Insert(stock: Stock): StockEntity {
             return if(stock.limit != null) {
-                StockEntity(0, stock.foodName, stock.count, stock.limit.date, stock.limit.limitType)
+                StockEntity(0, stock.food.name, stock.count, stock.limit.date, stock.limit.limitType)
             } else {
-                StockEntity(0, stock.foodName, stock.count)
+                StockEntity(0, stock.food.name, stock.count)
             }
         }
     }
