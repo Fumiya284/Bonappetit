@@ -12,9 +12,11 @@ data class FoodEntity (
     val name: String,
     val unit: String,
     @ColumnInfo(defaultValue = "sample")
-    val category: String
+    val category: String,
+    @ColumnInfo(name = "limit_type", defaultValue = "賞味期限")
+    val limitType: String
 ) {
    fun convertToFood(): Food {
-       return Food(this.name, this.unit, this.category)
+       return Food(this.name, this.unit, this.category, this.limitType)
    }
 }

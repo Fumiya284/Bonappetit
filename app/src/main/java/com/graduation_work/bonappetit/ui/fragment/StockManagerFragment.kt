@@ -8,14 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.graduation_work.bonappetit.databinding.StockManagerFragmentBinding
+import com.graduation_work.bonappetit.databinding.StockManagerBinding
 import com.graduation_work.bonappetit.ui.adapter.StockListAdapter
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel.Message
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.java.KoinJavaComponent.inject
 
 class StockManagerFragment: Fragment() {
 	private val viewModel: StockManagerViewModel by viewModel()
@@ -26,7 +25,7 @@ class StockManagerFragment: Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		return StockManagerFragmentBinding.inflate(inflater, container, false).also {
+		return StockManagerBinding.inflate(inflater, container, false).also {
 			it.viewModel = viewModel
 			it.lifecycleOwner = viewLifecycleOwner
 			it.stockListRv.apply {

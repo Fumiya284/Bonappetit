@@ -24,18 +24,12 @@ data class StockEntity(
     val foodName: String,
     val count: Int,
     @ColumnInfo(name = "limit")
-    val limit: LocalDate? = null,
-    @ColumnInfo(name = "limit_type")
-    val limitType: String? = null
+    val limit: LocalDate? = null
 )
 {
     companion object {
         fun create4Insert(stock: Stock): StockEntity {
-            return if(stock.limit != null) {
-                StockEntity(0, stock.food.name, stock.count, stock.limit.date, stock.limit.limitType)
-            } else {
-                StockEntity(0, stock.food.name, stock.count)
-            }
+            return StockEntity(stock.id, stock.food.name, stock.count, stock.limit)
         }
     }
 }

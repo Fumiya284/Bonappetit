@@ -9,6 +9,6 @@
         android:id="@+id/stockListFragment"
         android:name="com.graduation_work.bonappetit.ui.fragment.StockManagerFragment"
         android:label="stock_list_fragment"
-        tools:layout="@layout/stock_manager_fragment" >
+        tools:layout="@layout/stock_manager" >
     </fragment>
 </navigation>

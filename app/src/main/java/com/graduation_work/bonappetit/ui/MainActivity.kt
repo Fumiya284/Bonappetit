@@ -2,6 +2,7 @@ package com.graduation_work.bonappetit.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.data.database.entities.FoodEntity
@@ -10,11 +11,17 @@ import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
+    private val database = MyApplication.database
+    private val stockDao = database.stockDao()
+    private val foodDao = database.foodDao()
+    private val sWithFDao = database.stockWithFoodDao()
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
-    
+}
+    /*
     private object TestUtil {
         private val database = MyApplication.database
         private val stockDao = database.stockDao()
@@ -58,4 +65,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-}
+     */

@@ -15,7 +15,7 @@ interface FoodDao {
     @Query("DELETE FROM food")
     suspend fun deleteAll()
     
-    @Query("SELECT DISTINCT category FROM food")   // categoryは重複する　別のテーブルにするべきかもしれないがカラム一つしかできないからめんどくささが勝る
+    @Query("SELECT DISTINCT category FROM food")
     suspend fun selectAllCategory(): List<String>
     
     @Query("SELECT * FROM food")

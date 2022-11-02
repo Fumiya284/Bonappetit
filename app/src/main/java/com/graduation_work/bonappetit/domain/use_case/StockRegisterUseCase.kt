@@ -1,13 +1,13 @@
 package com.graduation_work.bonappetit.domain.use_case
 
 import com.graduation_work.bonappetit.domain.dto.Food
-import com.graduation_work.bonappetit.domain.dto.Limit
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.java.KoinJavaComponent.inject
+import java.time.LocalDate
 
 class StockRegisterUseCase {
 	private val stockRepository: StockRepository by inject(StockRepository::class.java)
@@ -20,7 +20,7 @@ class StockRegisterUseCase {
 		_foodList.value = foodRepository.fetchAllFood()
 	}
 	
-	suspend fun register(food: Food, count: Int, limit: Limit?) {
+	suspend fun register(food: Food, count: Int, limit: LocalDate) {
 		val newStock = Stock(food = food, count = count, limit = limit)
 		stockRepository.save(newStock)
 	}
