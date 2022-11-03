@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">Bonappetit</string>
 
-    <string name="stock_list_title">食材管理</string>
-    <string name="stock_list_register_btn">登録</string>
-    <string name="stock_list_search_btn">絞り込み:OFF</string>
-    <string name="stock_list_search_by_name_et">検索</string>
-    <string name="stock_list_search_by_name_exec_btn">虫眼鏡のアイコン</string>
+    <!-- 食材管理画面 -->
+    <string name="sm_title">食材管理</string>
+    <string name="sm_register">登録</string>
+    <string name="sm_search_by_name_hint">検索</string>
+    <string name="sm_sort_register_oder_asc">昇順:登録順</string>
+    <string name="sm_sort_register_oder_desc">降順:登録順</string>
+    <string name="sm_search_by_category_on">絞り込み:ON</string>
+    <string name="sm_search_by_category_off">絞り込み:OFF</string>
+    <!-- 食材登録画面 -->
+    <string name="stock_register_input_num">個数を入力してください</string>
 </resources>

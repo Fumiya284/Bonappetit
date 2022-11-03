@@ -1,8 +1,13 @@
 package com.graduation_work.bonappetit.ui.view_model
 
+import android.content.Context
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.graduation_work.bonappetit.MyApplication
+import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.domain.dto.Stock
+import com.graduation_work.bonappetit.domain.enums.StockSortType
 import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +33,7 @@ import org.koin.java.KoinJavaComponent.inject
 	
 	縦に長くて見ずらい
  */
-class StockManagerViewModel : ViewModel() {
+class StockManagerViewModel(private val application: MyApplication) : AndroidViewModel(application) {
 	private val useCase: StockManagerUseCase by inject(StockManagerUseCase::class.java)
 	
 	// 在庫管理画面の名前検索用の文字列
@@ -44,56 +49,51 @@ class StockManagerViewModel : ViewModel() {
 	private val _message = MutableSharedFlow<Message>()
 	val message: SharedFlow<Message> = _message
 	
-	private val _searchBtnText = MutableStateFlow<String>("")
+	private val _searchBtnText = MutableStateFlow<String>(
+		application.applicationContext.getString(R.string.sm_search_by_category_off)
+	)
 	val searchBtnText: StateFlow<String> = _searchBtnText
 	
-	private val _sortBtnText = MutableStateFlow<String>("")
+	private val _sortBtnText = MutableStateFlow<String>(
+		application.applicationContext.getString(R.string.sm_sort_register_oder_asc)
+	)
 	val sortBtnText: StateFlow<String> = _sortBtnText
 	
 	init {
-		searchString.onEach {
-			useCase.updateStockList(searchString.value)
-		}.launchIn(viewModelScope)
-		
-		viewModelScope.launch {
-			useCase.run {
-				loadStockList()
-				loadCategoryList()
-			}
-		}
-		
-		updateSearchBtnText()
-		updateSortBtnText()
-	}
-	
-	fun onSortBtnClick() {
-		useCase.changeSortType()
-		updateSortBtnText()
+		searchString
+			.onEach { useCase.setSearchStringWithReload(searchString.value) }
+			.launchIn(viewModelScope)
 	}
 	
 	fun onSearchBtnClick() {
-		viewModelScope.launch {
-			_message.emit(Message.Search)
+		viewModelScope.launch { _message.emit(Message.Search) }
+	}
+	
+	fun onRegisterBtnClick() {
+		viewModelScope.launch { _message.emit(Message.Register) }
+	}
+	
+	fun onSortBtnClick() {
+		viewModelScope.launch { useCase.switchSortTypeWithReload() }
+		
+		_sortBtnText.value = when(useCase.currentSortType.value) {
+			StockSortType.ID_ASC -> {
+				application.applicationContext.getString(R.string.sm_sort_register_oder_asc)
+			}
+			StockSortType.ID_DESC -> {
+				application.applicationContext.getString(R.string.sm_sort_register_oder_desc)
+			}
 		}
 	}
 	
 	fun onDialogItemClick(category: String, nextStatus: Boolean) {
-		viewModelScope.launch {
-			useCase.run {
-				changeCategoryStatus(category, nextStatus)
-				updateStockList(searchString.value)
-			}
+		viewModelScope.launch { useCase.setCategoryStatusWithReload(category, nextStatus) }
+		
+		_searchBtnText.value = if (true in categoryList.value.values.toBooleanArray()) {
+			application.applicationContext.getString(R.string.sm_search_by_category_on)
+		} else {
+			application.applicationContext.getString(R.string.sm_search_by_category_off)
 		}
-		updateSearchBtnText()
-	}
-	
-	private fun updateSearchBtnText() {
-		val categoryStatus = categoryList.value.values.toBooleanArray()
-		_searchBtnText.value = if (true in categoryStatus) { ("絞り込み:ON") } else { ("絞り込み:OFF") }
-	}
-	
-	private fun updateSortBtnText() {
-		_sortBtnText.value = useCase.currentSortType.value.text
 	}
 	
 	// 画面遷移をviewに知らせるメッセージ

@@ -3,12 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/stockListFragment">
+    app:startDestination="@id/stockManagerFragment">
 
     <fragment
-        android:id="@+id/stockListFragment"
+        android:id="@+id/stockManagerFragment"
         android:name="com.graduation_work.bonappetit.ui.fragment.StockManagerFragment"
-        android:label="stock_list_fragment"
+        android:label="stock_manager_fragment"
         tools:layout="@layout/stock_manager" >
+
+        <action
+            android:id="@+id/action_manager_to_register"
+            app:destination="@id/stockRegisterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/stockRegisterFragment"
+        android:name="com.graduation_work.bonappetit.ui.fragment.StockRegisterFragment"
+        android:label="stock_register_fragment"
+        tools:layout="@layout/stock_register" >
+
+        <action
+            android:id="@+id/action_register_to_manager"
+            app:destination="@+id/stockManagerFragment" />
     </fragment>
 </navigation>

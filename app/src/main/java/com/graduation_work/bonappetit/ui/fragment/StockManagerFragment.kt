@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.databinding.StockManagerBinding
 import com.graduation_work.bonappetit.ui.adapter.StockListAdapter
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
@@ -46,12 +48,17 @@ class StockManagerFragment: Fragment() {
 	
 	private fun onMessage(message: Message) {
 		when (message) {
-			is Message.Search -> onMessageSearch(message)
+			is Message.Search -> onMessageSearch()
+			is Message.Register -> onMessageRegister()
 			else -> {}  // 参考にしたコードは拡張関数つくってelse句排除してたけどなんでできるのか分らないからとりあえず空のブロック置いとく 助けてください
 		}
 	}
 	
-	private fun onMessageSearch(message: Message.Search) {
+	private fun onMessageSearch() {
 		CategorySelectDFragment(viewModel).show(parentFragmentManager, "Search Dialog")
+	}
+	
+	private fun onMessageRegister() {
+		findNavController().navigate(R.id.action_manager_to_register)
 	}
 }
