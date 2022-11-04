@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.domain.dto.Stock
-import com.graduation_work.bonappetit.domain.enums.StockSortType
 import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,14 +46,10 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	private val _message = MutableSharedFlow<Message>()
 	val message: SharedFlow<Message> = _message
 	
-	private val _searchBtnText = MutableStateFlow<String>(
-		application.applicationContext.getString(R.string.sm_search_by_category_off)
-	)
+	private val _searchBtnText = MutableStateFlow<String>(application.applicationContext.getString(R.string.sm_search_by_category_off))
 	val searchBtnText: StateFlow<String> = _searchBtnText
 	
-	private val _sortBtnText = MutableStateFlow<String>(
-		application.applicationContext.getString(R.string.sm_sort_register_oder_asc)
-	)
+	private val _sortBtnText = MutableStateFlow<String>(application.applicationContext.getString(R.string.sm_sort_register_oder_asc))
 	val sortBtnText: StateFlow<String> = _sortBtnText
 	
 	init {
@@ -75,29 +70,22 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 		viewModelScope.launch { useCase.switchSortType() }
 		
 		_sortBtnText.value = when(useCase.currentSortType.value) {
-			StockSortType.ID_ASC -> {
-				application.applicationContext.getString(R.string.sm_sort_register_oder_asc)
-			}
-			StockSortType.ID_DESC -> {
-				application.applicationContext.getString(R.string.sm_sort_register_oder_desc)
-			}
+			StockManagerUseCase.StockSortType.ID_ASC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_asc) }
+			StockManagerUseCase.StockSortType.ID_DESC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_desc) }
 		}
 	}
 	
 	fun onDialogItemClick(category: String, nextStatus: Boolean) {
 		viewModelScope.launch { useCase.setCategoryStatusWithReload(category, nextStatus) }
 		
-		_searchBtnText.value = if (true in categoryList.value.values.toBooleanArray()) {
-			application.applicationContext.getString(R.string.sm_search_by_category_on)
-		} else {
-			application.applicationContext.getString(R.string.sm_search_by_category_off)
-		}
+		_searchBtnText.value =
+			if (true in categoryList.value.values.toBooleanArray()) { application.applicationContext.getString(R.string.sm_search_by_category_on) } else { application.applicationContext.getString(R.string.sm_search_by_category_off) }
 	}
 	
 	// 画面遷移をviewに知らせるメッセージ
 	enum class Message {
 		// 絞り込みのDialog
-		SEARCH(),
+		SEARCH,
 		
 		// 在庫登録画面
 		REGISTER,

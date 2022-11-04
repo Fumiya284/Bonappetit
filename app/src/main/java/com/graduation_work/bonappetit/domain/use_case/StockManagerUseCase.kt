@@ -1,6 +1,5 @@
 package com.graduation_work.bonappetit.domain.use_case
 
-import com.graduation_work.bonappetit.domain.enums.StockSortType
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
@@ -95,5 +94,10 @@ class StockManagerUseCase {
 				_stockList.value.sortedWith(compareByDescending { it.id })
 			}
 		}
+	}
+	
+	enum class StockSortType {
+		ID_ASC,
+		ID_DESC
 	}
 }
