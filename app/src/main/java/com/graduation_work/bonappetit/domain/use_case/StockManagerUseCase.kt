@@ -3,11 +3,8 @@ package com.graduation_work.bonappetit.domain.use_case
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 /*
@@ -25,7 +22,8 @@ class StockManagerUseCase {
 	private val stockRepository: StockRepository by inject(StockRepository::class.java)
 	private val foodRepository: FoodRepository by inject(FoodRepository::class.java)
 	
-	val searchString = MutableStateFlow<String>("")
+	private var _searchString: String = ""
+	val searchString: String = _searchString
 	
 	private val _stocks = MutableStateFlow<List<Stock>>(emptyList())
 	val stocks: StateFlow<List<Stock>> = _stocks
@@ -36,11 +34,15 @@ class StockManagerUseCase {
 	private val _currentSortType = MutableStateFlow(StockSortType.ID_ASC)
 	val currentSortType: StateFlow<StockSortType> = _currentSortType
 	
+	fun setSearchString(searchString: String) {
+		_searchString = searchString
+	}
+	
 	fun setCategoryStatus(category: String, nextStatus: Boolean) {
 		val mutableCategoryList = _categories.value.toMutableMap()
 			
 		mutableCategoryList[category] = nextStatus
-			_categories.value = mutableCategoryList.toMap()
+		_categories.value = mutableCategoryList.toMap()
 	}
 	
 	fun switchSortType() {
@@ -67,10 +69,10 @@ class StockManagerUseCase {
 	suspend fun updateStockList() {
 		val selectedCategory = categories.value.filter { it.value }.keys.toTypedArray()
 		
-		_stocks.value = if (searchString.value.isEmpty() && selectedCategory.isEmpty()) {
+		_stocks.value = if (searchString.isBlank() && selectedCategory.isEmpty()) {
 			stockRepository.fetchAll()
 		} else {
-			stockRepository.fetchByCondition(searchString.value, selectedCategory)
+			stockRepository.fetchByCondition(searchString, selectedCategory)
 		}
 	}
 	

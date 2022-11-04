@@ -34,7 +34,7 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	private val useCase: StockManagerUseCase by inject(StockManagerUseCase::class.java)
 	
 	// 在庫管理画面の名前検索用の文字列
-	val searchString = MutableStateFlow<String>(useCase.searchString.value)
+	val searchString = MutableStateFlow<String>(useCase.searchString)
 	
 	// 在庫の一覧 変更はUseCaseを通じて行う
 	val stocks: StateFlow<List<Stock>> = useCase.stocks
@@ -56,7 +56,7 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 		viewModelScope.launch { useCase.loadStocksAndCategoriesIfEmpty() }
 		
 		searchString.onEach {
-			useCase.searchString.value = searchString.value
+			useCase.setSearchString(searchString.value)
 			useCase.updateStockList()
 			useCase.sortStocks()
 		}.launchIn(viewModelScope)
