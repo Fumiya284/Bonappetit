@@ -11,4 +11,6 @@
     <string name="sm_search_by_category_off">絞り込み:OFF</string>
     <!-- 食材登録画面 -->
     <string name="stock_register_input_num">個数を入力してください</string>
+
+    <string name="mock_message">Not implemented yet</string>
 </resources>
