@@ -1,6 +1,5 @@
 package com.graduation_work.bonappetit.ui.view_model
 
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.MyApplication
@@ -29,7 +28,7 @@ import org.koin.java.KoinJavaComponent.inject
 	・値が変化した時だけSubscriberに伝わる
 	・valueプロパティで簡単に値をセット・ゲットできる
 	
-	縦に長くて見ずらい<-改善できた！！
+	FlowKt.onEachのラムダ式がどのタイミングで実行されるのかわからない
  */
 class StockManagerViewModel(private val application: MyApplication) : AndroidViewModel(application) {
 	private val useCase: StockManagerUseCase by inject(StockManagerUseCase::class.java)
@@ -47,10 +46,10 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	private val _message = MutableSharedFlow<Message>()
 	val message: SharedFlow<Message> = _message
 	
-	private val _searchBtnText = MutableStateFlow<String>(application.applicationContext.getString(R.string.sm_search_by_category_off))
+	private val _searchBtnText = MutableStateFlow<String>("")
 	val searchBtnText: StateFlow<String> = _searchBtnText
 	
-	private val _sortBtnText = MutableStateFlow<String>(application.applicationContext.getString(R.string.sm_sort_register_oder_asc))
+	private val _sortBtnText = MutableStateFlow<String>("")
 	val sortBtnText: StateFlow<String> = _sortBtnText
 	
 	init {
