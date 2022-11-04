@@ -81,8 +81,6 @@ class StockManagerUseCase {
 		} else {
 			stockRepository.fetchByCondition(searchString, selectedCategory)
 		}
-		
-		sortStocks(_currentSortType.value)
 	}
 	
 	private fun sortStocks(stockSortType: StockSortType) {

@@ -55,7 +55,7 @@ class StockManagerFragment: Fragment() {
 	}
 	
 	private fun onMessageSearch() {
-		CategorySelectDFragment(viewModel).show(parentFragmentManager, "Search Dialog")
+		CategorySelectDFragment(viewModel).show(parentFragmentManager, getString(R.string.sm_search_dialog_tag))
 	}
 	
 	private fun onMessageRegister() {
