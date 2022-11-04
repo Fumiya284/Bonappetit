@@ -40,7 +40,7 @@ class StockManagerFragment: Fragment() {
 				.onEach { onMessage(it) }
 				.launchIn(lifecycleScope)
 			
-			viewModel.stockList
+			viewModel.stocks
 				.onEach { stockListAdapter.submitList(it) }
 				.launchIn(lifecycleScope)
 		}.root
@@ -55,10 +55,10 @@ class StockManagerFragment: Fragment() {
 	}
 	
 	private fun onMessageSearch() {
-		CategorySelectDFragment(viewModel).show(parentFragmentManager, getString(R.string.sm_search_dialog_tag))
+		CategorySelectDFragment().show(parentFragmentManager, getString(R.string.sm_search_dialog_tag))
 	}
 	
 	private fun onMessageRegister() {
-		findNavController().navigate(R.id.action_manager_to_register)
+		findNavController().navigate(R.id.action_main_to_register)
 	}
 }

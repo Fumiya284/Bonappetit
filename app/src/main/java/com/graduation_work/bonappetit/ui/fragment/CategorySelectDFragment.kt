@@ -5,10 +5,11 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.graduation_work.bonappetit.R
-import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
-import org.koin.java.KoinJavaComponent.inject
+import com.graduation_work.bonappetit.ui.view_model.CategorySelectViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CategorySelectDFragment(private val viewModel: StockManagerViewModel) : DialogFragment() {
+class CategorySelectDFragment() : DialogFragment() {
+	private val viewModel: CategorySelectViewModel by viewModel()
 	
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val categoryList = viewModel.categoryList.value.keys.toTypedArray()

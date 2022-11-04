@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <TextView
             android:text="@string/sm_title"
             android:layout_width="wrap_content"
@@ -21,12 +22,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal" >
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
+                android:layout_weight="1"
                 android:hint="@string/sm_search_by_name_hint"
                 android:text="@={viewModel.searchString}" />
         </LinearLayout>
@@ -34,11 +35,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/stock_list_rv"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="0dp"
+            android:layout_weight="8"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button

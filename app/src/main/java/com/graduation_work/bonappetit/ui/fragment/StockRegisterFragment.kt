@@ -63,6 +63,6 @@ class StockRegisterFragment : Fragment() {
 	}
 	
 	private fun onMessageStockList() {
-		findNavController().navigate(R.id.action_register_to_manager)
+		findNavController().navigate(R.id.action_register_to_main)
 	}
 }

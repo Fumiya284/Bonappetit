@@ -21,43 +21,29 @@ import org.koin.java.KoinJavaComponent.inject
 	
 	StateFlowとSharedFlowのどっちを使うべきかあとで考える
  */
-@OptIn(DelicateCoroutinesApi::class)
 class StockManagerUseCase {
 	private val stockRepository: StockRepository by inject(StockRepository::class.java)
 	private val foodRepository: FoodRepository by inject(FoodRepository::class.java)
 	private var searchString: String = ""
 	
-	private val _stockList = MutableStateFlow<List<Stock>>(emptyList())
-	val stockList: StateFlow<List<Stock>> = _stockList
+	private val _stocks = MutableStateFlow<List<Stock>>(emptyList())
+	val stocks: StateFlow<List<Stock>> = _stocks
 	
-	private val _categoryList = MutableStateFlow<MutableMap<String, Boolean>>(mutableMapOf())
-	val categoryList: StateFlow<Map<String, Boolean>> = _categoryList
+	private val _categories = MutableStateFlow<Map<String, Boolean>>(emptyMap())
+	val categories: StateFlow<Map<String, Boolean>> = _categories
 	
 	private val _currentSortType = MutableStateFlow(StockSortType.ID_ASC)
 	val currentSortType: StateFlow<StockSortType> = _currentSortType
 	
-	init {
-		// 最初にすべての在庫データと食べ物のカテゴリー一覧をロードしたい　GlobalScopeの正しい使い方から外れてるのでいい方法を知りたい
-		GlobalScope.launch {
-			_stockList.value = stockRepository.fetchAll()
-			_categoryList.value = foodRepository.fetchAllCategory().associateWith { false }.toMutableMap()
-		}
-	}
-	
-	suspend fun setSearchStringWithReload(searchString: String) {
+	fun setSearchString(searchString: String) {
 		this.searchString = searchString
-		
-		loadStockList()
-		sortStocks(_currentSortType.value)
 	}
 	
-	suspend fun setCategoryStatusWithReload(category: String, nextStatus: Boolean) {
-		if (nextStatus != _categoryList.value[category]) {
-			_categoryList.value[category] = nextStatus
-		}
-		
-		loadStockList()
-		sortStocks(_currentSortType.value)
+	fun setCategoryStatus(category: String, nextStatus: Boolean) {
+		val mutableCategoryList = _categories.value.toMutableMap()
+			
+		mutableCategoryList[category] = nextStatus
+		_categories.value = mutableCategoryList.toMap()
 	}
 	
 	fun switchSortType() {
@@ -65,28 +51,29 @@ class StockManagerUseCase {
 			StockSortType.ID_ASC -> { StockSortType.ID_DESC }
 			StockSortType.ID_DESC -> { StockSortType.ID_ASC }
 		}
-		
-		sortStocks(_currentSortType.value)
 	}
 	
-	private suspend fun loadStockList() {
-		val selectedCategory = categoryList.value.filter { it.value }.keys.toTypedArray()
-		
-		_stockList.value = if(searchString.isEmpty() && selectedCategory.isEmpty()) {
-			stockRepository.fetchAll()
-		} else {
-			stockRepository.fetchByCondition(searchString, selectedCategory)
+	fun sortStocks() {
+		_stocks.value = when(_currentSortType.value) {
+			StockSortType.ID_ASC -> { _stocks.value.sortedWith(compareBy { it.id }) }
+			StockSortType.ID_DESC -> { _stocks.value.sortedWith(compareByDescending { it.id }) }
 		}
 	}
 	
-	private fun sortStocks(stockSortType: StockSortType) {
-		_stockList.value = when(stockSortType) {
-			StockSortType.ID_ASC -> {
-				_stockList.value.sortedWith(compareBy { it.id })
-			}
-			StockSortType.ID_DESC -> {
-				_stockList.value.sortedWith(compareByDescending { it.id })
-			}
+	suspend fun loadStocksAndCategoriesIfEmpty() {
+		if (_stocks.value.isEmpty() && _categories.value.isEmpty()) {
+			_stocks.value = stockRepository.fetchAll()
+			_categories.value = foodRepository.fetchAllCategory().associateWith { false }.toMap()
+		}
+	}
+	
+	suspend fun updateStockList() {
+		val selectedCategory = categories.value.filter { it.value }.keys.toTypedArray()
+		
+		_stocks.value = if (searchString.isEmpty() && selectedCategory.isEmpty()) {
+			stockRepository.fetchAll()
+		} else {
+			stockRepository.fetchByCondition(searchString, selectedCategory)
 		}
 	}
 	

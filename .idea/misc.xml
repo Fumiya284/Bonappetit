@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/activity_main.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/category_select_item.xml" value="0.33559782608695654" />
+        <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/main_screen_fragment.xml" value="0.1734375" />
+        <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/mock_fragment.xml" value="0.12037037037037036" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_list_fragment.xml" value="0.33" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_list_item.xml" value="0.1" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_manager.xml" value="0.38697916666666665" />

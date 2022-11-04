@@ -1,5 +1,6 @@
 package com.graduation_work.bonappetit.ui.view_model
 
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.MyApplication
@@ -37,10 +38,10 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	val searchString = MutableStateFlow<String>("")
 	
 	// 在庫の一覧 変更はUseCaseを通じて行う
-	val stockList: StateFlow<List<Stock>> = useCase.stockList
+	val stocks: StateFlow<List<Stock>> = useCase.stocks
 	
 	// 食材のカテゴリー一覧
-	val categoryList: StateFlow<Map<String, Boolean>> = useCase.categoryList
+	private val categories: StateFlow<Map<String, Boolean>> = useCase.categories
 	
 	// viewは↓を監視して画面遷移やDialogを表示する
 	private val _message = MutableSharedFlow<Message>()
@@ -53,8 +54,20 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	val sortBtnText: StateFlow<String> = _sortBtnText
 	
 	init {
-		searchString
-			.onEach { useCase.setSearchStringWithReload(searchString.value) }
+		viewModelScope.launch { useCase.loadStocksAndCategoriesIfEmpty() }
+		
+		searchString.onEach {
+			useCase.setSearchString(searchString.value)
+			useCase.updateStockList()
+			useCase.sortStocks()
+		}.launchIn(viewModelScope)
+		
+		useCase.categories
+			.onEach { updateSearchBtnText() }
+			.launchIn(viewModelScope)
+		
+		useCase.currentSortType
+			.onEach { updateSortBtnText() }
 			.launchIn(viewModelScope)
 	}
 	
@@ -67,19 +80,22 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	fun onSortBtnClick() {
-		viewModelScope.launch { useCase.switchSortType() }
-		
+		viewModelScope.launch {
+			useCase.switchSortType()
+			useCase.sortStocks()
+		}
+	}
+	
+	private fun updateSortBtnText() {
 		_sortBtnText.value = when(useCase.currentSortType.value) {
 			StockManagerUseCase.StockSortType.ID_ASC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_asc) }
 			StockManagerUseCase.StockSortType.ID_DESC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_desc) }
 		}
 	}
 	
-	fun onDialogItemClick(category: String, nextStatus: Boolean) {
-		viewModelScope.launch { useCase.setCategoryStatusWithReload(category, nextStatus) }
-		
+	private fun updateSearchBtnText() {
 		_searchBtnText.value =
-			if (true in categoryList.value.values.toBooleanArray()) { application.applicationContext.getString(R.string.sm_search_by_category_on) } else { application.applicationContext.getString(R.string.sm_search_by_category_off) }
+			if (true in categories.value.values.toBooleanArray()) { application.applicationContext.getString(R.string.sm_search_by_category_on) } else { application.applicationContext.getString(R.string.sm_search_by_category_off) }
 	}
 	
 	// 画面遷移をviewに知らせるメッセージ

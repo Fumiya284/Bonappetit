@@ -1,4 +1,4 @@
-package com.graduation_work.bonappetit.ui
+package com.graduation_work.bonappetit.test_utils
 
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.data.database.entities.FoodEntity

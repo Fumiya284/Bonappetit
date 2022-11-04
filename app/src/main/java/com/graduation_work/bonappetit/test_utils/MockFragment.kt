@@ -1,4 +1,4 @@
-package com.graduation_work.bonappetit.ui.fragment
+package com.graduation_work.bonappetit.test_utils
 
 import android.os.Bundle
 import android.view.LayoutInflater
