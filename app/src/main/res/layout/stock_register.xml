@@ -25,7 +25,7 @@
             <EditText
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/stock_register_input_num"
+                android:hint="@string/sr_input_num"
                 android:inputType="number" />
 
             <TextView

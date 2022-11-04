@@ -1,8 +1,6 @@
 package com.graduation_work.bonappetit.ui.view_model
 
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.R
@@ -31,7 +29,7 @@ import org.koin.java.KoinJavaComponent.inject
 	・値が変化した時だけSubscriberに伝わる
 	・valueプロパティで簡単に値をセット・ゲットできる
 	
-	縦に長くて見ずらい
+	縦に長くて見ずらい<-改善できた！！
  */
 class StockManagerViewModel(private val application: MyApplication) : AndroidViewModel(application) {
 	private val useCase: StockManagerUseCase by inject(StockManagerUseCase::class.java)
@@ -66,15 +64,15 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	fun onSearchBtnClick() {
-		viewModelScope.launch { _message.emit(Message.Search) }
+		viewModelScope.launch { _message.emit(Message.SEARCH) }
 	}
 	
 	fun onRegisterBtnClick() {
-		viewModelScope.launch { _message.emit(Message.Register) }
+		viewModelScope.launch { _message.emit(Message.REGISTER) }
 	}
 	
 	fun onSortBtnClick() {
-		viewModelScope.launch { useCase.switchSortTypeWithReload() }
+		viewModelScope.launch { useCase.switchSortType() }
 		
 		_sortBtnText.value = when(useCase.currentSortType.value) {
 			StockSortType.ID_ASC -> {
@@ -97,14 +95,14 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	// 画面遷移をviewに知らせるメッセージ
-	sealed class Message {
+	enum class Message {
 		// 絞り込みのDialog
-		object Search : Message()
+		SEARCH(),
 		
 		// 在庫登録画面
-		object Register : Message()
+		REGISTER,
 		
 		// 食品詳細画面
-		object Detail : Message()
+		DETAIL
 	}
 }

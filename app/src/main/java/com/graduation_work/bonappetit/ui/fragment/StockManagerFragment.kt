@@ -48,9 +48,9 @@ class StockManagerFragment: Fragment() {
 	
 	private fun onMessage(message: Message) {
 		when (message) {
-			is Message.Search -> onMessageSearch()
-			is Message.Register -> onMessageRegister()
-			else -> {}  // 参考にしたコードは拡張関数つくってelse句排除してたけどなんでできるのか分らないからとりあえず空のブロック置いとく 助けてください
+			Message.SEARCH -> onMessageSearch()
+			Message.REGISTER -> onMessageRegister()
+			Message.DETAIL -> {}
 		}
 	}
 	

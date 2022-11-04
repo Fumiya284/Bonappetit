@@ -45,11 +45,11 @@ class StockManagerUseCase {
 		}
 	}
 	
-	
 	suspend fun setSearchStringWithReload(searchString: String) {
 		this.searchString = searchString
 		
 		loadStockList()
+		sortStocks(_currentSortType.value)
 	}
 	
 	suspend fun setCategoryStatusWithReload(category: String, nextStatus: Boolean) {
@@ -58,9 +58,10 @@ class StockManagerUseCase {
 		}
 		
 		loadStockList()
+		sortStocks(_currentSortType.value)
 	}
 	
-	suspend fun switchSortTypeWithReload() {
+	fun switchSortType() {
 		_currentSortType.value = when(_currentSortType.value) {
 			StockSortType.ID_ASC -> {
 				StockSortType.ID_DESC
@@ -70,7 +71,7 @@ class StockManagerUseCase {
 			}
 		}
 		
-		loadStockList()
+		sortStocks(_currentSortType.value)
 	}
 	
 	private suspend fun loadStockList() {

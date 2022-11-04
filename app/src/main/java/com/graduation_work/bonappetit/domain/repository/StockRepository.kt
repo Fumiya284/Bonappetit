@@ -8,4 +8,5 @@ interface StockRepository {
 	suspend fun fetchByCondition(searchString: String, category: Array<String>): List<Stock>
 	
 	suspend fun save(stock: Stock): Long
+	
 }
