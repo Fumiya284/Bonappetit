@@ -21,6 +21,11 @@ class StockRegisterViewModel(private val application: MyApplication) : AndroidVi
 	private val _limitType = MutableStateFlow<String>("")
 	val limitType: StateFlow<String> = _limitType
 	
+	val foodCount = MutableStateFlow<String>("")
+	
+	private val _isFoodCountInputEnable = MutableStateFlow<Boolean>(false)
+	val isFoodCountInputEnable: StateFlow<Boolean> = _isFoodCountInputEnable
+	
 	fun onFoodSelected(food: Food) {
 		this.selectedFood = food
 	}
