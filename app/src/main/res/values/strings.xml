@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Bonappetit</string>
 
-    <!-- 食材管理画面 -->
+    <!-- 食材管理画面(Stock manager) -->
     <string name="sm_title">食材管理</string>
     <string name="sm_register">登録</string>
     <string name="sm_search_by_name_hint">検索</string>
@@ -11,9 +11,17 @@
     <string name="sm_search_by_category_off">絞り込み:OFF</string>
     <string name="sm_search_dialog_tag">Search dialog</string>
     <string name="sm_search_dialog_title">食材の種類を選択してください</string>
-    <!-- 食材登録画面 -->
+
+    <!-- 食材登録画面(Stock register) -->
     <string name="sr_input_num">個数を入力してください</string>
     <string name="sr_food_not_selected">食べ物を選択してください</string>
+    <string name="sr_register">登録</string>
+
+    <!-- 消費履歴(Consume history) -->
+    <string name="ch_title">消費履歴</string>
+
+    <!-- カレンダー(Calender) -->
+    <string name="c_title">カレンダー</string>
 
     <!-- mock -->
     <string name="mock_message">hogefuga</string>

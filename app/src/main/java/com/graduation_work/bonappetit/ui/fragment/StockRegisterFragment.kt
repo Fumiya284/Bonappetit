@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.databinding.StockRegisterBinding
-import com.graduation_work.bonappetit.domain.dto.Food
 import com.graduation_work.bonappetit.ui.view_model.StockRegisterViewModel
+import com.graduation_work.bonappetit.ui.view_model.StockRegisterViewModel.Message
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StockRegisterFragment : Fragment() {
@@ -44,6 +49,20 @@ class StockRegisterFragment : Fragment() {
 				
 				}
 			}
+		}.also {
+			viewModel.message
+				.onEach { onMessage(it) }
+				.launchIn(lifecycleScope)
 		}.root
+	}
+	
+	private fun onMessage(message: Message) {
+		when(message) {
+			Message.STOCK_LIST -> onMessageStockList()
+		}
+	}
+	
+	private fun onMessageStockList() {
+		findNavController().navigate(R.id.action_register_to_manager)
 	}
 }

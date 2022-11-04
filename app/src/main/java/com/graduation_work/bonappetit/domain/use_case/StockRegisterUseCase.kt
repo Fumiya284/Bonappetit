@@ -20,7 +20,7 @@ class StockRegisterUseCase {
 		_foodList.value = foodRepository.fetchAllFood()
 	}
 	
-	suspend fun register(food: Food, count: Int, limit: LocalDate) {
+	suspend fun register(food: Food, count: Int, limit: LocalDate?) {
 		val newStock = Stock(food = food, count = count, limit = limit)
 		stockRepository.save(newStock)
 	}

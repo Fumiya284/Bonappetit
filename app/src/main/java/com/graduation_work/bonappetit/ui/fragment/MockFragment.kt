@@ -13,7 +13,7 @@ class MockFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = MockFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
