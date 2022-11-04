@@ -15,13 +15,13 @@ class StockRegisterViewModel(private val application: MyApplication) : AndroidVi
 	
 	val foodList: StateFlow<List<Food>> = useCase.foodList
 	
+	val foodCount = MutableStateFlow<String>("")
+	
 	private val _unit = MutableStateFlow<String>("")
 	val unit: StateFlow<String> = _unit
 	
 	private val _limitType = MutableStateFlow<String>("")
 	val limitType: StateFlow<String> = _limitType
-	
-	val foodCount = MutableStateFlow<String>("")
 	
 	private val _isFoodCountInputEnable = MutableStateFlow<Boolean>(false)
 	val isFoodCountInputEnable: StateFlow<Boolean> = _isFoodCountInputEnable
