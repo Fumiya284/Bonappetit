@@ -9,8 +9,10 @@
     <string name="sm_sort_register_oder_desc">降順:登録順</string>
     <string name="sm_search_by_category_on">絞り込み:ON</string>
     <string name="sm_search_by_category_off">絞り込み:OFF</string>
+    <string name="sm_search_dialog_tag">Search dialog</string>
+    <string name="sm_search_dialog_title">食材の種類を選択してください</string>
     <!-- 食材登録画面 -->
-    <string name="stock_register_input_num">個数を入力してください</string>
 
-    <string name="mock_message">Not implemented yet</string>
+    <string name="sr_input_num">個数を入力してください</string>
+    <string name="sr_food_not_selected">食べ物を選択してください</string>
 </resources>

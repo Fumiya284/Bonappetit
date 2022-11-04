@@ -25,8 +25,10 @@
             <EditText
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/stock_register_input_num"
-                android:inputType="number" />
+                android:hint="@string/sr_input_num"
+                android:inputType="number"
+                android:text="@={viewModel.foodCount}"
+                android:enabled="@{viewModel.isFoodCountInputEnable()}"/>
 
             <TextView
                 android:layout_width="50dp"

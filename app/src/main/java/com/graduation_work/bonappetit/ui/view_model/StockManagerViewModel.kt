@@ -1,13 +1,10 @@
 package com.graduation_work.bonappetit.ui.view_model
 
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.domain.dto.Stock
-import com.graduation_work.bonappetit.domain.enums.StockSortType
 import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +28,7 @@ import org.koin.java.KoinJavaComponent.inject
 	・値が変化した時だけSubscriberに伝わる
 	・valueプロパティで簡単に値をセット・ゲットできる
 	
-	縦に長くて見ずらい
+	縦に長くて見ずらい<-改善できた！！
  */
 class StockManagerViewModel(private val application: MyApplication) : AndroidViewModel(application) {
 	private val useCase: StockManagerUseCase by inject(StockManagerUseCase::class.java)
@@ -49,14 +46,10 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	private val _message = MutableSharedFlow<Message>()
 	val message: SharedFlow<Message> = _message
 	
-	private val _searchBtnText = MutableStateFlow<String>(
-		application.applicationContext.getString(R.string.sm_search_by_category_off)
-	)
+	private val _searchBtnText = MutableStateFlow<String>(application.applicationContext.getString(R.string.sm_search_by_category_off))
 	val searchBtnText: StateFlow<String> = _searchBtnText
 	
-	private val _sortBtnText = MutableStateFlow<String>(
-		application.applicationContext.getString(R.string.sm_sort_register_oder_asc)
-	)
+	private val _sortBtnText = MutableStateFlow<String>(application.applicationContext.getString(R.string.sm_sort_register_oder_asc))
 	val sortBtnText: StateFlow<String> = _sortBtnText
 	
 	init {
@@ -66,45 +59,38 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	fun onSearchBtnClick() {
-		viewModelScope.launch { _message.emit(Message.Search) }
+		viewModelScope.launch { _message.emit(Message.SEARCH) }
 	}
 	
 	fun onRegisterBtnClick() {
-		viewModelScope.launch { _message.emit(Message.Register) }
+		viewModelScope.launch { _message.emit(Message.REGISTER) }
 	}
 	
 	fun onSortBtnClick() {
-		viewModelScope.launch { useCase.switchSortTypeWithReload() }
+		viewModelScope.launch { useCase.switchSortType() }
 		
 		_sortBtnText.value = when(useCase.currentSortType.value) {
-			StockSortType.ID_ASC -> {
-				application.applicationContext.getString(R.string.sm_sort_register_oder_asc)
-			}
-			StockSortType.ID_DESC -> {
-				application.applicationContext.getString(R.string.sm_sort_register_oder_desc)
-			}
+			StockManagerUseCase.StockSortType.ID_ASC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_asc) }
+			StockManagerUseCase.StockSortType.ID_DESC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_desc) }
 		}
 	}
 	
 	fun onDialogItemClick(category: String, nextStatus: Boolean) {
 		viewModelScope.launch { useCase.setCategoryStatusWithReload(category, nextStatus) }
 		
-		_searchBtnText.value = if (true in categoryList.value.values.toBooleanArray()) {
-			application.applicationContext.getString(R.string.sm_search_by_category_on)
-		} else {
-			application.applicationContext.getString(R.string.sm_search_by_category_off)
-		}
+		_searchBtnText.value =
+			if (true in categoryList.value.values.toBooleanArray()) { application.applicationContext.getString(R.string.sm_search_by_category_on) } else { application.applicationContext.getString(R.string.sm_search_by_category_off) }
 	}
 	
 	// 画面遷移をviewに知らせるメッセージ
-	sealed class Message {
+	enum class Message {
 		// 絞り込みのDialog
-		object Search : Message()
+		SEARCH,
 		
 		// 在庫登録画面
-		object Register : Message()
+		REGISTER,
 		
 		// 食品詳細画面
-		object Detail : Message()
+		DETAIL
 	}
 }

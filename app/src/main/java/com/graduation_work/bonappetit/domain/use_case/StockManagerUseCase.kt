@@ -1,6 +1,5 @@
 package com.graduation_work.bonappetit.domain.use_case
 
-import com.graduation_work.bonappetit.domain.enums.StockSortType
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
@@ -45,11 +44,11 @@ class StockManagerUseCase {
 		}
 	}
 	
-	
 	suspend fun setSearchStringWithReload(searchString: String) {
 		this.searchString = searchString
 		
 		loadStockList()
+		sortStocks(_currentSortType.value)
 	}
 	
 	suspend fun setCategoryStatusWithReload(category: String, nextStatus: Boolean) {
@@ -58,9 +57,10 @@ class StockManagerUseCase {
 		}
 		
 		loadStockList()
+		sortStocks(_currentSortType.value)
 	}
 	
-	suspend fun switchSortTypeWithReload() {
+	fun switchSortType() {
 		_currentSortType.value = when(_currentSortType.value) {
 			StockSortType.ID_ASC -> {
 				StockSortType.ID_DESC
@@ -70,7 +70,7 @@ class StockManagerUseCase {
 			}
 		}
 		
-		loadStockList()
+		sortStocks(_currentSortType.value)
 	}
 	
 	private suspend fun loadStockList() {
@@ -81,8 +81,6 @@ class StockManagerUseCase {
 		} else {
 			stockRepository.fetchByCondition(searchString, selectedCategory)
 		}
-		
-		sortStocks(_currentSortType.value)
 	}
 	
 	private fun sortStocks(stockSortType: StockSortType) {
@@ -94,5 +92,10 @@ class StockManagerUseCase {
 				_stockList.value.sortedWith(compareByDescending { it.id })
 			}
 		}
+	}
+	
+	enum class StockSortType {
+		ID_ASC,
+		ID_DESC
 	}
 }

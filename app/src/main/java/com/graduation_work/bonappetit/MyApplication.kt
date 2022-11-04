@@ -25,7 +25,7 @@ class MyApplication : Application() {
     
         val viewModelModule = module {
             viewModel { StockManagerViewModel(this@MyApplication) }
-            viewModel { StockRegisterViewModel() }
+            viewModel { StockRegisterViewModel(this@MyApplication) }
         }
     
         val repositoryModule = module {
