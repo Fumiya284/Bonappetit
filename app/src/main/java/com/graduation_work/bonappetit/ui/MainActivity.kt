@@ -3,22 +3,42 @@ package com.graduation_work.bonappetit.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.google.android.material.tabs.TabLayoutMediator
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.data.database.entities.FoodEntity
 import com.graduation_work.bonappetit.data.database.entities.StockEntity
+import com.graduation_work.bonappetit.ui.adapter.ViewPagerAdapter
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
+import com.graduation_work.bonappetit.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private val database = MyApplication.database
     private val stockDao = database.stockDao()
     private val foodDao = database.foodDao()
     private val sWithFDao = database.stockWithFoodDao()
-    
+
+    private lateinit var binding: ActivityMainBinding
+    private val tabTitleArray = arrayOf(
+        "syouzai",
+        "aaa",
+        "bbbb"
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val viewPager = binding.mainViewPager
+        val tabLayout = binding.mainTabLayout
+
+        viewPager.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle, tabTitleArray.size)
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = tabTitleArray[position]
+        }.attach()
     }
 }
     /*

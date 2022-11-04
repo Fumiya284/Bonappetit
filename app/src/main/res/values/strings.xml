@@ -12,6 +12,7 @@
     <string name="sm_search_dialog_tag">Search dialog</string>
     <string name="sm_search_dialog_title">食材の種類を選択してください</string>
     <!-- 食材登録画面 -->
+
     <string name="sr_input_num">個数を入力してください</string>
     <string name="sr_food_not_selected">食べ物を選択してください</string>
 </resources>
