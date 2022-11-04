@@ -1,12 +1,15 @@
 package com.graduation_work.bonappetit.ui.view_model
 
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.domain.dto.Food
 import com.graduation_work.bonappetit.domain.use_case.StockRegisterUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 class StockRegisterViewModel(private val application: MyApplication) : AndroidViewModel(application) {
@@ -16,6 +19,9 @@ class StockRegisterViewModel(private val application: MyApplication) : AndroidVi
 	val foodList: StateFlow<List<Food>> = useCase.foodList
 	
 	val foodCount = MutableStateFlow<String>("")
+	
+	private val _message = MutableSharedFlow<Message>()
+	val message: SharedFlow<Message> = _message
 	
 	private val _unit = MutableStateFlow<String>("")
 	val unit: StateFlow<String> = _unit
@@ -28,5 +34,13 @@ class StockRegisterViewModel(private val application: MyApplication) : AndroidVi
 	
 	fun onFoodSelected(food: Food) {
 		this.selectedFood = food
+	}
+	
+	fun onRegisterBtnClick() {
+		viewModelScope.launch { _message.emit(Message.STOCK_LIST) }
+	}
+	
+	enum class Message {
+		STOCK_LIST
 	}
 }

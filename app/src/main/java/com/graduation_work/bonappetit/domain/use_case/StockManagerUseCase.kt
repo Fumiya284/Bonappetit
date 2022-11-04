@@ -62,12 +62,8 @@ class StockManagerUseCase {
 	
 	fun switchSortType() {
 		_currentSortType.value = when(_currentSortType.value) {
-			StockSortType.ID_ASC -> {
-				StockSortType.ID_DESC
-			}
-			StockSortType.ID_DESC -> {
-				StockSortType.ID_ASC
-			}
+			StockSortType.ID_ASC -> { StockSortType.ID_DESC }
+			StockSortType.ID_DESC -> { StockSortType.ID_ASC }
 		}
 		
 		sortStocks(_currentSortType.value)
