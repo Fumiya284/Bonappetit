@@ -14,36 +14,53 @@
 
         <Spinner
             android:id="@+id/food_selector_spn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:text="@string/sr_food_selector" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
             android:orientation="horizontal">
 
+            <!-- idに_つけるとResources linking failedて言われる誰か理由知ってたら教えて -->
             <EditText
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/quantityInputEt"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.8"
                 android:hint="@string/sr_input_num"
+                android:text="@={viewModel.quantityStr}"
                 android:inputType="number"
-                android:text="@={viewModel.foodCount}"
-                android:enabled="@{viewModel.isFoodCountInputEnable()}"/>
+                android:enabled="@{viewModel.isQuantityInputEnable()}" />
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:hint="個" />
+                android:layout_weight="0.2"
+                android:hint="@{viewModel.unit}" />
         </LinearLayout>
 
         <TextView
-            android:layout_width="300dp"
-            android:layout_height="150dp"
-            android:focusable="true" />
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:text="@{viewModel.limitType}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:text="@string/sr_date"
+            android:focusable="true"
+            android:onClick="@{() -> viewModel.onDatePickerClick()}"/>
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
             android:hint="@string/sr_register"
             android:onClick="@{() -> viewModel.onRegisterBtnClick()}" />
     </LinearLayout>

@@ -10,7 +10,7 @@ import com.graduation_work.bonappetit.data.database.entities.StockEntity
 @Dao
 interface StockDao {
     @Insert
-    suspend fun insert(stockEntity: StockEntity): Long
+    suspend fun insert(stockEntity: StockEntity)
 
     @Update
     suspend fun update(stockEntity: StockEntity)

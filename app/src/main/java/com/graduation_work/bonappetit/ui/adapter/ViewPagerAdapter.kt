@@ -1,6 +1,5 @@
 package com.graduation_work.bonappetit.ui.adapter
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -22,14 +21,8 @@ class ViewPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> {
-                Log.d("my_info", "在庫管理画面")
-                StockManagerFragment()
-            }
-            else -> {
-                Log.d("my_info", "ほかの画面")
-                MockFragment()
-            }
+            0 -> { StockManagerFragment() }
+            else -> { MockFragment() }
         }
     }
 }

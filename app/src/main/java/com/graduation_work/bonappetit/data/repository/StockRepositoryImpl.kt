@@ -1,8 +1,13 @@
 package com.graduation_work.bonappetit.data.repository
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.data.database.entities.StockEntity
 import com.graduation_work.bonappetit.domain.dto.Stock
+import com.graduation_work.bonappetit.domain.dto.StockRegistrationInfo
+import com.graduation_work.bonappetit.domain.exception.FailedToRegisterException
 import com.graduation_work.bonappetit.domain.repository.StockRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +29,7 @@ class StockRepositoryImpl(
         searchString: String,
         category: Array<String>
     ): List<Stock> = withContext(dispatcher) {
-        return@withContext if(searchString.isBlank()) {
+        return@withContext if (searchString.isBlank()) {
             stockWithFoodDao.selectByCategory(*category).map{ it.convertToStock() }
         } else if(category.isEmpty()) {
             stockWithFoodDao.selectByName(searchString).map { it.convertToStock() }
@@ -33,8 +38,14 @@ class StockRepositoryImpl(
         }
     }
     
-    override suspend fun save(stock: Stock) = withContext(dispatcher) {
+    override suspend fun save(stock: StockRegistrationInfo)
+    : Either<FailedToRegisterException, Unit> = withContext(dispatcher) {
         val entity = StockEntity.create4Insert(stock)
-        stockDao.insert(entity)
+        
+        try {
+            return@withContext stockDao.insert(entity).right()
+        } catch (e: Exception) {
+            return@withContext FailedToRegisterException(e).left()
+        }
     }
 }

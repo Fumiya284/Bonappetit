@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.graduation_work.bonappetit.domain.dto.Food
 
-// create4Insertを使ってインスタンスを取得すること
 @Entity(tableName = "food")
 data class FoodEntity (
     @PrimaryKey

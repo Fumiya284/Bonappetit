@@ -28,19 +28,21 @@ import org.koin.java.KoinJavaComponent.inject
 	・値が変化した時だけSubscriberに伝わる
 	・valueプロパティで簡単に値をセット・ゲットできる
 	
-	FlowKt.onEachのラムダ式がどのタイミングで実行されるのかわからない
+	flow.onEachのラムダ式がどのタイミングで実行されるのかわからない
+	
+	在庫情報を検索やソートするタイミングはUIに関係することだと思うのでViewModelで管理する
  */
 class StockManagerViewModel(private val application: MyApplication) : AndroidViewModel(application) {
 	private val useCase: StockManagerUseCase by inject(StockManagerUseCase::class.java)
 	
-	// 在庫管理画面の名前検索用の文字列
-	val searchString = MutableStateFlow<String>(useCase.searchString)
+	// 在庫の名前検索用の文字列
+	val searchString = MutableStateFlow<String>(useCase.searchString.value)
 	
 	// 在庫の一覧 変更はUseCaseを通じて行う
 	val stocks: StateFlow<List<Stock>> = useCase.stocks
 	
 	// 食材のカテゴリー一覧
-	private val categories: StateFlow<Map<String, Boolean>> = useCase.categories
+	val categories: StateFlow<Map<String, Boolean>> = useCase.categories
 	
 	// viewは↓を監視して画面遷移やDialogを表示する
 	private val _message = MutableSharedFlow<Message>()
@@ -57,7 +59,7 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 		
 		searchString.onEach {
 			useCase.setSearchString(searchString.value)
-			useCase.updateStockList()
+			useCase.updateStockListWithCondition()
 			useCase.sortStocks()
 		}.launchIn(viewModelScope)
 		
@@ -71,16 +73,24 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	fun onSearchBtnClick() {
-		viewModelScope.launch { _message.emit(Message.SEARCH) }
+		viewModelScope.launch { _message.emit(Message.DISPLAY_SEARCH_DIALOG) }
 	}
 	
 	fun onRegisterBtnClick() {
-		viewModelScope.launch { _message.emit(Message.REGISTER) }
+		viewModelScope.launch { _message.emit(Message.MOVE_TO_REGISTER_SCREEN) }
 	}
 	
 	fun onSortBtnClick() {
 		viewModelScope.launch {
 			useCase.switchSortType()
+			useCase.sortStocks()
+		}
+	}
+	
+	fun onDialogItemClick(category: String, nextStatus: Boolean) {
+		viewModelScope.launch {
+			useCase.setCategoryStatus(category, nextStatus)
+			useCase.updateStockListWithCondition()
 			useCase.sortStocks()
 		}
 	}
@@ -94,18 +104,17 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	
 	private fun updateSearchBtnText() {
 		_searchBtnText.value =
-			if (true in categories.value.values.toBooleanArray()) { application.applicationContext.getString(R.string.sm_search_by_category_on) } else { application.applicationContext.getString(R.string.sm_search_by_category_off) }
+			if (true in useCase.categories.value.values.toBooleanArray()) {
+				application.applicationContext.getString(R.string.sm_search_by_category_on)
+			} else {
+				application.applicationContext.getString(R.string.sm_search_by_category_off)
+			}
 	}
 	
 	// 画面遷移をviewに知らせるメッセージ
 	enum class Message {
-		// 絞り込みのDialog
-		SEARCH,
-		
-		// 在庫登録画面
-		REGISTER,
-		
-		// 食品詳細画面
-		DETAIL
+		DISPLAY_SEARCH_DIALOG,
+		MOVE_TO_REGISTER_SCREEN,
+		MOVE_TO_DETAIL_SCREEN
 	}
 }

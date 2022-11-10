@@ -34,8 +34,7 @@ class StockListAdapter(
 		}
 	}
 
-	class StockViewHolder(private val binding: StockListItemBinding) :
-		RecyclerView.ViewHolder(binding.root) {
+	class StockViewHolder(private val binding: StockListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 		fun bind(item: Stock, viewLifecycleOwner: LifecycleOwner, viewModel: StockManagerViewModel) {
 			binding.run {
 				lifecycleOwner = viewLifecycleOwner //現状では必要ない　こっちは使わないかも

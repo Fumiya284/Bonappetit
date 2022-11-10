@@ -9,7 +9,6 @@ import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
 import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
 import com.graduation_work.bonappetit.domain.use_case.StockRegisterUseCase
-import com.graduation_work.bonappetit.ui.view_model.CategorySelectViewModel
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
 import com.graduation_work.bonappetit.ui.view_model.StockRegisterViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -33,7 +32,6 @@ class MyApplication : Application() {
         val viewModelModule = module {
             viewModel { StockManagerViewModel(this@MyApplication) }
             viewModel { StockRegisterViewModel(this@MyApplication) }
-            viewModel { CategorySelectViewModel() }
         }
     
         val repositoryModule = module {

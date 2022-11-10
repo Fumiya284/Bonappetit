@@ -16,12 +16,13 @@ import com.graduation_work.bonappetit.data.database.entities.StockEntity
 import com.graduation_work.bonappetit.data.database.entities.StockWithFoodView
 
 @Database(
-    version = 3,
+    version = 4,
     entities = [FoodEntity::class, StockEntity::class],
     views = [StockWithFoodView::class],
     autoMigrations = [
-        AutoMigration(from = 1, to =2, spec = AppDatabase.Migration1to2::class),
-        AutoMigration(from = 2, to = 3, spec = AppDatabase.Migration2to3::class)
+        AutoMigration(from = 1, to = 2, spec = AppDatabase.Migration1to2::class),
+        AutoMigration(from = 2, to = 3, spec = AppDatabase.Migration2to3::class),
+        AutoMigration(from = 3, to = 4, spec = AppDatabase.Migration3to4::class)
     ]
 )
 @TypeConverters(LocalDateConverter::class)
@@ -37,6 +38,9 @@ abstract class AppDatabase : RoomDatabase() {
     
     @DeleteColumn(tableName = "stock", columnName = "limit_type")
     class Migration2to3: AutoMigrationSpec
+    
+    @RenameColumn(tableName = "stock", fromColumnName = "count", toColumnName = "quantity")
+    class Migration3to4: AutoMigrationSpec
 }
 
 

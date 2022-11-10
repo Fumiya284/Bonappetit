@@ -22,8 +22,8 @@ class StockManagerUseCase {
 	private val stockRepository: StockRepository by inject(StockRepository::class.java)
 	private val foodRepository: FoodRepository by inject(FoodRepository::class.java)
 	
-	private var _searchString: String = ""
-	val searchString: String = _searchString
+	private val _searchString = MutableStateFlow<String>("")
+	val searchString: StateFlow<String> = _searchString
 	
 	private val _stocks = MutableStateFlow<List<Stock>>(emptyList())
 	val stocks: StateFlow<List<Stock>> = _stocks
@@ -35,7 +35,7 @@ class StockManagerUseCase {
 	val currentSortType: StateFlow<StockSortType> = _currentSortType
 	
 	fun setSearchString(searchString: String) {
-		_searchString = searchString
+		_searchString.value = searchString
 	}
 	
 	fun setCategoryStatus(category: String, nextStatus: Boolean) {
@@ -66,13 +66,13 @@ class StockManagerUseCase {
 		}
 	}
 	
-	suspend fun updateStockList() {
+	suspend fun updateStockListWithCondition() {
 		val selectedCategory = categories.value.filter { it.value }.keys.toTypedArray()
 		
-		_stocks.value = if (searchString.isBlank() && selectedCategory.isEmpty()) {
+		_stocks.value = if (searchString.value.isBlank() && selectedCategory.isEmpty()) {
 			stockRepository.fetchAll()
 		} else {
-			stockRepository.fetchByCondition(searchString, selectedCategory)
+			stockRepository.fetchByCondition(searchString.value, selectedCategory)
 		}
 	}
 	
