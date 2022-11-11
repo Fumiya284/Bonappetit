@@ -4,6 +4,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.graduation_work.bonappetit.MyApplication
+import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.domain.dto.Food
 import com.graduation_work.bonappetit.domain.use_case.StockRegisterUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
+import java.time.LocalDate
 
 /*
 	食材選択と個数入力だけ作った
@@ -23,6 +25,7 @@ import org.koin.java.KoinJavaComponent.inject
 class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(application) {
 	private val useCase: StockRegisterUseCase by inject(StockRegisterUseCase::class.java)
 	private var chosenFood: Food? = null
+	private var limit: LocalDate? = null
 	
 	val foods: StateFlow<List<Food>> = useCase.foods
 	
@@ -33,6 +36,9 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 	
 	private val _limitType = MutableStateFlow<String>("")
 	val limitType: StateFlow<String> = _limitType
+	
+	private val _limitText = MutableStateFlow<String>(application.applicationContext.getString(R.string.sr_date_text))
+	val limitText: StateFlow<String> = _limitText
 	
 	private val _isQuantityInputEnable = MutableStateFlow<Boolean>(false)
 	val isQuantityInputEnable: StateFlow<Boolean> = _isQuantityInputEnable
@@ -48,12 +54,21 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 	}
 	
 	fun onDatePickerClick() {
-		viewModelScope.launch { _message.emit(Message.DISPLAY_ALERT) }
+		viewModelScope.launch { _message.emit(Message.DISPLAY_DATE_PICKER) }
 	}
 	
 	fun onFoodChoice(food: Food?) {
 		this.chosenFood = food
 		updateStatus(food)
+	}
+	
+	fun onLimitSet(limit: LocalDate) {
+		this.limit = limit
+		_limitText.value = limit.toString()
+	}
+	
+	fun onCancelBtnClick() {
+		viewModelScope.launch { _message.emit(Message.MOVE_TO_STOCK_MANAGER) }
 	}
 	
 	fun onRegisterBtnClick() {
@@ -66,7 +81,7 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 			} else if (quantity == null) {
 				_message.emit(Message.DISPLAY_ALERT)
 			}else {
-				when(useCase.register(food, quantity, null)) {
+				when(useCase.register(food, quantity, limit)) {
 					is Either.Right -> { _message.emit(Message.MOVE_TO_STOCK_MANAGER) }
 					is Either.Left -> { _message.emit(Message.DISPLAY_ALERT) }
 				}
@@ -90,6 +105,7 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 	
 	enum class Message {
 		MOVE_TO_STOCK_MANAGER,
+		DISPLAY_DATE_PICKER,
 		DISPLAY_ALERT
 	}
 }

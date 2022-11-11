@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.databinding.StockRegisterBinding
 import com.graduation_work.bonappetit.ui.adapter.FoodSelectorAdapter
+import com.graduation_work.bonappetit.ui.fragment.dialog.DatePickerDFragment
 import com.graduation_work.bonappetit.ui.view_model.StockRegisterViewModel
 import com.graduation_work.bonappetit.ui.view_model.StockRegisterViewModel.Message
 import kotlinx.coroutines.flow.launchIn
@@ -60,7 +61,8 @@ class StockRegisterFragment : Fragment() {
 	private fun onMessage(message: Message) {
 		when(message) {
 			Message.MOVE_TO_STOCK_MANAGER -> findNavController().navigate(R.id.action_register_to_main)
-			Message.DISPLAY_ALERT -> {Toast.makeText(context, getString(R.string.sr_alert), Toast.LENGTH_SHORT).show()}
+			Message.DISPLAY_DATE_PICKER-> DatePickerDFragment(viewModel).show(parentFragmentManager, getString(R.string.sr_date_picker_tag))
+			Message.DISPLAY_ALERT -> Toast.makeText(context, getString(R.string.sr_alert), Toast.LENGTH_SHORT).show()
 		}
 	}
 	

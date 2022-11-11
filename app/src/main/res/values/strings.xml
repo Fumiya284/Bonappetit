@@ -16,9 +16,11 @@
     <string name="sr_input_num">個数を入力してください</string>
     <string name="sr_food_not_selected">食べ物を選択してください</string>
     <string name="sr_register">登録</string>
+    <string name="sr_cancel">キャンセル</string>
     <string name="sr_food_selector">食材を選択してください</string>
     <string name="sr_alert">エラーが発生しました</string>
-    <string name="sr_date">ここをタップで日付を選択</string>
+    <string name="sr_date_text">ここをタップで日付を選択</string>
+    <string name="sr_date_picker_tag">Date picker</string>
 
     <!-- 消費履歴(Consume history) -->
     <string name="ch_title">消費履歴</string>
