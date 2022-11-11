@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 	期間入力は作成中
 	入力不足とかDBに登録失敗したとかのメッセージも後でつくる
 	食材選択メニューのリスナをこのクラスの中に持たせてるけど別のクラスにした方がいいんだろうか
-	キャンセルない　登録押したら登録するまで戻れない
+	キャンセルない　登録押したら登録するまで戻れない つくった
  */
 class StockRegisterFragment : Fragment() {
 	private val viewModel: StockRegisterViewModel by viewModel()
