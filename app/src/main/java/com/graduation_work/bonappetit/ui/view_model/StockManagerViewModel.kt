@@ -1,5 +1,6 @@
 package com.graduation_work.bonappetit.ui.view_model
 
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.MyApplication
@@ -68,7 +69,10 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 			.launchIn(viewModelScope)
 		
 		useCase.currentSortType
-			.onEach { updateSortBtnText() }
+			.onEach {
+				updateSortBtnText()
+				Log.d("my_info", "sortTypeChange")
+			}
 			.launchIn(viewModelScope)
 	}
 	
@@ -81,6 +85,7 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	fun onSortBtnClick() {
+		Log.d("my_info", "onSortBtnClick")
 		viewModelScope.launch {
 			useCase.switchSortType()
 			useCase.sortStocks()
@@ -96,6 +101,7 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	private fun updateSortBtnText() {
+		Log.d("my_info", "updateText")
 		_sortBtnText.value = when(useCase.currentSortType.value) {
 			StockManagerUseCase.StockSortType.ID_ASC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_asc) }
 			StockManagerUseCase.StockSortType.ID_DESC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_desc) }
@@ -104,7 +110,7 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	
 	private fun updateSearchBtnText() {
 		_searchBtnText.value =
-			if (true in useCase.categories.value.values.toBooleanArray()) {
+			if (true in categories.value.values.toBooleanArray()) {
 				application.applicationContext.getString(R.string.sm_search_by_category_on)
 			} else {
 				application.applicationContext.getString(R.string.sm_search_by_category_off)

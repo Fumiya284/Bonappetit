@@ -61,8 +61,10 @@ class StockRegisterFragment : Fragment() {
 	private fun onMessage(message: Message) {
 		when(message) {
 			Message.MOVE_TO_STOCK_MANAGER -> findNavController().navigate(R.id.action_register_to_main)
-			Message.DISPLAY_DATE_PICKER-> DatePickerDFragment(viewModel).show(parentFragmentManager, getString(R.string.sr_date_picker_tag))
-			Message.DISPLAY_ALERT -> Toast.makeText(context, getString(R.string.sr_alert), Toast.LENGTH_SHORT).show()
+			Message.DISPLAY_DATE_PICKER -> DatePickerDFragment(viewModel).show(parentFragmentManager, getString(R.string.sr_date_picker_tag))
+			Message.NOTIFY_NO_FOOD_SELECTED -> Toast.makeText(context, getString(R.string.sr_no_food_selected), Toast.LENGTH_SHORT).show()
+			Message.NOTIFY_NO_QUANTITY_ENTERED -> Toast.makeText(context, getString(R.string.sr_no_quantity_entered), Toast.LENGTH_SHORT).show()
+			Message.NOTIFY_FAILED_TO_REGISTER -> Toast.makeText(context, getString(R.string.sr_failed_to_register), Toast.LENGTH_SHORT).show()
 		}
 	}
 	
