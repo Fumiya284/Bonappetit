@@ -19,15 +19,15 @@ class StockRegisterUseCase {
 	private val _foods = MutableStateFlow<List<Food>>(emptyList())
 	val foods: StateFlow<List<Food>> = _foods
 	
-	private val _currentStock = MutableStateFlow<List<Stock>>(emptyList())
-	val currentStock: StateFlow<List<Stock>> = _currentStock
+	private val _registeredStock = MutableStateFlow<List<Stock>>(emptyList())
+	val registeredStock: StateFlow<List<Stock>> = _registeredStock
 	
 	suspend fun loadFoods() {
 		_foods.value = foodRepository.fetchAllFood()
 	}
 	
-	suspend fun loadCurrentStock(food: Food) {
-		_currentStock.value = stockRepository.fetchByName(food.name)
+	suspend fun loadRegisteredStock(food: Food) {
+		_registeredStock.value = stockRepository.fetchByName(food.name)
 	}
 	
 	suspend fun register(chosenFood: Food, quantity: Int, limit: LocalDate?, note: String?): Either<FailedToRegisterException, Unit> {

@@ -114,8 +114,8 @@ class StockRegisterViewModel(private val application: MyApplication) : AndroidVi
 	
 	private fun updateCurrentStockText(chosenFood: Food) {
 		viewModelScope.launch {
-			useCase.loadCurrentStock(chosenFood)
-			val stockQuantity = useCase.currentStock.value.sumOf { it.quantity }
+			useCase.loadRegisteredStock(chosenFood)
+			val stockQuantity = useCase.registeredStock.value.sumOf { it.quantity }
 			
 			if (0 < stockQuantity) {
 				_currentStockText.value = application.applicationContext.getString(R.string.sr_current_stock, stockQuantity, chosenFood.unit)
