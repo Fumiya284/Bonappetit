@@ -6,6 +6,7 @@ data class Stock(
 	val id: Long = 0,   // 登録日保存するカラム作るまでの仮置き はよつくれ
 	val food: Food,
 	val quantity: Int,
-	val limit: LocalDate?
+	val limit: LocalDate? = null,
+	val note: String? = null
 )
 

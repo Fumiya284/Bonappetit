@@ -5,5 +5,6 @@ import java.time.LocalDate
 data class StockRegistrationInfo (
 	val foodName: String,
 	val quantity: Int,
-	val limit: LocalDate?
+	val limit: LocalDate? = null,
+	val note: String? = null
 )
