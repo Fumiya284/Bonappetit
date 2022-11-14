@@ -69,10 +69,7 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 			.launchIn(viewModelScope)
 		
 		useCase.currentSortType
-			.onEach {
-				updateSortBtnText()
-				Log.d("my_info", "sortTypeChange")
-			}
+			.onEach { updateSortBtnText() }
 			.launchIn(viewModelScope)
 	}
 	
@@ -85,7 +82,6 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	fun onSortBtnClick() {
-		Log.d("my_info", "onSortBtnClick")
 		viewModelScope.launch {
 			useCase.switchSortType()
 			useCase.sortStocks()
@@ -101,7 +97,6 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	private fun updateSortBtnText() {
-		Log.d("my_info", "updateText")
 		_sortBtnText.value = when(useCase.currentSortType.value) {
 			StockManagerUseCase.StockSortType.ID_ASC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_asc) }
 			StockManagerUseCase.StockSortType.ID_DESC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_desc) }

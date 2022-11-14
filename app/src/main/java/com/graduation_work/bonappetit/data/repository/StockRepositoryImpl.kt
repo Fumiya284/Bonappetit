@@ -38,6 +38,10 @@ class StockRepositoryImpl(
         }
     }
     
+    override suspend fun fetchByName(name: String): List<Stock> = withContext(dispatcher) {
+        return@withContext stockWithFoodDao.selectByName(name).map { it.convertToStock() }
+    }
+    
     override suspend fun save(stock: StockRegistrationInfo)
     : Either<FailedToRegisterException, Unit> = withContext(dispatcher) {
         val entity = StockEntity.create4Insert(stock)

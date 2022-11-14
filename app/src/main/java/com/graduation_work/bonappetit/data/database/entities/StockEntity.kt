@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.dto.StockRegistrationInfo
 import java.time.LocalDate
 
@@ -25,12 +24,13 @@ data class StockEntity(
     val foodName: String,
     val quantity: Int,
     @ColumnInfo(name = "limit")
-    val limit: LocalDate? = null
+    val limit: LocalDate? = null,
+    val note: String? = null
 )
 {
     companion object {
         fun create4Insert(stock: StockRegistrationInfo): StockEntity {
-            return StockEntity(0, stock.foodName, stock.quantity, stock.limit)
+            return StockEntity(0, stock.foodName, stock.quantity, stock.limit, stock.note)
         }
     }
 }

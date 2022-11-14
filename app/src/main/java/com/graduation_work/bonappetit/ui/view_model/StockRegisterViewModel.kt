@@ -1,5 +1,6 @@
 package com.graduation_work.bonappetit.ui.view_model
 
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
@@ -11,18 +12,18 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 import java.time.LocalDate
 
 /*
-	食材選択と個数入力だけ作った
-	期間入力は作成中
-	入力不足とかDBに登録失敗したとかのメッセージも後でつくる
+	複雑になってしまう
 	
 	Editable.toString呼び出すとkaptが例外吐くのなんで？誰か教えて　何も調べてないけど
  */
-class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(application) {
+class StockRegisterViewModel(private val application: MyApplication) : AndroidViewModel(application) {
 	private val useCase: StockRegisterUseCase by inject(StockRegisterUseCase::class.java)
 	private var chosenFood: Food? = null
 	private var limit: LocalDate? = null
@@ -30,6 +31,11 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 	val foods: StateFlow<List<Food>> = useCase.foods
 	
 	val quantityStr = MutableStateFlow<String>("")
+	
+	val note = MutableStateFlow<String>("")
+	
+	private val _currentStockText = MutableStateFlow<String>("")
+	val currentStockText: StateFlow<String> = _currentStockText
 	
 	private val _unit = MutableStateFlow<String>("")
 	val unit: StateFlow<String> = _unit
@@ -59,7 +65,7 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 	
 	fun onFoodChoice(food: Food?) {
 		this.chosenFood = food
-		updateStatus(food)
+		updateUiStatus(chosenFood)
 	}
 	
 	fun onLimitSet(limit: LocalDate) {
@@ -74,6 +80,7 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 	fun onRegisterBtnClick() {
 		val food = chosenFood
 		val quantity = quantityStr.value.toIntOrNull()
+		val note = note.value
 		
 		viewModelScope.launch {
 			if (food == null) {
@@ -81,7 +88,7 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 			} else if (quantity == null) {
 				_message.emit(Message.NOTIFY_NO_QUANTITY_ENTERED)
 			}else {
-				when(useCase.register(food, quantity, limit)) {
+				when(useCase.register(food, quantity, limit, note)) {
 					is Either.Right -> { _message.emit(Message.MOVE_TO_STOCK_MANAGER) }
 					is Either.Left -> { _message.emit(Message.NOTIFY_FAILED_TO_REGISTER) }
 				}
@@ -89,17 +96,32 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 		}
 	}
 	
-	private fun updateStatus(chosenFood: Food?) {
+	private fun updateUiStatus(chosenFood: Food?) {
 		if (chosenFood != null) {
 			_isLimitSelectorEnable.value = true
 			_isQuantityInputEnable.value = true
 			_unit.value = chosenFood.unit
 			_limitType.value = chosenFood.limitType
+			updateCurrentStockText(chosenFood)
 		} else {
 			_isLimitSelectorEnable.value = false
 			_isQuantityInputEnable.value = false
 			_unit.value = ""
 			_limitType.value = ""
+			_currentStockText.value = ""
+		}
+	}
+	
+	private fun updateCurrentStockText(chosenFood: Food) {
+		viewModelScope.launch {
+			useCase.loadCurrentStock(chosenFood)
+			val stockQuantity = useCase.currentStock.value.sumOf { it.quantity }
+			
+			if (0 < stockQuantity) {
+				_currentStockText.value = application.applicationContext.getString(R.string.sr_current_stock, stockQuantity, chosenFood.unit)
+			} else {
+				_currentStockText.value = application.applicationContext.getString(R.string.sr_current_stock_empty)
+			}
 		}
 	}
 	

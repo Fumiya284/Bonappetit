@@ -23,6 +23,9 @@
     <string name="sr_no_quantity_entered">数量が入力されていません</string>
     <string name="sr_date_text">ここをタップで日付を選択</string>
     <string name="sr_date_picker_tag">Date picker</string>
+    <string name="sr_note">備考</string>
+    <string name="sr_current_stock">現在%1$d%2$sの在庫があります</string>
+    <string name="sr_current_stock_empty">在庫はありません</string>
 
     <!-- 消費履歴(Consume history) -->
     <string name="ch_title">消費履歴</string>

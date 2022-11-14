@@ -10,5 +10,7 @@ interface StockRepository {
 	
 	suspend fun fetchByCondition(searchString: String, category: Array<String>): List<Stock>
 	
+	suspend fun fetchByName(name: String): List<Stock>
+	
 	suspend fun save(stock: StockRegistrationInfo): Either<FailedToRegisterException, Unit>
 }

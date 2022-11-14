@@ -8,7 +8,7 @@ import java.time.LocalDate
 
 @DatabaseView(
 	viewName = "stock_with_food",
-	value = "SELECT stock.id, stock.food_name, stock.quantity, stock.`limit`, food.limit_type, food.unit, food.category FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
+	value = "SELECT stock.id, stock.food_name, stock.quantity, stock.`limit`, stock.note, food.limit_type, food.unit, food.category FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
 )
 data class StockWithFoodView(
 	val id: Long,
@@ -17,15 +17,12 @@ data class StockWithFoodView(
 	val foodName: String,
 	val unit: String,
 	val quantity: Int,
+	val note: String? = null,
 	val limit: LocalDate? = null,
 	@ColumnInfo(name = "limit_type")
 	val limitType: String
 ) {
 	fun convertToStock(): Stock {
-		return if (limit != null) {
-			Stock(id, Food(foodName, unit, category, limitType), quantity, limit)
-		} else {
-			Stock(id, Food(foodName, unit, category, limitType), quantity, null)
-		}
+		return Stock(id, Food(foodName, unit, category, limitType), quantity, limit, note)
 	}
 }
