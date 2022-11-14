@@ -77,13 +77,13 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 		
 		viewModelScope.launch {
 			if (food == null) {
-				_message.emit(Message.DISPLAY_ALERT)
+				_message.emit(Message.NOTIFY_NO_FOOD_SELECTED)
 			} else if (quantity == null) {
-				_message.emit(Message.DISPLAY_ALERT)
+				_message.emit(Message.NOTIFY_NO_QUANTITY_ENTERED)
 			}else {
 				when(useCase.register(food, quantity, limit)) {
 					is Either.Right -> { _message.emit(Message.MOVE_TO_STOCK_MANAGER) }
-					is Either.Left -> { _message.emit(Message.DISPLAY_ALERT) }
+					is Either.Left -> { _message.emit(Message.NOTIFY_FAILED_TO_REGISTER) }
 				}
 			}
 		}
@@ -106,6 +106,8 @@ class StockRegisterViewModel(application: MyApplication) : AndroidViewModel(appl
 	enum class Message {
 		MOVE_TO_STOCK_MANAGER,
 		DISPLAY_DATE_PICKER,
-		DISPLAY_ALERT
+		NOTIFY_FAILED_TO_REGISTER,
+		NOTIFY_NO_FOOD_SELECTED,
+		NOTIFY_NO_QUANTITY_ENTERED,
 	}
 }

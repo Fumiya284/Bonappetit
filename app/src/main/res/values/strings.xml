@@ -18,7 +18,9 @@
     <string name="sr_register">登録</string>
     <string name="sr_cancel">キャンセル</string>
     <string name="sr_food_selector">食材を選択してください</string>
-    <string name="sr_alert">エラーが発生しました</string>
+    <string name="sr_failed_to_register">登録に失敗しました</string>
+    <string name="sr_no_food_selected">食材が選択されていません</string>
+    <string name="sr_no_quantity_entered">数量が入力されていません</string>
     <string name="sr_date_text">ここをタップで日付を選択</string>
     <string name="sr_date_picker_tag">Date picker</string>
 
