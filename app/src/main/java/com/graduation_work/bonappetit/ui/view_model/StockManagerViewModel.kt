@@ -1,6 +1,5 @@
 package com.graduation_work.bonappetit.ui.view_model
 
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.MyApplication

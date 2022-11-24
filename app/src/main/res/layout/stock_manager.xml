@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".StockListFragment">
 
@@ -12,25 +13,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="#FFFFCC"
+        android:orientation="vertical" >
 
         <TextView
-            android:text="@string/sm_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/sm_title" />
 
-        <LinearLayout
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:hint="@string/sm_search_by_name_hint"
+            android:text="@={viewModel.searchString}" />
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/sm_search_by_name_hint"
-                android:text="@={viewModel.searchString}" />
-        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/stock_list_rv"
@@ -40,30 +36,37 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:gravity="center|bottom"
+            android:orientation="horizontal"
+            android:visibility="visible" >
 
             <Button
                 android:id="@+id/search_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#ffffff"
+                android:onClick="@{() -> viewModel.onSearchBtnClick()}"
                 android:text="@{viewModel.searchBtnText}"
-                android:onClick="@{() -> viewModel.onSearchBtnClick()}"/>
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/sort_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#ffffff"
+                android:onClick="@{() -> viewModel.onSortBtnClick()}"
                 android:text="@{viewModel.sortBtnText}"
-                android:onClick="@{() -> viewModel.onSortBtnClick()}"/>
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/register_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sm_register"
-                android:onClick="@{() -> viewModel.onRegisterBtnClick()}"/>
+                android:backgroundTint="#A3E870"
+                app:iconTint="#A3E870"
+                android:onClick="@{() -> viewModel.onRegisterBtnClick()}"
+                android:text="@string/sm_register" />
         </LinearLayout>
     </LinearLayout>
 </layout>
