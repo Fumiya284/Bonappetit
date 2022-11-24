@@ -11,7 +11,7 @@
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/mock_fragment.xml" value="0.12037037037037036" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_list_fragment.xml" value="0.33" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_list_item.xml" value="0.1" />
-        <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_manager.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_manager.xml" value="0.25" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_manager_fragment.xml" value="0.3120471014492754" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_register.xml" value="0.18" />
         <entry key="..\:/Users/user01/Desktop/android_project/Bonappetit/app/src/main/res/layout/stock_view.xml" value="0.19479166666666667" />
@@ -20,6 +20,7 @@
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
