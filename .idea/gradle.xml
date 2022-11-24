@@ -7,7 +7,11 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+<<<<<<< Updated upstream
         <option name="gradleHome" value="$PROJECT_DIR$/../../gradle-7.0.1" />
+=======
+        <option name="gradleHome" value="$USER_HOME$/gradle-7.0.1" />
+>>>>>>> Stashed changes
         <option name="gradleJvm" value="Embedded JDK" />
         <option name="modules">
           <set>

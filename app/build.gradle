@@ -42,6 +42,7 @@ android {
     dataBinding {
         enabled true
     }
+    namespace 'com.graduation_work.bonappetit'
 }
 
 dependencies {
