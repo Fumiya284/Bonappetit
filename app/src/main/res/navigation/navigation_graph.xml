@@ -9,13 +9,18 @@
         android:id="@+id/main_screen_fragment"
         android:name="com.graduation_work.bonappetit.ui.fragment.MainScreenFragment"
         android:label="main_screen_fragment" >
+
         <action
             android:id="@+id/action_main_to_register"
-            app:destination="@+id/stockRegisterFragment" />
+            app:destination="@+id/stock_register_fragment" />
+
+        <action
+            android:id="@+id/action_main_to_detail"
+            app:destination="@+id/stock_detail_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/stockRegisterFragment"
+        android:id="@+id/stock_register_fragment"
         android:name="com.graduation_work.bonappetit.ui.fragment.StockRegisterFragment"
         android:label="stock_register_fragment"
         tools:layout="@layout/stock_register" >
@@ -23,5 +28,20 @@
         <action
             android:id="@+id/action_register_to_main"
             app:destination="@+id/main_screen_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/stock_detail_fragment"
+        android:name="com.graduation_work.bonappetit.ui.fragment.StockDetailFragment"
+        android:label="stock_detail_fragment"
+        tools:layout="@layout/stock_detail" >
+
+        <action
+            android:id="@+id/action_detail_to_main"
+            app:destination="@+id/main_screen_fragment" />
+
+        <argument
+            android:name="stockId"
+            app:argType="long" />
     </fragment>
 </navigation>
