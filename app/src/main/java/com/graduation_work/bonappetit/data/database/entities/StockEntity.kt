@@ -23,14 +23,24 @@ data class StockEntity(
     @ColumnInfo(name = "food_name", index = true)
     val foodName: String,
     val quantity: Int,
-    @ColumnInfo(name = "limit")
+    val note: String? = null,
+    @ColumnInfo(name = "registration_date", defaultValue = "2022-12-01") // 後からNOT NULLなカラム追加するとdefaultValue設定しなきゃいけない
+    val registrationDate: LocalDate,
     val limit: LocalDate? = null,
-    val note: String? = null
+    @ColumnInfo(name = "consumption_date")
+    val consumptionDate: LocalDate? = null
 )
 {
     companion object {
         fun create4Insert(stock: StockRegistrationInfo): StockEntity {
-            return StockEntity(0, stock.foodName, stock.quantity, stock.limit, stock.note)
+            return StockEntity(
+                0,
+                stock.foodName,
+                stock.quantity,
+                stock.note,
+                LocalDate.now(),
+                stock.limit
+            )
         }
     }
 }

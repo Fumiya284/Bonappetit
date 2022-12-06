@@ -16,14 +16,15 @@ import com.graduation_work.bonappetit.data.database.entities.StockEntity
 import com.graduation_work.bonappetit.data.database.entities.StockWithFoodView
 
 @Database(
-    version = 5,
+    version = 6,
     entities = [FoodEntity::class, StockEntity::class],
     views = [StockWithFoodView::class],
     autoMigrations = [
         AutoMigration(from = 1, to = 2, spec = AppDatabase.Migration1to2::class),
         AutoMigration(from = 2, to = 3, spec = AppDatabase.Migration2to3::class),
         AutoMigration(from = 3, to = 4, spec = AppDatabase.Migration3to4::class),
-        AutoMigration(from = 4, to = 5)
+        AutoMigration(from = 4, to = 5),
+        AutoMigration(from = 5, to = 6)
     ]
 )
 @TypeConverters(LocalDateConverter::class)

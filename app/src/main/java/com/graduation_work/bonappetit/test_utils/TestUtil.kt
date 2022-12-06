@@ -24,6 +24,7 @@ object TestUtil {
 		FoodEntity("chicken", "グラム", "meat", "消費期限"),
 		FoodEntity("salmon", "匹", "fish", "消費期限")
 	)
+	/*
 	private val sampleStock = arrayOf(
 		StockEntity(0, "tomato", 4),
 		StockEntity(0, "eggplant", 2),
@@ -32,6 +33,8 @@ object TestUtil {
 		StockEntity(0, "salmon", 2, LocalDate.now()),
 		StockEntity(0, "grape", 3, LocalDate.now())
 	)
+	
+	 */
 	
 	fun insertFoodData() {
 		runBlocking {
@@ -45,8 +48,10 @@ object TestUtil {
 	fun insertStockData() {
 		runBlocking {
 			stockDao.deleteAll()
-			
+			/*
 			sampleStock.onEach { stockDao.insert(it) }
+			
+			 */
 		}
 	}
 }
