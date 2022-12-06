@@ -18,7 +18,7 @@ data class StockWithFoodView(
 	val unit: String,
 	val quantity: Int,
 	val note: String? = null,
-	val limit: LocalDate? = null,
+	val limit: LocalDate,
 	@ColumnInfo(name = "limit_type")
 	val limitType: String
 ) {

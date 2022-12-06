@@ -26,7 +26,8 @@ data class StockEntity(
     val note: String? = null,
     @ColumnInfo(name = "registration_date", defaultValue = "2022-12-01") // 後からNOT NULLなカラム追加するとdefaultValue設定しなきゃいけない
     val registrationDate: LocalDate,
-    val limit: LocalDate? = null,
+    @ColumnInfo(defaultValue = "2022-12-01")
+    val limit: LocalDate,
     @ColumnInfo(name = "consumption_date")
     val consumptionDate: LocalDate? = null
 )
