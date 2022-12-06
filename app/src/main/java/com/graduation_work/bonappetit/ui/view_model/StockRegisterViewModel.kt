@@ -1,6 +1,5 @@
 package com.graduation_work.bonappetit.ui.view_model
 
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
@@ -75,17 +74,23 @@ class StockRegisterViewModel(private val application: MyApplication) : AndroidVi
 		viewModelScope.launch { _message.emit(Message.MOVE_TO_STOCK_MANAGER) }
 	}
 	
+	/**
+	 * あとで中身をUseCaseに移す
+	 */
 	fun onRegisterBtnClick() {
 		val food = chosenFood
 		val quantity = quantityStr.value.toIntOrNull()
 		val note = note.value
+		val limit = limit
 		
 		viewModelScope.launch {
 			if (food == null) {
 				_message.emit(Message.NOTIFY_NO_FOOD_SELECTED)
 			} else if (quantity == null) {
 				_message.emit(Message.NOTIFY_NO_QUANTITY_ENTERED)
-			}else {
+			} else if (limit == null){
+				_message.emit(Message.NOTIFY_NO_QUANTITY_ENTERED)
+			} else {
 				when(useCase.register(food, quantity, limit, note)) {
 					is Either.Right -> { _message.emit(Message.MOVE_TO_STOCK_MANAGER) }
 					is Either.Left -> { _message.emit(Message.NOTIFY_FAILED_TO_REGISTER) }

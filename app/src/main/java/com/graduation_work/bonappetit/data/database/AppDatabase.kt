@@ -14,16 +14,20 @@ import com.graduation_work.bonappetit.data.database.dao.StockWithFoodDao
 import com.graduation_work.bonappetit.data.database.entities.FoodEntity
 import com.graduation_work.bonappetit.data.database.entities.StockEntity
 import com.graduation_work.bonappetit.data.database.entities.StockWithFoodView
+import com.graduation_work.bonappetit.data.database.entities.WastedHistoryEntity
 
 @Database(
-    version = 5,
-    entities = [FoodEntity::class, StockEntity::class],
+    version = 8,
+    entities = [FoodEntity::class, StockEntity::class, WastedHistoryEntity::class],
     views = [StockWithFoodView::class],
     autoMigrations = [
         AutoMigration(from = 1, to = 2, spec = AppDatabase.Migration1to2::class),
         AutoMigration(from = 2, to = 3, spec = AppDatabase.Migration2to3::class),
         AutoMigration(from = 3, to = 4, spec = AppDatabase.Migration3to4::class),
-        AutoMigration(from = 4, to = 5)
+        AutoMigration(from = 4, to = 5),
+        AutoMigration(from = 5, to = 6),
+        AutoMigration(from = 6, to = 7),
+        AutoMigration(from = 7, to = 8)
     ]
 )
 @TypeConverters(LocalDateConverter::class)

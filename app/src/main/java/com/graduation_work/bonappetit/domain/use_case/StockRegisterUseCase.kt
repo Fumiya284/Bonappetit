@@ -30,7 +30,7 @@ class StockRegisterUseCase {
 		_registeredStock.value = stockRepository.fetchByName(food.name)
 	}
 	
-	suspend fun register(chosenFood: Food, quantity: Int, limit: LocalDate?, note: String?): Either<FailedToRegisterException, Unit> {
+	suspend fun register(chosenFood: Food, quantity: Int, limit: LocalDate, note: String?): Either<FailedToRegisterException, Unit> {
 		val newStock = StockRegistrationInfo(chosenFood.name, quantity, limit, note)
 		return stockRepository.save(newStock)
 	}
