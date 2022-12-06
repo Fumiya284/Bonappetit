@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 6,
-    "identityHash": "edd891676e28500ef1198cdf9dddd174",
+    "version": 7,
+    "identityHash": "d4f8fe73eed72d6006253b70f9c07672",
     "entities": [
       {
         "tableName": "food",
@@ -122,6 +122,60 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "wasted_history",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `stock_id` INTEGER NOT NULL, `reason` TEXT NOT NULL, FOREIGN KEY(`stock_id`) REFERENCES `stock`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stockId",
+            "columnName": "stock_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reason",
+            "columnName": "reason",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_wasted_history_stock_id",
+            "unique": false,
+            "columnNames": [
+              "stock_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_wasted_history_stock_id` ON `${TABLE_NAME}` (`stock_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "stock",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "stock_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [
@@ -132,7 +186,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'edd891676e28500ef1198cdf9dddd174')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd4f8fe73eed72d6006253b70f9c07672')"
     ]
   }
 }
