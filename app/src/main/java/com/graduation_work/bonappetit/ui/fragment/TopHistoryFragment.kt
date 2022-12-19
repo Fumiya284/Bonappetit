@@ -41,11 +41,21 @@ class TopHistoryFragment : Fragment() {
             it.setNoDataTextColor(Color.BLACK)
             it.getPaint(Chart.PAINT_INFO).textSize = 60f
         }
+        binding.reasonForWastedPieChart.let {
+            it.setNoDataText("データを読み込んでいます")
+            it.setNoDataTextColor(Color.BLACK)
+            it.getPaint(Chart.PAINT_INFO).textSize = 60f
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.consumptionAndWastedChartData.collect {
                         drawChart(binding.consumptionAndWastedPieChart, it, "消費と廃棄")
+                    }
+                }
+                launch {
+                    viewModel.reasonForWastedChartData.collect {
+                        drawChart(binding.reasonForWastedPieChart, it, "廃棄理由")
                     }
                 }
             }

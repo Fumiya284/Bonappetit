@@ -27,6 +27,23 @@
                     android:layout_height="match_parent" />
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/reasonForWastedCardView"
+                android:layout_width="0dp"
+                android:layout_height="450dp"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/consumptionAndWastedCardView">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/reasonForWastedPieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

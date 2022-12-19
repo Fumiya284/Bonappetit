@@ -12,10 +12,17 @@ class HistoryRepositoryImpl(
 
     private val database = MyApplication.database
     private val stockDao = database.stockDao()
+    private val wastedHistoryDao = database.wastedHistoryDao()
 
     override suspend fun fetchConsumptionAndWastedQuantity(): Map<String, Int> {
         return withContext(dispatcher) {
             stockDao.selectConsumptionAndWastedQuantity()
+        }
+    }
+
+    override suspend fun fetchWastedQuantityByReason(): Map<String, Int> {
+        return withContext(dispatcher) {
+            wastedHistoryDao.selectWastedQuantityByReason()
         }
     }
 }
