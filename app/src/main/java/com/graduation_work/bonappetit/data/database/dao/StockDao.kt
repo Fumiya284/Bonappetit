@@ -19,9 +19,12 @@ interface StockDao {
 
     @MapInfo(keyColumn = "key", valueColumn = "quantity")
     @Query("""
-        select "消費" as `key`,count(*) as quantity from stock where consumption_date <= `limit`
-        union all
-        select "廃棄" as `key`, count(*) as quantity from stock where consumption_date > `limit`
+        select * from (
+            select "消費" as `key`, count(*) as quantity from stock where consumption_date <= `limit`
+            union all
+            select "廃棄" as `key`, count(*) as quantity from stock where consumption_date > `limit`
+        )
+        where quantity > 0
     """)
     suspend fun selectConsumptionAndWastedQuantity(): Map<String, Int>
 

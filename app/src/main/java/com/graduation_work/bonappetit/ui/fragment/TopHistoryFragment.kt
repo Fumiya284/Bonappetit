@@ -36,16 +36,6 @@ class TopHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.consumptionAndWastedPieChart.let {
-            it.setNoDataText("データを読み込んでいます")
-            it.setNoDataTextColor(Color.BLACK)
-            it.getPaint(Chart.PAINT_INFO).textSize = 60f
-        }
-        binding.reasonForWastedPieChart.let {
-            it.setNoDataText("データを読み込んでいます")
-            it.setNoDataTextColor(Color.BLACK)
-            it.getPaint(Chart.PAINT_INFO).textSize = 60f
-        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -62,8 +52,19 @@ class TopHistoryFragment : Fragment() {
         }
     }
 
+    private fun showNoDataText(pieChart: PieChart) {
+        pieChart.let {
+            it.setNoDataText("データが存在しません")
+            it.setNoDataTextColor(Color.BLACK)
+            it.getPaint(Chart.PAINT_INFO).textSize = 60f
+        }
+    }
+
     private fun drawChart(pieChart: PieChart, chartData: PieData, title: String) {
-        if (chartData.dataSetCount < 1) return
+        if (chartData.dataSetCount < 1) {
+            showNoDataText(pieChart)
+            return
+        }
 
         pieChart.apply {
             //⑤PieChartにPieData格納
@@ -76,8 +77,6 @@ class TopHistoryFragment : Fragment() {
         }
         //⑦PieChart更新
         pieChart.let {
-            it.setNoDataText("データが存在しません")
-            it.setNoDataTextColor(Color.BLACK)
             it.setCenterTextSize(25f)
             it.setEntryLabelColor(Color.BLACK)
             it.setUsePercentValues(true)
