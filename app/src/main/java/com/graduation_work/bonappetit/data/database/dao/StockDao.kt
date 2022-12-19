@@ -35,4 +35,12 @@ interface StockDao {
 
     @Query("SELECT * FROM stock where consumption_date <= `limit`")
     suspend fun selectConsumedStock(): List<StockEntity>
+
+    @MapInfo(keyColumn = "date", valueColumn = "quantity")
+    @Query("""
+        select consumption_date as date, count(*) as quantity from stock
+        where consumption_date > `limit`
+        group by consumption_date
+    """)
+    suspend fun selectWastedQuantityByDate(): Map<String, Int>
 }
