@@ -1,10 +1,6 @@
 package com.graduation_work.bonappetit.data.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.graduation_work.bonappetit.data.database.entities.StockEntity
 
 @Dao
@@ -20,4 +16,12 @@ interface StockDao {
 
     @Query("DELETE FROM stock")
     suspend fun deleteAll()
+
+    @MapInfo(keyColumn = "key", valueColumn = "quantity")
+    @Query("""
+        select "消費" as `key`,count(*) as quantity from stock where consumption_date <= `limit`
+        union all
+        select "廃棄" as `key`, count(*) as quantity from stock where consumption_date > `limit`
+    """)
+    suspend fun selectConsumptionAndWastedQuantity(): Map<String, Int>
 }
