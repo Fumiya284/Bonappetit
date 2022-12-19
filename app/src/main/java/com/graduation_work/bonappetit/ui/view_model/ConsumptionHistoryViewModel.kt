@@ -7,6 +7,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.graduation_work.bonappetit.data.database.entities.StockEntity
 import com.graduation_work.bonappetit.domain.repository.HistoryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,9 +26,13 @@ class ConsumptionHistoryViewModel : ViewModel() {
     private val _chartData = MutableStateFlow(LineData())
     val chartData: StateFlow<LineData> = _chartData
 
+    private val _consumedStockList = MutableStateFlow<List<StockEntity>>(emptyList())
+    val consumedStockList: StateFlow<List<StockEntity>> = _consumedStockList
+
     init {
         viewModelScope.launch {
             consumptionQuantityByDate = repository.fetchConsumptionQuantityByDate()
+            _consumedStockList.value = repository.fetchConsumedStock()
             //④DataにDataSet格納
             if (consumptionQuantityByDate.isNotEmpty()) prepareDrawChart(consumptionQuantityByDate)
         }

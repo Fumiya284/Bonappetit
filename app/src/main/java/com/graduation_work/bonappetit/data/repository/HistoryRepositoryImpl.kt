@@ -1,6 +1,7 @@
 package com.graduation_work.bonappetit.data.repository
 
 import com.graduation_work.bonappetit.MyApplication
+import com.graduation_work.bonappetit.data.database.entities.StockEntity
 import com.graduation_work.bonappetit.domain.repository.HistoryRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,12 @@ class HistoryRepositoryImpl(
     override suspend fun fetchConsumptionQuantityByDate(): Map<String, Int> {
         return withContext(dispatcher) {
             stockDao.selectConsumptionQuantityByDate()
+        }
+    }
+
+    override suspend fun fetchConsumedStock(): List<StockEntity> {
+        return withContext(dispatcher) {
+            stockDao.selectConsumedStock()
         }
     }
 }

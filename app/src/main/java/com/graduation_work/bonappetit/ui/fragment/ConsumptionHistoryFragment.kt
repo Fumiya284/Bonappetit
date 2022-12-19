@@ -13,6 +13,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.graduation_work.bonappetit.databinding.ConsumptionHistoryFragmentBinding
+import com.graduation_work.bonappetit.ui.adapter.StockListForHistoryAdapter
 import com.graduation_work.bonappetit.ui.view_model.ConsumptionHistoryViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,18 +26,23 @@ class ConsumptionHistoryFragment : Fragment() {
 
     private val viewModel: ConsumptionHistoryViewModel by viewModel()
 
+    private lateinit var listAdapter: StockListForHistoryAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = ConsumptionHistoryFragmentBinding.inflate(inflater, container, false)
+        listAdapter = StockListForHistoryAdapter()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.consumedStockList.adapter = listAdapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { viewModel.chartData.collect { drawChart(it) } }
+                launch { viewModel.consumedStockList.collect { listAdapter.submitList(it) } }
             }
         }
     }
