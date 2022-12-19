@@ -32,7 +32,7 @@ class ConsumptionHistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = ConsumptionHistoryFragmentBinding.inflate(inflater, container, false)
-        listAdapter = StockListForHistoryAdapter()
+        listAdapter = StockListForHistoryAdapter("消費")
         return binding.root
     }
 

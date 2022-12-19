@@ -13,4 +13,6 @@ interface HistoryRepository {
     suspend fun fetchConsumedStock(): List<StockEntity>
 
     suspend fun fetchWastedQuantityByDate(): Map<String, Int>
+
+    suspend fun fetchWastedStock(): List<StockEntity>
 }

@@ -10,17 +10,18 @@ import com.graduation_work.bonappetit.data.database.entities.StockEntity
 import com.graduation_work.bonappetit.databinding.StockListForHistoryItemBinding
 import java.time.format.DateTimeFormatter
 
-class StockListForHistoryAdapter :
+class StockListForHistoryAdapter(private val state: String) :
     ListAdapter<StockEntity, StockListForHistoryAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(
-        private val binding: StockListForHistoryItemBinding
+        private val binding: StockListForHistoryItemBinding,
+        private val state: String
     ) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(item: StockEntity) {
             binding.foodName.text = item.foodName
             binding.limit.text = "期限：${item.limit.format(DateTimeFormatter.ISO_DATE)}"
-            binding.consumptionDate.text = "消費：${item.consumptionDate?.format(DateTimeFormatter.ISO_DATE)}"
+            binding.consumptionDate.text = "$state：${item.consumptionDate?.format(DateTimeFormatter.ISO_DATE)}"
         }
     }
 
@@ -30,7 +31,8 @@ class StockListForHistoryAdapter :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            state
         )
     }
 

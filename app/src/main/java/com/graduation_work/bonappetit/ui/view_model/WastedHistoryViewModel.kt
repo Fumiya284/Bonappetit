@@ -7,6 +7,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.graduation_work.bonappetit.data.database.entities.StockEntity
 import com.graduation_work.bonappetit.domain.repository.HistoryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,9 +26,13 @@ class WastedHistoryViewModel : ViewModel() {
     private val _chartData = MutableStateFlow(LineData())
     val chartData: StateFlow<LineData> = _chartData
 
+    private val _wastedStockList = MutableStateFlow<List<StockEntity>>(emptyList())
+    val wastedStockList: StateFlow<List<StockEntity>> = _wastedStockList
+
     init {
         viewModelScope.launch {
             wastedQuantityByDate = repository.fetchWastedQuantityByDate()
+            _wastedStockList.value = repository.fetchWastedStock()
             //④DataにDataSet格納
             if (wastedQuantityByDate.isNotEmpty()) prepareDrawChart(wastedQuantityByDate)
         }
