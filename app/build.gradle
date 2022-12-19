@@ -82,5 +82,7 @@ dependencies {
 
     def arrow_version = "1.1.2"
     implementation "io.arrow-kt:arrow-core:$arrow_version"
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
 
