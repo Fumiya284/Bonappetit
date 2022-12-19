@@ -25,4 +25,10 @@ class HistoryRepositoryImpl(
             wastedHistoryDao.selectWastedQuantityByReason()
         }
     }
+
+    override suspend fun fetchConsumptionQuantityByDate(): Map<String, Int> {
+        return withContext(dispatcher) {
+            stockDao.selectConsumptionQuantityByDate()
+        }
+    }
 }

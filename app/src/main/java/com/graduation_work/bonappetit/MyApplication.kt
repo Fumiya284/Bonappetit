@@ -11,6 +11,7 @@ import com.graduation_work.bonappetit.domain.repository.HistoryRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
 import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
 import com.graduation_work.bonappetit.domain.use_case.StockRegisterUseCase
+import com.graduation_work.bonappetit.ui.view_model.ConsumptionHistoryViewModel
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
 import com.graduation_work.bonappetit.ui.view_model.StockRegisterViewModel
 import com.graduation_work.bonappetit.ui.view_model.TopHistoryViewModel
@@ -36,6 +37,7 @@ class MyApplication : Application() {
             viewModel { StockManagerViewModel(this@MyApplication) }
             viewModel { StockRegisterViewModel(this@MyApplication) }
             viewModel { TopHistoryViewModel() }
+            viewModel { ConsumptionHistoryViewModel() }
         }
     
         val repositoryModule = module {

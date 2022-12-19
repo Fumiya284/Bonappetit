@@ -5,4 +5,6 @@ interface HistoryRepository {
     suspend fun fetchConsumptionAndWastedQuantity(): Map<String, Int>
 
     suspend fun fetchWastedQuantityByReason(): Map<String, Int>
+
+    suspend fun fetchConsumptionQuantityByDate(): Map<String, Int>
 }
