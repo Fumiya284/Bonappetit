@@ -11,6 +11,7 @@ import com.graduation_work.bonappetit.data.database.converter.LocalDateConverter
 import com.graduation_work.bonappetit.data.database.dao.FoodDao
 import com.graduation_work.bonappetit.data.database.dao.StockDao
 import com.graduation_work.bonappetit.data.database.dao.StockWithFoodDao
+import com.graduation_work.bonappetit.data.database.dao.WastedHistoryDao
 import com.graduation_work.bonappetit.data.database.entities.FoodEntity
 import com.graduation_work.bonappetit.data.database.entities.StockEntity
 import com.graduation_work.bonappetit.data.database.entities.StockWithFoodView
@@ -37,6 +38,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun stockDao(): StockDao
     
     abstract fun stockWithFoodDao(): StockWithFoodDao
+
+    abstract fun wastedHistoryDao(): WastedHistoryDao
     
     @RenameColumn(tableName = "stock", fromColumnName = "best_or_expiry", toColumnName = "limit_type")
     class Migration1to2: AutoMigrationSpec
