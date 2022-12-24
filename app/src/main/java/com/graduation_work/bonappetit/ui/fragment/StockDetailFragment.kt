@@ -10,6 +10,8 @@ import androidx.navigation.fragment.navArgs
 import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.databinding.StockDetailBinding
 import com.graduation_work.bonappetit.ui.view_model.StockDetailViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -24,6 +26,7 @@ class StockDetailFragment : Fragment() {
 	): View {
 		return StockDetailBinding.inflate(inflater, container, false).also {
 			it.viewModel = viewModel
+			it.lifecycleOwner = viewLifecycleOwner
 			it.sdBackBtn.setOnClickListener {
 				onCancel()
 			}

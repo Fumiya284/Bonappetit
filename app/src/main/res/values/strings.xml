@@ -28,7 +28,11 @@
     <string name="sr_current_stock_empty">在庫はありません</string>
 
     <!-- 食材詳細画面(Stock detail) -->
+    <string name="sd_title">食材詳細</string>
     <string name="sd_back_to_sm">戻る</string>
+    <string name="sd_quantity_edited">編集済み</string>
+    <string name="sd_note_edited">編集済み</string>
+    <string name="sd_save">保存</string>
 
     <!-- 消費履歴(Consume history) -->
     <string name="ch_title">消費履歴</string>

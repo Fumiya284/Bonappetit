@@ -1,12 +1,18 @@
 package com.graduation_work.bonappetit
 
 import android.app.Application
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.room.Room
 import com.graduation_work.bonappetit.data.database.AppDatabase
+import com.graduation_work.bonappetit.data.files.ImageFileAccessor
 import com.graduation_work.bonappetit.data.repository.FoodRepositoryImpl
 import com.graduation_work.bonappetit.data.repository.StockRepositoryImpl
+import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
+import com.graduation_work.bonappetit.domain.use_case.StockDetailUseCase
 import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
 import com.graduation_work.bonappetit.domain.use_case.StockRegisterUseCase
 import com.graduation_work.bonappetit.ui.view_model.StockDetailViewModel
@@ -19,6 +25,11 @@ import org.koin.dsl.module
 class MyApplication : Application() {
     companion object {
         lateinit var database: AppDatabase
+        
+        const val flowTimeoutMillis: Long = 50000000
+        
+        val imageFileFormat = Bitmap.CompressFormat.JPEG
+        const val imageQuality = 100
     }
     
     override fun onCreate() {
@@ -30,24 +41,23 @@ class MyApplication : Application() {
             "app_database"
         ).build()
     
-        val viewModelModule = module {
+        val appModule = module {
             viewModel { StockManagerViewModel(this@MyApplication) }
             viewModel { StockRegisterViewModel(this@MyApplication) }
-            viewModel { (param: Long) -> StockDetailViewModel(this@MyApplication, param) }
-        }
+            viewModel { (stockId: Long) -> StockDetailViewModel(this@MyApplication, stockId) }
     
-        val repositoryModule = module {
-            single<StockRepository> { StockRepositoryImpl() }
-            single<FoodRepository> { FoodRepositoryImpl() }
-        }
-    
-        val useCaseModule = module {
             single { StockManagerUseCase() }
             single { StockRegisterUseCase() }
+            factory { StockDetailUseCase() }
+    
+            single<StockRepository> { StockRepositoryImpl() }
+            single<FoodRepository> { FoodRepositoryImpl() }
+            
+            single { ImageFileAccessor(this@MyApplication) }
         }
         
         startKoin {
-            modules(useCaseModule, repositoryModule, viewModelModule)
+            modules(appModule)
         }
     }
 }

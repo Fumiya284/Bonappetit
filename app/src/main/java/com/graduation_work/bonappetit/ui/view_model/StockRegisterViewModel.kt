@@ -74,9 +74,7 @@ class StockRegisterViewModel(private val application: MyApplication) : AndroidVi
 		viewModelScope.launch { _message.emit(Message.MOVE_TO_STOCK_MANAGER) }
 	}
 	
-	/**
-	 * あとで中身をUseCaseに移す
-	 */
+	
 	fun onRegisterBtnClick() {
 		val food = chosenFood
 		val quantity = quantityStr.value.toIntOrNull()
@@ -91,10 +89,8 @@ class StockRegisterViewModel(private val application: MyApplication) : AndroidVi
 			} else if (limit == null){
 				_message.emit(Message.NOTIFY_NO_QUANTITY_ENTERED)
 			} else {
-				when(useCase.register(food, quantity, limit, note)) {
-					is Either.Right -> { _message.emit(Message.MOVE_TO_STOCK_MANAGER) }
-					is Either.Left -> { _message.emit(Message.NOTIFY_FAILED_TO_REGISTER) }
-				}
+				useCase.register(food, quantity, limit, note)
+				_message.emit(Message.MOVE_TO_STOCK_MANAGER)
 			}
 		}
 	}

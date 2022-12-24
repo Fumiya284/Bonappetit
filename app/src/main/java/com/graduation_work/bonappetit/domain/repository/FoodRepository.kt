@@ -6,4 +6,6 @@ interface FoodRepository {
 	suspend fun fetchAllCategory(): List<String>
 	
 	suspend fun fetchAllFood(): List<Food>
+	
+	suspend fun registerFood(food: Food)
 }

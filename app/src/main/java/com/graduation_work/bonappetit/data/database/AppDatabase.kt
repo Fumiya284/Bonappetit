@@ -17,7 +17,7 @@ import com.graduation_work.bonappetit.data.database.entities.StockWithFoodView
 import com.graduation_work.bonappetit.data.database.entities.WastedHistoryEntity
 
 @Database(
-    version = 8,
+    version = 10,
     entities = [FoodEntity::class, StockEntity::class, WastedHistoryEntity::class],
     views = [StockWithFoodView::class],
     autoMigrations = [
@@ -27,7 +27,9 @@ import com.graduation_work.bonappetit.data.database.entities.WastedHistoryEntity
         AutoMigration(from = 4, to = 5),
         AutoMigration(from = 5, to = 6),
         AutoMigration(from = 6, to = 7),
-        AutoMigration(from = 7, to = 8)
+        AutoMigration(from = 7, to = 8),
+        AutoMigration(from = 8, to = 9),
+        AutoMigration(from = 9, to = 10)
     ]
 )
 @TypeConverters(LocalDateConverter::class)

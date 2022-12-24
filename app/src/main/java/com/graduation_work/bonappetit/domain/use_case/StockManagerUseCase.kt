@@ -68,11 +68,16 @@ class StockManagerUseCase {
 	
 	suspend fun updateStockListWithCondition() {
 		val selectedCategory = categories.value.filter { it.value }.keys.toTypedArray()
+		val searchString: String = searchString.value
 		
-		_stocks.value = if (searchString.value.isBlank() && selectedCategory.isEmpty()) {
+		_stocks.value = if (searchString.isBlank() && selectedCategory.isEmpty()) {
 			stockRepository.fetchAll()
+		} else if (searchString.isBlank()) {
+			stockRepository.fetchByCategory(selectedCategory)
+		} else if (selectedCategory.isEmpty()) {
+			stockRepository.fetchByName(searchString)
 		} else {
-			stockRepository.fetchByCondition(searchString.value, selectedCategory)
+			stockRepository.fetchByNameAndCategory(searchString, selectedCategory)
 		}
 	}
 	

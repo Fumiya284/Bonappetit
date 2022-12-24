@@ -1,17 +1,13 @@
 package com.graduation_work.bonappetit.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.graduation_work.bonappetit.databinding.StockListItemBinding
 import com.graduation_work.bonappetit.domain.dto.Stock
-import com.graduation_work.bonappetit.generated.callback.OnClickListener
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
 
 

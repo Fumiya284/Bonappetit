@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 8,
-    "identityHash": "5a0a1935b17db4f676a23a3728735163",
+    "version": 10,
+    "identityHash": "d94d328da0b49af491dcefe1aba17611",
     "entities": [
       {
         "tableName": "food",
@@ -53,7 +53,7 @@
       },
       {
         "tableName": "stock",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `food_name` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `note` TEXT, `registration_date` TEXT NOT NULL DEFAULT '2022-12-01', `limit` TEXT NOT NULL DEFAULT '2022-12-01', `consumption_date` TEXT, FOREIGN KEY(`food_name`) REFERENCES `food`(`name`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `food_name` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `note` TEXT NOT NULL DEFAULT '', `registration_date` TEXT NOT NULL DEFAULT '2022-12-01', `limit` TEXT NOT NULL DEFAULT '2022-12-01', `consumption_date` TEXT, FOREIGN KEY(`food_name`) REFERENCES `food`(`name`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -77,7 +77,8 @@
             "fieldPath": "note",
             "columnName": "note",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true,
+            "defaultValue": "''"
           },
           {
             "fieldPath": "registrationDate",
@@ -189,12 +190,12 @@
     "views": [
       {
         "viewName": "stock_with_food",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT stock.id, stock.food_name, stock.quantity, stock.`limit`, stock.note, food.limit_type, food.unit, food.category FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT stock.id, stock.food_name, stock.quantity, stock.`limit`, stock.note, food.limit_type, food.unit, food.category, food.image_filename FROM stock LEFT OUTER JOIN food ON stock.food_name = food.name"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5a0a1935b17db4f676a23a3728735163')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd94d328da0b49af491dcefe1aba17611')"
     ]
   }
 }

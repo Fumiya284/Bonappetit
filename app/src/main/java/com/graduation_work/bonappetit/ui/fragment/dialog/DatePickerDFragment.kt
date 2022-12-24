@@ -11,7 +11,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class DatePickerDFragment(private val viewModel: StockRegisterViewModel) : DialogFragment() {
-	
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val now = ZonedDateTime.now(ZoneId.systemDefault())
 		return DatePickerDialog(
@@ -24,7 +23,6 @@ class DatePickerDFragment(private val viewModel: StockRegisterViewModel) : Dialo
 	}
 	
 	private class OnLimitSetListener(private val viewModel: StockRegisterViewModel) : DatePickerDialog.OnDateSetListener {
-		
 		override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
 			val limit = LocalDate.of(year, month + 1, dayOfMonth) // monthは0~11で入ってくる
 			viewModel.onLimitSet(limit)

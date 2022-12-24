@@ -1,10 +1,7 @@
 package com.graduation_work.bonappetit.domain.use_case
 
-import arrow.core.Either
 import com.graduation_work.bonappetit.domain.dto.Food
 import com.graduation_work.bonappetit.domain.dto.Stock
-import com.graduation_work.bonappetit.domain.dto.StockRegistrationInfo
-import com.graduation_work.bonappetit.domain.exception.FailedToRegisterException
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,8 +27,8 @@ class StockRegisterUseCase {
 		_registeredStock.value = stockRepository.fetchByName(food.name)
 	}
 	
-	suspend fun register(chosenFood: Food, quantity: Int, limit: LocalDate, note: String?): Either<FailedToRegisterException, Unit> {
-		val newStock = StockRegistrationInfo(chosenFood.name, quantity, limit, note)
-		return stockRepository.save(newStock)
+	suspend fun register(chosenFood: Food, quantity: Int, limit: LocalDate, note: String) {
+		val newStock = Stock(food = chosenFood, quantity = quantity, limit = limit, note = note)
+		stockRepository.save(newStock)
 	}
 }

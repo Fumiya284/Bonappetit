@@ -1,12 +1,14 @@
 package com.graduation_work.bonappetit.domain.dto
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
 data class Stock(
-	val id: Long = 0,   // 登録日保存するカラム作るまでの仮置き はよつくれ
+	val id: Long = 0,
 	val food: Food,
 	val quantity: Int,
-	val limit: LocalDate? = null,
-	val note: String? = null
+	val limit: LocalDate,
+	val note: String
 )
 

@@ -12,12 +12,15 @@ interface StockDao {
     @Insert
     suspend fun insert(stockEntity: StockEntity)
 
-    @Update
-    suspend fun update(stockEntity: StockEntity)
-
     @Delete
     suspend fun delete(stockEntity: StockEntity)
 
     @Query("DELETE FROM stock")
     suspend fun deleteAll()
+    
+    @Query("UPDATE stock SET quantity = :quantity WHERE id == :id")
+    suspend fun updateQuantityById(quantity: Int, id: Long)
+    
+    @Query("UPDATE stock SET note = :note WHERE id == :id")
+    suspend fun updateNoteById(note: String, id: Long)
 }

@@ -10,6 +10,9 @@ interface StockWithFoodDao {
 	@Query("SELECT * FROM stock_with_food")
 	suspend fun selectAll(): List<StockWithFoodView>
 	
+	@Query("SELECT * FROM stock_with_food WHERE id == :id")
+	suspend fun selectById(id: Long): StockWithFoodView
+	
 	@Query("SELECT * FROM stock_with_food WHERE food_name GLOB '*' || :searchString || '*'")
 	suspend fun selectByName(searchString: String): List<StockWithFoodView>
 	
