@@ -82,6 +82,7 @@ class WastedHistoryFragment : Fragment() {
                 position = XAxis.XAxisPosition.BOTTOM
                 isGranularityEnabled = true
                 granularity = 1f
+                labelCount = if (viewModel.xAxisValues.size > 10) 10 else viewModel.xAxisValues.size
                 valueFormatter = IndexAxisValueFormatter(viewModel.xAxisValues)
             }
             axisLeft.textSize = 15f
@@ -90,6 +91,7 @@ class WastedHistoryFragment : Fragment() {
         }
         //⑦chart更新
         binding.wastedLineChart.let {
+            it.xAxis.setAvoidFirstLastClipping(true)
             it.data.notifyDataChanged()
             it.notifyDataSetChanged()
             it.invalidate()

@@ -21,7 +21,8 @@ class ConsumptionHistoryViewModel : ViewModel() {
     private var consumptionQuantityByDate = mapOf<String, Int>()
 
     private var _xAxisValues = listOf<String>()
-    val xAxisValues: List<String> = _xAxisValues
+    val xAxisValues: List<String>
+        get() = _xAxisValues
 
     private val _chartData = MutableStateFlow(LineData())
     val chartData: StateFlow<LineData> = _chartData
