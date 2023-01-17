@@ -3,10 +3,13 @@ package com.graduation_work.bonappetit.ui
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.R
+import com.graduation_work.bonappetit.data.repository.RecipeRepositoryImpl
 import com.graduation_work.bonappetit.domain.dto.Food
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
+import com.graduation_work.bonappetit.domain.repository.RecipeRepository
 import kotlinx.coroutines.runBlocking
 import org.koin.java.KoinJavaComponent.inject
 
@@ -21,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         runBlocking {
             foodRepo.registerFood(
                 Food(
-                    "kyuri",
+                    "きゅうり",
                     "個",
                     "野菜",
                     "賞味期限",
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     
             foodRepo.registerFood(
                 Food(
-                    "tomato",
+                    "トマト",
                     "個",
                     "野菜",
                     "賞味期限",
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         }
+        
          */
     }
 }

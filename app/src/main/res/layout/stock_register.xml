@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFCC"
         android:orientation="vertical" >
 
         <TextView
@@ -36,7 +37,6 @@
             android:layout_weight="0.05"
             android:orientation="horizontal">
 
-            <!-- idに_つけるとResources linking failedて言われる誰か理由知ってたら教えて -->
             <EditText
                 android:id="@+id/quantityInputEt"
                 android:layout_width="0dp"
@@ -86,7 +86,8 @@
             android:gravity="top"
             android:background="@drawable/border"
             android:hint="@string/sr_note"
-            android:text="@={viewModel.note}"/>
+            android:text="@={viewModel.note}"
+            android:inputType="textMultiLine"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,15 +99,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd = "20dp"
-                android:hint="@string/sr_cancel"
-                android:onClick="@{() -> viewModel.onCancelBtnClick()}" />
+                android:onClick="@{() -> viewModel.onCancelBtnClick()}"
+                android:text="@string/sr_cancel"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd = "20dp"
-                android:hint="@string/sr_register"
-                android:onClick="@{() -> viewModel.onRegisterBtnClick()}" />
+                android:onClick="@{() -> viewModel.onRegisterBtnClick()}"
+                android:text="@string/sr_register"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

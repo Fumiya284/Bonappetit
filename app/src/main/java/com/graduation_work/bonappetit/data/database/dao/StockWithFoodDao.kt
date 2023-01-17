@@ -7,18 +7,18 @@ import com.graduation_work.bonappetit.data.database.entities.StockWithFoodView
 
 @Dao
 interface StockWithFoodDao {
-	@Query("SELECT * FROM stock_with_food")
+	@Query("SELECT * FROM stock_with_food WHERE stock_with_food.consumption_date IS NULL")
 	suspend fun selectAll(): List<StockWithFoodView>
 	
 	@Query("SELECT * FROM stock_with_food WHERE id == :id")
 	suspend fun selectById(id: Long): StockWithFoodView
 	
-	@Query("SELECT * FROM stock_with_food WHERE food_name GLOB '*' || :searchString || '*'")
+	@Query("SELECT * FROM stock_with_food WHERE stock_with_food.consumption_date IS NULL AND food_name GLOB '*' || :searchString || '*'")
 	suspend fun selectByName(searchString: String): List<StockWithFoodView>
 	
-	@Query("SELECT * FROM stock_with_food WHERE category IN (:category)")
+	@Query("SELECT * FROM stock_with_food WHERE stock_with_food.consumption_date IS NULL AND category IN (:category)")
 	suspend fun selectByCategory(vararg category: String): List<StockWithFoodView>
 	
-	@Query("SELECT * FROM stock_with_food WHERE food_name GLOB '*' || :searchString || '*' AND category IN (:category)")
+	@Query("SELECT * FROM stock_with_food WHERE stock_with_food.consumption_date IS NULL AND food_name GLOB '*' || :searchString || '*' AND category IN (:category)")
 	suspend fun selectByNameAndCategory(searchString: String, vararg category: String): List<StockWithFoodView>
 }

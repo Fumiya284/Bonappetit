@@ -15,11 +15,6 @@ import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 import java.time.LocalDate
 
-/*
-	複雑になってしまう
-	
-	Editable.toString呼び出すとkaptが例外吐くのなんで？誰か教えて　何も調べてないけど
- */
 class StockRegisterViewModel(private val application: MyApplication) : AndroidViewModel(application) {
 	private val useCase: StockRegisterUseCase by inject(StockRegisterUseCase::class.java)
 	private var chosenFood: Food? = null

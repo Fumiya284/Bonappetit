@@ -7,10 +7,13 @@ import android.graphics.BitmapFactory
 import androidx.room.Room
 import com.graduation_work.bonappetit.data.database.AppDatabase
 import com.graduation_work.bonappetit.data.files.ImageFileAccessor
+import com.graduation_work.bonappetit.data.network.RakutenRecipeApiService
 import com.graduation_work.bonappetit.data.repository.FoodRepositoryImpl
+import com.graduation_work.bonappetit.data.repository.RecipeRepositoryImpl
 import com.graduation_work.bonappetit.data.repository.StockRepositoryImpl
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
+import com.graduation_work.bonappetit.domain.repository.RecipeRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
 import com.graduation_work.bonappetit.domain.use_case.StockDetailUseCase
 import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
@@ -54,6 +57,7 @@ class MyApplication : Application() {
             single<FoodRepository> { FoodRepositoryImpl() }
             
             single { ImageFileAccessor(this@MyApplication) }
+            single<RecipeRepository> { RecipeRepositoryImpl() }
         }
         
         startKoin {

@@ -1,7 +1,9 @@
 package com.graduation_work.bonappetit.ui.view_model
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.text.Editable
 import android.util.Log
 import android.view.View
@@ -10,16 +12,16 @@ import androidx.lifecycle.viewModelScope
 import com.graduation_work.bonappetit.MyApplication
 import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.domain.dto.Food
+import com.graduation_work.bonappetit.domain.dto.Recipe
 import com.graduation_work.bonappetit.domain.dto.Stock
+import com.graduation_work.bonappetit.domain.repository.RecipeRepository
 import com.graduation_work.bonappetit.domain.use_case.StockDetailUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 import java.time.LocalDate
@@ -29,6 +31,8 @@ class StockDetailViewModel(
 	private val stockId: Long
 ) : AndroidViewModel(myApp) {
 	private val useCase: StockDetailUseCase by inject(StockDetailUseCase::class.java)
+	private val reasonForLimitExceed: ReasonForLimitExceed? = null
+	private lateinit var stock: Stock
 	
 	private val _name = MutableStateFlow<String>("")
 	val name: StateFlow<String> = _name
@@ -51,12 +55,18 @@ class StockDetailViewModel(
 	private val _noteStatus = MutableStateFlow<String>("")
 	val noteStatus: StateFlow<String> = _noteStatus
 	
+	private val _recipe = MutableStateFlow<List<Recipe>>(emptyList())
+	val recipe: StateFlow<List<Recipe>> = _recipe
+	
 	private val _isSaveBtnEnable = MutableStateFlow<Boolean>(false)
 	val isSaveBtnEnable: StateFlow<Boolean> = _isSaveBtnEnable
 	
 	private val _image =
 		MutableStateFlow<Bitmap>(BitmapFactory.decodeResource(myApp.resources, R.drawable.no_image))
 	val image: StateFlow<Bitmap> = _image
+	
+	private val _message = MutableSharedFlow<Message>()
+	val message = _message.asSharedFlow()
 	
 	init {
 		viewModelScope.launch { useCase.loadStock(stockId) }
@@ -65,9 +75,13 @@ class StockDetailViewModel(
 			.onEach { updateStockInfo(it) }
 			.launchIn(viewModelScope)
 		
+		useCase.recipe
+			.onEach { _recipe.value = it }
+			.launchIn(viewModelScope)
+		
 		listOf(useCase.isNoteChanged, useCase.isQuantityChanged).forEach{ stateFlow ->
 			stateFlow
-				.onEach { updateStatus() }
+				.onEach { updateSaveBtnStatus() }
 				.launchIn(viewModelScope)
 		}
 	}
@@ -89,7 +103,25 @@ class StockDetailViewModel(
 		}
 	}
 	
-	private fun updateStatus() {
+	fun onConsumeBtnClick() {
+		val now = LocalDate.now()
+		if (stock.limit <= now) {
+			viewModelScope.launch { _message.emit(Message.DisplayLimitExceedDialog) }
+			return
+		}
+		markAsConsumed()
+	}
+	
+	fun onRecipeItemClick(urlStr: String) {
+		val url = Uri.parse(urlStr)
+		viewModelScope.launch { _message.emit(Message.OpenUrl(url)) }
+	}
+	
+	private fun markAsConsumed() {
+	
+	}
+	
+	private fun updateSaveBtnStatus() {
 		_quantityStatus.value =
 			if (useCase.isQuantityChanged.value) { myApp.applicationContext.getString(R.string.sd_quantity_edited) } else { "" }
 		
@@ -100,11 +132,28 @@ class StockDetailViewModel(
 	}
 	
 	private fun updateStockInfo(stock: Stock) {
-		_name.value = stock.food.name
+		_name.value = "${myApp.getString(R.string.sd_name)}:${stock.food.name}"
 		_quantity.value = stock.quantity.toString()
 		_unit.value = stock.food.unit
-		_limit.value = stock.limit.toString()
+		_limit.value = "${stock.food.limitType}:${stock.limit}"
 		_note.value = stock.note
 		_image.value = stock.food.image
+		
+		this.stock = stock
+	}
+	
+	sealed class Message {
+		object DisplayLimitExceedDialog : Message()
+		
+		data class OpenUrl(
+			val url: Uri
+		) : Message()
+	}
+	
+	enum class ReasonForLimitExceed(str: String) {
+		WAS_NOT_GOOD("美味しくなかった"),
+		EXPIRED("期限切れ"),
+		SPOILT("傷んでしまった"),
+		OTHER("その他")
 	}
 }

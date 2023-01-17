@@ -33,6 +33,8 @@
     <string name="sd_quantity_edited">編集済み</string>
     <string name="sd_note_edited">編集済み</string>
     <string name="sd_save">保存</string>
+    <string name="sd_name">名称</string>
+    <string name="sd_note">備考を入力してください</string>
 
     <!-- 消費履歴(Consume history) -->
     <string name="ch_title">消費履歴</string>
