@@ -1,19 +1,17 @@
 package com.graduation_work.bonappetit
 
 import android.app.Application
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.room.Room
 import com.graduation_work.bonappetit.data.database.AppDatabase
 import com.graduation_work.bonappetit.data.files.ImageFileAccessor
-import com.graduation_work.bonappetit.data.network.RakutenRecipeApiService
 import com.graduation_work.bonappetit.data.repository.FoodRepositoryImpl
 import com.graduation_work.bonappetit.data.repository.RecipeRepositoryImpl
+import com.graduation_work.bonappetit.data.repository.HistoryRepositoryImpl
 import com.graduation_work.bonappetit.data.repository.StockRepositoryImpl
-import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.domain.repository.FoodRepository
 import com.graduation_work.bonappetit.domain.repository.RecipeRepository
+import com.graduation_work.bonappetit.domain.repository.HistoryRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
 import com.graduation_work.bonappetit.domain.use_case.StockDetailUseCase
 import com.graduation_work.bonappetit.domain.use_case.StockManagerUseCase
@@ -21,6 +19,7 @@ import com.graduation_work.bonappetit.domain.use_case.StockRegisterUseCase
 import com.graduation_work.bonappetit.ui.view_model.StockDetailViewModel
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
 import com.graduation_work.bonappetit.ui.view_model.StockRegisterViewModel
+import com.graduation_work.bonappetit.ui.view_model.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -48,16 +47,19 @@ class MyApplication : Application() {
             viewModel { StockManagerViewModel(this@MyApplication) }
             viewModel { StockRegisterViewModel(this@MyApplication) }
             viewModel { (stockId: Long) -> StockDetailViewModel(this@MyApplication, stockId) }
-    
+            viewModel { TopHistoryViewModel() }
+            viewModel { ConsumptionHistoryViewModel() }
+            viewModel { WastedHistoryViewModel() }
+            
             single { StockManagerUseCase() }
             single { StockRegisterUseCase() }
             factory { StockDetailUseCase() }
-    
+            
+            single<HistoryRepository> { HistoryRepositoryImpl() }
             single<StockRepository> { StockRepositoryImpl() }
             single<FoodRepository> { FoodRepositoryImpl() }
-            
-            single { ImageFileAccessor(this@MyApplication) }
             single<RecipeRepository> { RecipeRepositoryImpl() }
+            single { ImageFileAccessor(this@MyApplication) }
         }
         
         startKoin {

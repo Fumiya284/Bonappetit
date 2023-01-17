@@ -59,6 +59,7 @@ class StockDetailFragment : Fragment() {
 	private fun onMessage(message: Message) {
 		when(message) {
 			is Message.OpenUrl -> { onMessageOpenUrl(message) }
+			is Message.DisplayLimitExceedDialog -> {}
 		}
 	}
 	
