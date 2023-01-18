@@ -31,7 +31,6 @@ class StockDetailViewModel(
 	private val stockId: Long
 ) : AndroidViewModel(myApp) {
 	private val useCase: StockDetailUseCase by inject(StockDetailUseCase::class.java)
-	private val reasonForLimitExceed: ReasonForLimitExceed? = null
 	private lateinit var stock: Stock
 	
 	private val _name = MutableStateFlow<String>("")
@@ -109,7 +108,7 @@ class StockDetailViewModel(
 			viewModelScope.launch { _message.emit(Message.DisplayLimitExceedDialog) }
 			return
 		}
-		markAsConsumed()
+		markAsConsumed(null)
 	}
 	
 	fun onRecipeItemClick(urlStr: String) {
@@ -117,8 +116,15 @@ class StockDetailViewModel(
 		viewModelScope.launch { _message.emit(Message.OpenUrl(url)) }
 	}
 	
-	private fun markAsConsumed() {
+	fun onCancel() {
+		viewModelScope.launch { _message.emit(Message.MoveToManager) }
+	}
 	
+	fun markAsConsumed(reasonForWasted: String?) {
+		viewModelScope.launch {
+			useCase.markAsConsumed(reasonForWasted)
+			_message.emit(Message.MoveToManager)
+		}
 	}
 	
 	private fun updateSaveBtnStatus() {
@@ -144,16 +150,10 @@ class StockDetailViewModel(
 	
 	sealed class Message {
 		object DisplayLimitExceedDialog : Message()
+		object MoveToManager : Message()
 		
 		data class OpenUrl(
 			val url: Uri
 		) : Message()
-	}
-	
-	enum class ReasonForLimitExceed(str: String) {
-		WAS_NOT_GOOD("美味しくなかった"),
-		EXPIRED("期限切れ"),
-		SPOILT("傷んでしまった"),
-		OTHER("その他")
 	}
 }

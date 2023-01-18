@@ -1,5 +1,7 @@
 package com.graduation_work.bonappetit.ui.fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,9 +35,6 @@ class StockDetailFragment : Fragment() {
 		return StockDetailBinding.inflate(inflater, container, false).also { it ->
 			it.viewModel = viewModel
 			it.lifecycleOwner = viewLifecycleOwner
-			it.sdBackBtn.setOnClickListener {
-				onCancel()
-			}
 			it.recipeRv.apply {
 				recipeListAdapter = RecipeListAdapter(viewModel)
 				adapter = recipeListAdapter
@@ -52,19 +51,37 @@ class StockDetailFragment : Fragment() {
 		}.root
 	}
 	
-	private fun onCancel() {
-		findNavController().navigate(R.id.action_detail_to_main)
-	}
-	
 	private fun onMessage(message: Message) {
 		when(message) {
+			is Message.MoveToManager -> { onMessageMoveToManager() }
 			is Message.OpenUrl -> { onMessageOpenUrl(message) }
-			is Message.DisplayLimitExceedDialog -> {}
+			is Message.DisplayLimitExceedDialog -> { onMessageDisplayLimitExceedDialog() }
 		}
+	}
+	
+	private fun onMessageMoveToManager() {
+		findNavController().navigate(R.id.action_detail_to_main)
 	}
 	
 	private fun onMessageOpenUrl(message: Message.OpenUrl) {
 		val intent = Intent(Intent.ACTION_VIEW, message.url)
 		startActivity(intent)
+	}
+	
+	private fun onMessageDisplayLimitExceedDialog() {
+		val items = arrayOf<String>("美味しくなかった", "期限切れ", "傷んでしまった", "その他")
+		val defaultItem = 0
+		var checkedItem = defaultItem
+		
+		AlertDialog.Builder(this.context)
+			.setTitle("廃棄理由を選択してください")
+			.setSingleChoiceItems(items, defaultItem, DialogInterface.OnClickListener { _, which ->
+				checkedItem = which
+			})
+			.setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
+				viewModel.markAsConsumed(items[checkedItem])
+			})
+			.setNegativeButton("キャンセル", null)
+			.show()
 	}
 }

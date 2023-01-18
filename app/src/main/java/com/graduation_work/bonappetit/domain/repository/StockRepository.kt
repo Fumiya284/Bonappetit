@@ -1,8 +1,10 @@
 package com.graduation_work.bonappetit.domain.repository
 
 import com.graduation_work.bonappetit.domain.dto.Stock
+import java.time.LocalDate
 
 interface StockRepository {
+	
 	suspend fun fetchAll(): List<Stock>
 	
 	suspend fun fetchById(id: Long): Stock
@@ -16,4 +18,6 @@ interface StockRepository {
 	suspend fun updateNoteAndQuantity(old: Stock, new: Stock)
 	
 	suspend fun save(stock: Stock)
+	
+	suspend fun markAsConsumed(stockId: Long, date: LocalDate, reasonForWasted: String?)
 }

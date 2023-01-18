@@ -102,7 +102,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#A3E870"
-                android:text="@string/sd_back_to_sm" />
+                android:text="@string/sd_back_to_sm"
+                android:onClick="@{() -> viewModel.onCancel()}"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -111,6 +112,13 @@
                 android:backgroundTint="#A3E870"
                 android:enabled="@{viewModel.isSaveBtnEnable()}"
                 android:onClick="@{() -> viewModel.onSaveBtnClick()}" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sd_consume"
+                android:backgroundTint="#A3E870"
+                android:onClick="@{() -> viewModel.onConsumeBtnClick()}" />
         </LinearLayout>
     </LinearLayout>
 </layout>

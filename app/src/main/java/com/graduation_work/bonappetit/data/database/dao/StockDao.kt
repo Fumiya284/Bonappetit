@@ -2,6 +2,7 @@ package com.graduation_work.bonappetit.data.database.dao
 
 import androidx.room.*
 import com.graduation_work.bonappetit.data.database.entities.StockEntity
+import java.time.LocalDate
 
 @Dao
 interface StockDao {
@@ -19,6 +20,9 @@ interface StockDao {
     
     @Query("UPDATE stock SET note = :note WHERE id == :id")
     suspend fun updateNoteById(note: String, id: Long)
+    
+    @Query("UPDATE stock SET consumption_date = :date WHERE id == :id")
+    suspend fun updateConsumptionDate(date: LocalDate, id: Long)
 
     @MapInfo(keyColumn = "key", valueColumn = "quantity")
     @Query("""

@@ -3,6 +3,7 @@ package com.graduation_work.bonappetit.domain.use_case
 import android.util.Log
 import com.graduation_work.bonappetit.domain.dto.Recipe
 import com.graduation_work.bonappetit.domain.dto.Stock
+import com.graduation_work.bonappetit.domain.repository.HistoryRepository
 import com.graduation_work.bonappetit.domain.repository.RecipeRepository
 import com.graduation_work.bonappetit.domain.repository.StockRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.java.KoinJavaComponent
+import java.time.LocalDate
 
 class StockDetailUseCase {
 	private val stockRepository: StockRepository by KoinJavaComponent.inject(StockRepository::class.java)
@@ -45,8 +47,8 @@ class StockDetailUseCase {
 		stockRepository.updateNoteAndQuantity(initialStock, editedStock)
 	}
 	
-	suspend fun markAsConsumed(stockId: Long) {
-	
+	suspend fun markAsConsumed(reasonForWasted: String?) {
+		stockRepository.markAsConsumed(editedStock.id, LocalDate.now(), reasonForWasted)
 	}
 	
 	suspend fun loadStock(stockId: Long) {
