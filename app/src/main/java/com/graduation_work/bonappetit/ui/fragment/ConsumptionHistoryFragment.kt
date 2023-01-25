@@ -40,9 +40,15 @@ class ConsumptionHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showNoDataText(binding.consumptionLineChart)
         binding.consumedStockList.adapter = listAdapter
+        binding.previous.setOnClickListener { viewModel.showPreviousMonth() }
+        binding.next.setOnClickListener { viewModel.showNextMonth() }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.yearAndMonth.collect { binding.selectedYearAndMonth.text = it }
+                }
                 launch { viewModel.chartData.collect { drawChart(it) } }
                 launch {
                     viewModel.consumedStockList.collect {
@@ -64,8 +70,11 @@ class ConsumptionHistoryFragment : Fragment() {
     }
 
     private fun drawChart(chartData: LineData) {
-        if (chartData.dataSetCount < 1) {
-            showNoDataText(binding.consumptionLineChart)
+        if (chartData.dataSets.isEmpty()) {
+            binding.consumptionLineChart.let {
+                it.clear()
+                it.invalidate()
+            }
             return
         }
 
@@ -74,19 +83,26 @@ class ConsumptionHistoryFragment : Fragment() {
             data = chartData
             //⑥Chartのフォーマット指定
             description.isEnabled = false
+            legend.textSize = 15f
             xAxis.apply {
                 isEnabled = true
                 textColor = Color.BLACK
+                textSize = 15f
                 position = XAxis.XAxisPosition.BOTTOM
                 isGranularityEnabled = true
                 granularity = 1f
                 labelCount = if (viewModel.xAxisValues.size > 10) 10 else viewModel.xAxisValues.size
                 valueFormatter = IndexAxisValueFormatter(viewModel.xAxisValues)
             }
-            axisLeft.textSize = 15f
-            axisLeft.axisMinimum = 0f
+            axisLeft.apply {
+                textSize = 15f
+                axisMinimum = 0f
+                isGranularityEnabled = true
+                granularity = 1f
+            }
             axisRight.isEnabled = false
         }
+
         //⑦chart更新
         binding.consumptionLineChart.let {
             it.xAxis.setAvoidFirstLastClipping(true)

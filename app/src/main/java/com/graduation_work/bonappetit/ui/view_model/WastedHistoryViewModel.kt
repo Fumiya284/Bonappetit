@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class WastedHistoryViewModel : ViewModel() {
 
@@ -30,13 +32,45 @@ class WastedHistoryViewModel : ViewModel() {
     private val _wastedStockList = MutableStateFlow<List<StockEntity>>(emptyList())
     val wastedStockList: StateFlow<List<StockEntity>> = _wastedStockList
 
+    private var selectedYearAndMonth = LocalDate.now()
+
+    private val _yearAndMonth = MutableStateFlow("")
+    val yearAndMonth: StateFlow<String>
+        get() = _yearAndMonth
+
     init {
+        _yearAndMonth.value = formatDate(selectedYearAndMonth)
+        fetchChartData()
+    }
+
+    private fun formatDate(date: LocalDate): String {
+        return date.format(DateTimeFormatter.ofPattern("yy年M月"))
+    }
+
+    private fun fetchChartData() {
         viewModelScope.launch {
-            wastedQuantityByDate = repository.fetchWastedQuantityByDate()
-            _wastedStockList.value = repository.fetchWastedStock()
+            wastedQuantityByDate = repository.fetchWastedQuantityByDate(selectedYearAndMonth)
+            _wastedStockList.value = repository.fetchWastedStock(selectedYearAndMonth)
             //④DataにDataSet格納
-            if (wastedQuantityByDate.isNotEmpty()) prepareDrawChart(wastedQuantityByDate)
+            if (wastedQuantityByDate.isNotEmpty()) {
+                prepareDrawChart(wastedQuantityByDate)
+            } else {
+                _chartData.value = LineData()
+                _wastedStockList.value = emptyList()
+            }
         }
+    }
+
+    fun showPreviousMonth() {
+        selectedYearAndMonth = selectedYearAndMonth.minusMonths(1)
+        _yearAndMonth.value = formatDate(selectedYearAndMonth)
+        fetchChartData()
+    }
+
+    fun showNextMonth() {
+        selectedYearAndMonth = selectedYearAndMonth.plusMonths(1)
+        _yearAndMonth.value = formatDate(selectedYearAndMonth)
+        fetchChartData()
     }
 
     private fun prepareDrawChart(rawData: Map<String, Int>) {
@@ -48,7 +82,7 @@ class WastedHistoryViewModel : ViewModel() {
     // Entryのxの値には文字列を設定できないため、チャートデータとは別にx軸の値を用意
     private fun generateXAxisValues(list: List<Pair<String, Int>>): List<String> {
         val values = mutableListOf<String>()
-        list.forEach { values.add(it.first) }
+        list.forEach { values.add(it.first.substring(8)) }
         return values
     }
 
@@ -71,7 +105,7 @@ class WastedHistoryViewModel : ViewModel() {
 
     private fun generateDataset(entryList: List<Entry>): LineDataSet {
         //②DataSetにデータ格納
-        val lineDataSet = LineDataSet(entryList, "廃棄数")
+        val lineDataSet = LineDataSet(entryList, "廃棄在庫数")
         //③DataSetにフォーマット指定(3章で詳説)
         lineDataSet.color = Color.BLUE
         lineDataSet.setDrawValues(false)

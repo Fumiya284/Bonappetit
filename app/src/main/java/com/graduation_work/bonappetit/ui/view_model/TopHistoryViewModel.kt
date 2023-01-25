@@ -28,6 +28,10 @@ class TopHistoryViewModel : ViewModel() {
     val reasonForWastedChartData: StateFlow<PieData> = _reasonForWastedChartData
 
     init {
+        fetchChartData()
+    }
+
+    private fun fetchChartData() {
         viewModelScope.launch {
             consumptionAndWastedQuantity = repository.fetchConsumptionAndWastedQuantity()
             wastedQuantityByReason = repository.fetchWastedQuantityByReason()

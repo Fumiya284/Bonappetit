@@ -36,6 +36,8 @@ class TopHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showNoDataText(binding.consumptionAndWastedPieChart)
+        showNoDataText(binding.reasonForWastedPieChart)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -61,8 +63,11 @@ class TopHistoryFragment : Fragment() {
     }
 
     private fun drawChart(pieChart: PieChart, chartData: PieData, title: String) {
-        if (chartData.dataSetCount < 1) {
-            showNoDataText(pieChart)
+        if (chartData.dataSets.isEmpty()) {
+            pieChart.let {
+                it.clear()
+                it.invalidate()
+            }
             return
         }
 

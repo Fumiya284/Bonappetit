@@ -31,9 +31,7 @@ class WastedHistoryFragment : Fragment() {
     private lateinit var listAdapter: StockListForHistoryAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = WastedHistoryFragmentBinding.inflate(inflater, container, false)
         listAdapter = StockListForHistoryAdapter("廃棄")
@@ -42,9 +40,15 @@ class WastedHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showNoDataText(binding.wastedLineChart)
         binding.wastedStockList.adapter = listAdapter
+        binding.previous.setOnClickListener { viewModel.showPreviousMonth() }
+        binding.next.setOnClickListener { viewModel.showNextMonth() }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.yearAndMonth.collect { binding.selectedYearAndMonth.text = it }
+                }
                 launch { viewModel.chartData.collect { drawChart(it) } }
                 launch {
                     viewModel.wastedStockList.collect {
@@ -66,8 +70,11 @@ class WastedHistoryFragment : Fragment() {
     }
 
     private fun drawChart(chartData: LineData) {
-        if (chartData.dataSetCount < 1) {
-            showNoDataText(binding.wastedLineChart)
+        if (chartData.dataSets.isEmpty()) {
+            binding.wastedLineChart.let {
+                it.clear()
+                it.invalidate()
+            }
             return
         }
 
@@ -76,17 +83,23 @@ class WastedHistoryFragment : Fragment() {
             data = chartData
             //⑥Chartのフォーマット指定
             description.isEnabled = false
+            legend.textSize = 15f
             xAxis.apply {
                 isEnabled = true
                 textColor = Color.BLACK
+                textSize = 15f
                 position = XAxis.XAxisPosition.BOTTOM
                 isGranularityEnabled = true
                 granularity = 1f
                 labelCount = if (viewModel.xAxisValues.size > 10) 10 else viewModel.xAxisValues.size
                 valueFormatter = IndexAxisValueFormatter(viewModel.xAxisValues)
             }
-            axisLeft.textSize = 15f
-            axisLeft.axisMinimum = 0f
+            axisLeft.apply {
+                textSize = 15f
+                axisMinimum = 0f
+                isGranularityEnabled = true
+                granularity = 1f
+            }
             axisRight.isEnabled = false
         }
         //⑦chart更新
