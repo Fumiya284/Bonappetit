@@ -41,19 +41,20 @@ class ConsumptionHistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showNoDataText(binding.consumptionLineChart)
-        binding.consumedStockList.adapter = listAdapter
+        binding.includeBottomSheet.stockList.adapter = listAdapter
         binding.previous.setOnClickListener { viewModel.showPreviousMonth() }
         binding.next.setOnClickListener { viewModel.showNextMonth() }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.yearAndMonth.collect { binding.selectedYearAndMonth.text = it }
+                    viewModel.yearAndMonth.collect {
+                        binding.selectedYearAndMonth.text = it
+                        binding.includeBottomSheet.title.text = "${it}に消費した食材リスト"
+                    }
                 }
                 launch { viewModel.chartData.collect { drawChart(it) } }
                 launch {
                     viewModel.consumedStockList.collect {
-                        binding.consumedStockListCardView.visibility =
-                            if (it.isEmpty()) View.GONE else View.VISIBLE
                         listAdapter.submitList(it)
                     }
                 }

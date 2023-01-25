@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/material_dynamic_neutral95">
@@ -60,7 +60,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="450dp"
+                    android:layout_height="500dp"
                     android:layout_marginTop="16dp">
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -71,26 +71,11 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/wastedStockListCardView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wastedCardView">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/wastedStockList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-            </androidx.cardview.widget.CardView>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+        <include
+            android:id="@+id/include_bottom_sheet"
+            layout="@layout/bottom_sheet_layout" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
