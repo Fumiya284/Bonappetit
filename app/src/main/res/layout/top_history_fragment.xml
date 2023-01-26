@@ -12,6 +12,29 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/NoChartDataText"
+                android:layout_width="0dp"
+                android:layout_height="500dp"
+                android:layout_margin="8dp"
+                android:visibility="gone"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_gravity="center|center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/black"
+                    android:text="履歴データが記録されていません。\n食材管理画面で記録を始めてみましょう。"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/consumptionAndWastedCardView"
                 android:layout_width="0dp"
                 android:layout_height="450dp"

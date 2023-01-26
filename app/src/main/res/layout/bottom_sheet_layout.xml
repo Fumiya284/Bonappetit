@@ -38,6 +38,18 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/noDataText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="記録がありません"
+            android:visibility="gone"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/stockList"
             android:layout_width="0dp"

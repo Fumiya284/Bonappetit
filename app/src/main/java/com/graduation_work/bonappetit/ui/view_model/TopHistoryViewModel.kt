@@ -27,11 +27,10 @@ class TopHistoryViewModel : ViewModel() {
     private val _reasonForWastedChartData = MutableStateFlow(PieData())
     val reasonForWastedChartData: StateFlow<PieData> = _reasonForWastedChartData
 
-    init {
-        fetchChartData()
-    }
+    private val _hasChartData = MutableStateFlow(false)
+    val hasChartData: StateFlow<Boolean> = _hasChartData
 
-    private fun fetchChartData() {
+    fun fetchChartData() {
         viewModelScope.launch {
             consumptionAndWastedQuantity = repository.fetchConsumptionAndWastedQuantity()
             wastedQuantityByReason = repository.fetchWastedQuantityByReason()
@@ -40,6 +39,7 @@ class TopHistoryViewModel : ViewModel() {
                 generateChartData(consumptionAndWastedQuantity)
             if (wastedQuantityByReason.isNotEmpty()) _reasonForWastedChartData.value =
                 generateChartData(wastedQuantityByReason)
+            _hasChartData.value = consumptionAndWastedQuantity.isNotEmpty() || wastedQuantityByReason.isNotEmpty()
         }
     }
 

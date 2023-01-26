@@ -36,10 +36,23 @@ class TopHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showNoDataText(binding.consumptionAndWastedPieChart)
-        showNoDataText(binding.reasonForWastedPieChart)
+        setNoDataText(binding.consumptionAndWastedPieChart, "消費と廃棄")
+        setNoDataText(binding.reasonForWastedPieChart, "廃棄理由")
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.hasChartData.collect {
+                        if (it) {
+                            binding.NoChartDataText.visibility = View.GONE
+                            binding.consumptionAndWastedCardView.visibility = View.VISIBLE
+                            binding.reasonForWastedCardView.visibility = View.VISIBLE
+                        } else {
+                            binding.NoChartDataText.visibility = View.VISIBLE
+                            binding.consumptionAndWastedCardView.visibility = View.GONE
+                            binding.reasonForWastedCardView.visibility = View.GONE
+                        }
+                    }
+                }
                 launch {
                     viewModel.consumptionAndWastedChartData.collect {
                         drawChart(binding.consumptionAndWastedPieChart, it, "消費と廃棄")
@@ -54,9 +67,14 @@ class TopHistoryFragment : Fragment() {
         }
     }
 
-    private fun showNoDataText(pieChart: PieChart) {
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchChartData()
+    }
+
+    private fun setNoDataText(pieChart: PieChart, title: String) {
         pieChart.let {
-            it.setNoDataText("データが存在しません")
+            it.setNoDataText("${title}:未記録")
             it.setNoDataTextColor(Color.BLACK)
             it.getPaint(Chart.PAINT_INFO).textSize = 60f
         }

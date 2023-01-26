@@ -40,7 +40,7 @@ class WastedHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showNoDataText(binding.wastedLineChart)
+        setNoDataText(binding.wastedLineChart)
         binding.includeBottomSheet.stockList.adapter = listAdapter
         binding.previous.setOnClickListener { viewModel.showPreviousMonth() }
         binding.next.setOnClickListener { viewModel.showNextMonth() }
@@ -55,6 +55,8 @@ class WastedHistoryFragment : Fragment() {
                 launch { viewModel.chartData.collect { drawChart(it) } }
                 launch {
                     viewModel.wastedStockList.collect {
+                        binding.includeBottomSheet.noDataText.visibility =
+                            if (it.isEmpty()) View.VISIBLE else View.GONE
                         listAdapter.submitList(it)
                     }
                 }
@@ -62,9 +64,14 @@ class WastedHistoryFragment : Fragment() {
         }
     }
 
-    private fun showNoDataText(lineChart: LineChart) {
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchChartData()
+    }
+
+    private fun setNoDataText(lineChart: LineChart) {
         lineChart.let {
-            it.setNoDataText("データが存在しません")
+            it.setNoDataText("未記録")
             it.setNoDataTextColor(Color.BLACK)
             it.getPaint(Chart.PAINT_INFO).textSize = 60f
         }

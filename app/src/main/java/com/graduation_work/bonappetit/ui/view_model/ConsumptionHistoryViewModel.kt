@@ -40,14 +40,13 @@ class ConsumptionHistoryViewModel : ViewModel() {
 
     init {
         _yearAndMonth.value = formatDate(selectedYearAndMonth)
-        fetchChartData()
     }
 
     private fun formatDate(date: LocalDate): String {
         return date.format(DateTimeFormatter.ofPattern("yy年M月"))
     }
 
-    private fun fetchChartData() {
+    fun fetchChartData() {
         viewModelScope.launch {
             consumptionQuantityByDate = repository.fetchConsumptionQuantityByDate(selectedYearAndMonth)
             _consumedStockList.value = repository.fetchConsumedStock(selectedYearAndMonth)
