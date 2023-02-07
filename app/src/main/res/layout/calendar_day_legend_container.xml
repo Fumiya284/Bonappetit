@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="7"
+        android:orientation="horizontal">
+
+        <include layout="@layout/calendar_day_legend_text" />
+
+        <include layout="@layout/calendar_day_legend_text" />
+
+        <include layout="@layout/calendar_day_legend_text" />
+
+        <include layout="@layout/calendar_day_legend_text" />
+
+        <include layout="@layout/calendar_day_legend_text" />
+
+        <include layout="@layout/calendar_day_legend_text" />
+
+        <include layout="@layout/calendar_day_legend_text" />
+
+    </LinearLayout>
+
+</layout>
