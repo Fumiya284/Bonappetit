@@ -31,9 +31,7 @@ class WastedHistoryFragment : Fragment() {
     private lateinit var listAdapter: StockListForHistoryAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = WastedHistoryFragmentBinding.inflate(inflater, container, false)
         listAdapter = StockListForHistoryAdapter("廃棄")
@@ -42,14 +40,23 @@ class WastedHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.wastedStockList.adapter = listAdapter
+        setNoDataText(binding.wastedLineChart)
+        binding.includeBottomSheet.stockList.adapter = listAdapter
+        binding.previous.setOnClickListener { viewModel.showPreviousMonth() }
+        binding.next.setOnClickListener { viewModel.showNextMonth() }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.yearAndMonth.collect {
+                        binding.selectedYearAndMonth.text = it
+                        binding.includeBottomSheet.title.text = "${it}に廃棄した食材リスト"
+                    }
+                }
                 launch { viewModel.chartData.collect { drawChart(it) } }
                 launch {
                     viewModel.wastedStockList.collect {
-                        binding.wastedStockListCardView.visibility =
-                            if (it.isEmpty()) View.GONE else View.VISIBLE
+                        binding.includeBottomSheet.noDataText.visibility =
+                            if (it.isEmpty()) View.VISIBLE else View.GONE
                         listAdapter.submitList(it)
                     }
                 }
@@ -57,17 +64,25 @@ class WastedHistoryFragment : Fragment() {
         }
     }
 
-    private fun showNoDataText(lineChart: LineChart) {
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchChartData()
+    }
+
+    private fun setNoDataText(lineChart: LineChart) {
         lineChart.let {
-            it.setNoDataText("データが存在しません")
+            it.setNoDataText("未記録")
             it.setNoDataTextColor(Color.BLACK)
             it.getPaint(Chart.PAINT_INFO).textSize = 60f
         }
     }
 
     private fun drawChart(chartData: LineData) {
-        if (chartData.dataSetCount < 1) {
-            showNoDataText(binding.wastedLineChart)
+        if (chartData.dataSets.isEmpty()) {
+            binding.wastedLineChart.let {
+                it.clear()
+                it.invalidate()
+            }
             return
         }
 
@@ -76,20 +91,28 @@ class WastedHistoryFragment : Fragment() {
             data = chartData
             //⑥Chartのフォーマット指定
             description.isEnabled = false
+            legend.textSize = 15f
             xAxis.apply {
                 isEnabled = true
                 textColor = Color.BLACK
+                textSize = 15f
                 position = XAxis.XAxisPosition.BOTTOM
                 isGranularityEnabled = true
                 granularity = 1f
+                labelCount = if (viewModel.xAxisValues.size > 10) 10 else viewModel.xAxisValues.size
                 valueFormatter = IndexAxisValueFormatter(viewModel.xAxisValues)
             }
-            axisLeft.textSize = 15f
-            axisLeft.axisMinimum = 0f
+            axisLeft.apply {
+                textSize = 15f
+                axisMinimum = 0f
+                isGranularityEnabled = true
+                granularity = 1f
+            }
             axisRight.isEnabled = false
         }
         //⑦chart更新
         binding.wastedLineChart.let {
+            it.xAxis.setAvoidFirstLastClipping(true)
             it.data.notifyDataChanged()
             it.notifyDataSetChanged()
             it.invalidate()

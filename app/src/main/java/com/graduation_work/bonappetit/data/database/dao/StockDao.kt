@@ -38,22 +38,22 @@ interface StockDao {
     @MapInfo(keyColumn = "date", valueColumn = "quantity")
     @Query("""
         select consumption_date as date, count(*) as quantity from stock
-        where consumption_date <= `limit`
+        where consumption_date between :first and :last and consumption_date <= `limit`
         group by consumption_date
     """)
-    suspend fun selectConsumptionQuantityByDate(): Map<String, Int>
+    suspend fun selectConsumptionQuantityByDate(first: String, last: String): Map<String, Int>
 
-    @Query("SELECT * FROM stock where consumption_date <= `limit`")
-    suspend fun selectConsumedStock(): List<StockEntity>
+    @Query("SELECT * FROM stock where consumption_date between :first and :last and consumption_date <= `limit`")
+    suspend fun selectConsumedStock(first: String, last: String): List<StockEntity>
 
     @MapInfo(keyColumn = "date", valueColumn = "quantity")
     @Query("""
         select consumption_date as date, count(*) as quantity from stock
-        where consumption_date > `limit`
+        where consumption_date between :first and :last and consumption_date > `limit`
         group by consumption_date
     """)
-    suspend fun selectWastedQuantityByDate(): Map<String, Int>
+    suspend fun selectWastedQuantityByDate(first: String, last: String): Map<String, Int>
 
-    @Query("SELECT * FROM stock where consumption_date > `limit`")
-    suspend fun selectWastedStock(): List<StockEntity>
+    @Query("SELECT * FROM stock where consumption_date between :first and :last and consumption_date > `limit`")
+    suspend fun selectWastedStock(first: String, last: String): List<StockEntity>
 }
