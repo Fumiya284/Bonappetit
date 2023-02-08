@@ -96,5 +96,6 @@ dependencies {
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    implementation 'com.kizitonwose.calendar:view:2.1.1'
 }
 
