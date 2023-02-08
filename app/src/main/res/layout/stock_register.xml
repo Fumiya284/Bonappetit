@@ -10,12 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFCC"
         android:orientation="vertical" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="食材登録" />
+            android:text="食材登録"
+            android:textColor="@color/black"/>
 
         <Spinner
             android:id="@+id/food_selector_spn"
@@ -26,6 +28,7 @@
 
         <TextView
             android:layout_width="match_parent"
+            android:textColor="@color/black"
             android:layout_height="0dp"
             android:layout_weight="0.05"
             android:text="@{viewModel.currentStockText}" />
@@ -36,19 +39,21 @@
             android:layout_weight="0.05"
             android:orientation="horizontal">
 
-            <!-- idに_つけるとResources linking failedて言われる誰か理由知ってたら教えて -->
             <EditText
+                android:textColor="@color/black"
                 android:id="@+id/quantityInputEt"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.8"
                 android:gravity="bottom"
                 android:hint="@string/sr_input_num"
+                android:textColorHint="@color/black"
                 android:text="@={viewModel.quantityStr}"
                 android:inputType="number"
                 android:enabled="@{viewModel.isQuantityInputEnable()}" />
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
@@ -68,6 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.1"
+                android:textColor="@color/black"
                 android:text="@{viewModel.limitType}" />
 
             <TextView
@@ -75,6 +81,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.2"
                 android:text="@{viewModel.limitText}"
+                android:textColor="@color/black"
                 android:focusable="@{viewModel.isLimitSelectorEnable()}"
                 android:onClick="@{() -> viewModel.onDatePickerClick()}"/>
         </LinearLayout>
@@ -83,10 +90,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:gravity="top"
             android:background="@drawable/border"
             android:hint="@string/sr_note"
-            android:text="@={viewModel.note}"/>
+            android:text="@={viewModel.note}"
+            android:inputType="textMultiLine"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,15 +108,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd = "20dp"
-                android:hint="@string/sr_cancel"
-                android:onClick="@{() -> viewModel.onCancelBtnClick()}" />
+                android:onClick="@{() -> viewModel.onCancelBtnClick()}"
+                android:text="@string/sr_cancel"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd = "20dp"
-                android:hint="@string/sr_register"
-                android:onClick="@{() -> viewModel.onRegisterBtnClick()}" />
+                android:onClick="@{() -> viewModel.onRegisterBtnClick()}"
+                android:text="@string/sr_register"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

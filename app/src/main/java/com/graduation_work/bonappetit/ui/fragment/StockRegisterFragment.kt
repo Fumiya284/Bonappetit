@@ -68,7 +68,6 @@ class StockRegisterFragment : Fragment() {
 		}
 	}
 	
-	// リスナ増えたら別のクラス作るかも
 	private class FoodSelectorListener(private val viewModel: StockRegisterViewModel) : AdapterView.OnItemSelectedListener {
 		override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
 			val chosenFood = viewModel.foods.value[position]    // getItemAtPosition使ったほうが良い気がするけどAnyで返されるから型チェックしなきゃいけないそして失敗したときの対処考えるのめんどくさい　いい方法あったら教えて

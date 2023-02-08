@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.graduation_work.bonappetit.ui.view_model.StockDetailViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFCC"
+
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:textColor="@color/black"
+            android:text="@string/sd_title" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:scaleType="centerInside"
+            app:imageBitmap="@{viewModel.image}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:textColor="@color/black"
+            android:text="@{viewModel.name}"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:textColor="@color/black"
+            android:text="@{viewModel.limit}"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="@{viewModel.quantity}"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:background="@drawable/editable_area"
+                android:inputType="number"
+                android:afterTextChanged="@{(s) -> viewModel.onQuantityChange(s)}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:text="@{viewModel.unit}"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:gravity="top"
+            android:textColor="@color/black"
+            android:text="@{viewModel.note}"
+            android:background="@drawable/editable_area"
+            android:hint="@string/sd_note"
+            android:textColorHint="@color/black"
+            android:inputType="textMultiLine"
+            android:afterTextChanged="@{(s) -> viewModel.onNoteChange(s)}"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recipe_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/sd_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#A3E870"
+                android:text="@string/sd_back_to_sm"
+                android:onClick="@{() -> viewModel.onCancel()}"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sd_save"
+                android:backgroundTint="#A3E870"
+                android:enabled="@{viewModel.isSaveBtnEnable()}"
+                android:onClick="@{() -> viewModel.onSaveBtnClick()}" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sd_consume"
+                android:backgroundTint="#A3E870"
+                android:onClick="@{() -> viewModel.onConsumeBtnClick()}" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

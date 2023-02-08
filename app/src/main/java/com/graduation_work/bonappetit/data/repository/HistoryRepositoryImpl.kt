@@ -6,6 +6,8 @@ import com.graduation_work.bonappetit.domain.repository.HistoryRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class HistoryRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -27,27 +29,35 @@ class HistoryRepositoryImpl(
         }
     }
 
-    override suspend fun fetchConsumptionQuantityByDate(): Map<String, Int> {
+    override suspend fun fetchConsumptionQuantityByDate(month: LocalDate): Map<String, Int> {
         return withContext(dispatcher) {
-            stockDao.selectConsumptionQuantityByDate()
+            stockDao.selectConsumptionQuantityByDate(getFirstDayOfMonth(month), getLastDayOfMonth(month))
         }
     }
 
-    override suspend fun fetchConsumedStock(): List<StockEntity> {
+    override suspend fun fetchConsumedStock(month: LocalDate): List<StockEntity> {
         return withContext(dispatcher) {
-            stockDao.selectConsumedStock()
+            stockDao.selectConsumedStock(getFirstDayOfMonth(month), getLastDayOfMonth(month))
         }
     }
 
-    override suspend fun fetchWastedQuantityByDate(): Map<String, Int> {
+    override suspend fun fetchWastedQuantityByDate(month: LocalDate): Map<String, Int> {
         return withContext(dispatcher) {
-            stockDao.selectWastedQuantityByDate()
+            stockDao.selectWastedQuantityByDate(getFirstDayOfMonth(month), getLastDayOfMonth(month))
         }
     }
 
-    override suspend fun fetchWastedStock(): List<StockEntity> {
+    override suspend fun fetchWastedStock(month: LocalDate): List<StockEntity> {
         return withContext(dispatcher) {
-            stockDao.selectWastedStock()
+            stockDao.selectWastedStock(getFirstDayOfMonth(month), getLastDayOfMonth(month))
         }
+    }
+
+    private fun getFirstDayOfMonth(month: LocalDate): String {
+        return month.withDayOfMonth(1).format(DateTimeFormatter.ISO_DATE)
+    }
+
+    private fun getLastDayOfMonth(month: LocalDate): String {
+        return month.withDayOfMonth(month.lengthOfMonth()).format(DateTimeFormatter.ISO_DATE)
     }
 }

@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ConsumptionHistoryViewModel : ViewModel() {
 
@@ -21,7 +23,8 @@ class ConsumptionHistoryViewModel : ViewModel() {
     private var consumptionQuantityByDate = mapOf<String, Int>()
 
     private var _xAxisValues = listOf<String>()
-    val xAxisValues: List<String> = _xAxisValues
+    val xAxisValues: List<String>
+        get() = _xAxisValues
 
     private val _chartData = MutableStateFlow(LineData())
     val chartData: StateFlow<LineData> = _chartData
@@ -29,13 +32,44 @@ class ConsumptionHistoryViewModel : ViewModel() {
     private val _consumedStockList = MutableStateFlow<List<StockEntity>>(emptyList())
     val consumedStockList: StateFlow<List<StockEntity>> = _consumedStockList
 
+    private var selectedYearAndMonth = LocalDate.now()
+
+    private val _yearAndMonth = MutableStateFlow("")
+    val yearAndMonth: StateFlow<String>
+        get() = _yearAndMonth
+
     init {
+        _yearAndMonth.value = formatDate(selectedYearAndMonth)
+    }
+
+    private fun formatDate(date: LocalDate): String {
+        return date.format(DateTimeFormatter.ofPattern("yy年M月"))
+    }
+
+    fun fetchChartData() {
         viewModelScope.launch {
-            consumptionQuantityByDate = repository.fetchConsumptionQuantityByDate()
-            _consumedStockList.value = repository.fetchConsumedStock()
+            consumptionQuantityByDate = repository.fetchConsumptionQuantityByDate(selectedYearAndMonth)
+            _consumedStockList.value = repository.fetchConsumedStock(selectedYearAndMonth)
             //④DataにDataSet格納
-            if (consumptionQuantityByDate.isNotEmpty()) prepareDrawChart(consumptionQuantityByDate)
+            if (consumptionQuantityByDate.isNotEmpty()) {
+                prepareDrawChart(consumptionQuantityByDate)
+            } else {
+                _chartData.value = LineData()
+                _consumedStockList.value = emptyList()
+            }
         }
+    }
+
+    fun showPreviousMonth() {
+        selectedYearAndMonth = selectedYearAndMonth.minusMonths(1)
+        _yearAndMonth.value = formatDate(selectedYearAndMonth)
+        fetchChartData()
+    }
+
+    fun showNextMonth() {
+        selectedYearAndMonth = selectedYearAndMonth.plusMonths(1)
+        _yearAndMonth.value = formatDate(selectedYearAndMonth)
+        fetchChartData()
     }
 
     private fun prepareDrawChart(rawData: Map<String, Int>) {
@@ -47,7 +81,7 @@ class ConsumptionHistoryViewModel : ViewModel() {
     // Entryのxの値には文字列を設定できないため、チャートデータとは別にx軸の値を用意
     private fun generateXAxisValues(list: List<Pair<String, Int>>): List<String> {
         val values = mutableListOf<String>()
-        list.forEach { values.add(it.first) }
+        list.forEach { values.add(it.first.substring(8)) }
         return values
     }
 
@@ -70,7 +104,7 @@ class ConsumptionHistoryViewModel : ViewModel() {
 
     private fun generateDataset(entryList: List<Entry>): LineDataSet {
         //②DataSetにデータ格納
-        val lineDataSet = LineDataSet(entryList, "消費数")
+        val lineDataSet = LineDataSet(entryList, "消費在庫数")
         //③DataSetにフォーマット指定(3章で詳説)
         lineDataSet.color = Color.BLUE
         lineDataSet.setDrawValues(false)

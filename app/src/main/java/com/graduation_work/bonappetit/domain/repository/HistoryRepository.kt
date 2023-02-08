@@ -1,6 +1,7 @@
 package com.graduation_work.bonappetit.domain.repository
 
 import com.graduation_work.bonappetit.data.database.entities.StockEntity
+import java.time.LocalDate
 
 interface HistoryRepository {
 
@@ -8,11 +9,11 @@ interface HistoryRepository {
 
     suspend fun fetchWastedQuantityByReason(): Map<String, Int>
 
-    suspend fun fetchConsumptionQuantityByDate(): Map<String, Int>
+    suspend fun fetchConsumptionQuantityByDate(month: LocalDate): Map<String, Int>
 
-    suspend fun fetchConsumedStock(): List<StockEntity>
+    suspend fun fetchConsumedStock(month: LocalDate): List<StockEntity>
 
-    suspend fun fetchWastedQuantityByDate(): Map<String, Int>
+    suspend fun fetchWastedQuantityByDate(month: LocalDate): Map<String, Int>
 
-    suspend fun fetchWastedStock(): List<StockEntity>
+    suspend fun fetchWastedStock(month: LocalDate): List<StockEntity>
 }

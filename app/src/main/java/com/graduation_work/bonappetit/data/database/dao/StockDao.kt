@@ -2,20 +2,27 @@ package com.graduation_work.bonappetit.data.database.dao
 
 import androidx.room.*
 import com.graduation_work.bonappetit.data.database.entities.StockEntity
+import java.time.LocalDate
 
 @Dao
 interface StockDao {
     @Insert
     suspend fun insert(stockEntity: StockEntity)
 
-    @Update
-    suspend fun update(stockEntity: StockEntity)
-
     @Delete
     suspend fun delete(stockEntity: StockEntity)
 
     @Query("DELETE FROM stock")
     suspend fun deleteAll()
+    
+    @Query("UPDATE stock SET quantity = :quantity WHERE id == :id")
+    suspend fun updateQuantityById(quantity: Int, id: Long)
+    
+    @Query("UPDATE stock SET note = :note WHERE id == :id")
+    suspend fun updateNoteById(note: String, id: Long)
+    
+    @Query("UPDATE stock SET consumption_date = :date WHERE id == :id")
+    suspend fun updateConsumptionDate(date: LocalDate, id: Long)
 
     @MapInfo(keyColumn = "key", valueColumn = "quantity")
     @Query("""
@@ -31,21 +38,22 @@ interface StockDao {
     @MapInfo(keyColumn = "date", valueColumn = "quantity")
     @Query("""
         select consumption_date as date, count(*) as quantity from stock
-        where consumption_date <= `limit`
+        where consumption_date between :first and :last and consumption_date <= `limit`
         group by consumption_date
     """)
-    suspend fun selectConsumptionQuantityByDate(): Map<String, Int>
+    suspend fun selectConsumptionQuantityByDate(first: String, last: String): Map<String, Int>
 
-    @Query("SELECT * FROM stock where consumption_date <= `limit`")
-    suspend fun selectConsumedStock(): List<StockEntity>
+    @Query("SELECT * FROM stock where consumption_date between :first and :last and consumption_date <= `limit`")
+    suspend fun selectConsumedStock(first: String, last: String): List<StockEntity>
 
     @MapInfo(keyColumn = "date", valueColumn = "quantity")
     @Query("""
         select consumption_date as date, count(*) as quantity from stock
-        where consumption_date > `limit`
+        where consumption_date between :first and :last and consumption_date > `limit`
         group by consumption_date
     """)
-    suspend fun selectWastedQuantityByDate(): Map<String, Int>
+    suspend fun selectWastedQuantityByDate(first: String, last: String): Map<String, Int>
+
 
     @Query("SELECT * FROM stock where consumption_date > `limit`")
     suspend fun selectWastedStock(): List<StockEntity>
@@ -56,4 +64,7 @@ interface StockDao {
         and (consumption_date is null or consumption_date = '')
     """)
     suspend fun selectStockListByThisMonth(first: String, last: String): List<StockEntity>
+
+    @Query("SELECT * FROM stock where consumption_date between :first and :last and consumption_date > `limit`")
+    suspend fun selectWastedStock(first: String, last: String): List<StockEntity>
 }

@@ -17,7 +17,9 @@ class StockListAdapter(
 ) : ListAdapter<Stock, StockListAdapter.StockViewHolder>(DiffCallback) {
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
 		val layoutInflater = LayoutInflater.from(parent.context)
-		return StockViewHolder(StockListItemBinding.inflate(layoutInflater, parent, false))
+		val binding = StockListItemBinding.inflate(layoutInflater, parent, false)
+		
+		return StockViewHolder(binding)
 	}
 	
 	override fun onBindViewHolder(holder: StockViewHolder, position: Int) {
@@ -35,9 +37,13 @@ class StockListAdapter(
 	}
 
 	class StockViewHolder(private val binding: StockListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+		/**
+		 * ViewHolderがバインドされる時に呼び出し、
+		 * RecyclerViewに表示するViewの初期設定を行う
+		 */
 		fun bind(item: Stock, viewLifecycleOwner: LifecycleOwner, viewModel: StockManagerViewModel) {
 			binding.run {
-				lifecycleOwner = viewLifecycleOwner //現状では必要ない　こっちは使わないかも
+				lifecycleOwner = viewLifecycleOwner
 				stock = item
 				this.viewModel = viewModel //現状viewModelはつかってない　こっちはあとで使う
 				

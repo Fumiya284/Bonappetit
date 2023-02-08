@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 8,
-    "identityHash": "8ac2287f511f8a4e4a485bc66d48d29a",
+    "identityHash": "5a0a1935b17db4f676a23a3728735163",
     "entities": [
       {
         "tableName": "food",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `unit` TEXT NOT NULL, `category` TEXT NOT NULL DEFAULT 'sample', `limit_type` TEXT NOT NULL DEFAULT '賞味期限', PRIMARY KEY(`name`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `unit` TEXT NOT NULL, `category` TEXT NOT NULL DEFAULT 'sample', `limit_type` TEXT NOT NULL DEFAULT '賞味期限', `image_filename` TEXT NOT NULL DEFAULT 'default.JPEG', PRIMARY KEY(`name`))",
         "fields": [
           {
             "fieldPath": "name",
@@ -33,6 +33,13 @@
             "affinity": "TEXT",
             "notNull": true,
             "defaultValue": "'賞味期限'"
+          },
+          {
+            "fieldPath": "imageFilename",
+            "columnName": "image_filename",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "'default.JPEG'"
           }
         ],
         "primaryKey": {
@@ -187,7 +194,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8ac2287f511f8a4e4a485bc66d48d29a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5a0a1935b17db4f676a23a3728735163')"
     ]
   }
 }

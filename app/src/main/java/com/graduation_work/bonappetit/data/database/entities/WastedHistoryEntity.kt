@@ -6,8 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-	tableName = "wasted_history",
-	foreignKeys = [ForeignKey(
+	tableName = "wasted_history", foreignKeys = [ForeignKey(
 		entity = StockEntity::class,
 		parentColumns = arrayOf("id"),
 		childColumns = arrayOf("stock_id"),
@@ -15,9 +14,7 @@ import androidx.room.PrimaryKey
 	)]
 )
 data class WastedHistoryEntity(
-	@PrimaryKey(autoGenerate = true)
-	val id: Long,
-	@ColumnInfo(name = "stock_id", index = true)
-	val stockId: Long,
+	@PrimaryKey(autoGenerate = true) val id: Long,
+	@ColumnInfo(name = "stock_id", index = true) val stockId: Long,
 	val reason: String
 )

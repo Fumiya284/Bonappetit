@@ -40,14 +40,23 @@ class ConsumptionHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.consumedStockList.adapter = listAdapter
+        setNoDataText(binding.consumptionLineChart)
+        binding.includeBottomSheet.stockList.adapter = listAdapter
+        binding.previous.setOnClickListener { viewModel.showPreviousMonth() }
+        binding.next.setOnClickListener { viewModel.showNextMonth() }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.yearAndMonth.collect {
+                        binding.selectedYearAndMonth.text = it
+                        binding.includeBottomSheet.title.text = "${it}に消費した食材リスト"
+                    }
+                }
                 launch { viewModel.chartData.collect { drawChart(it) } }
                 launch {
                     viewModel.consumedStockList.collect {
-                        binding.consumedStockListCardView.visibility =
-                            if (it.isEmpty()) View.GONE else View.VISIBLE
+                        binding.includeBottomSheet.noDataText.visibility =
+                            if (it.isEmpty()) View.VISIBLE else View.GONE
                         listAdapter.submitList(it)
                     }
                 }
@@ -55,17 +64,25 @@ class ConsumptionHistoryFragment : Fragment() {
         }
     }
 
-    private fun showNoDataText(lineChart: LineChart) {
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchChartData()
+    }
+
+    private fun setNoDataText(lineChart: LineChart) {
         lineChart.let {
-            it.setNoDataText("データが存在しません")
+            it.setNoDataText("未記録")
             it.setNoDataTextColor(Color.BLACK)
             it.getPaint(Chart.PAINT_INFO).textSize = 60f
         }
     }
 
     private fun drawChart(chartData: LineData) {
-        if (chartData.dataSetCount < 1) {
-            showNoDataText(binding.consumptionLineChart)
+        if (chartData.dataSets.isEmpty()) {
+            binding.consumptionLineChart.let {
+                it.clear()
+                it.invalidate()
+            }
             return
         }
 
@@ -74,19 +91,26 @@ class ConsumptionHistoryFragment : Fragment() {
             data = chartData
             //⑥Chartのフォーマット指定
             description.isEnabled = false
+            legend.textSize = 15f
             xAxis.apply {
                 isEnabled = true
                 textColor = Color.BLACK
+                textSize = 15f
                 position = XAxis.XAxisPosition.BOTTOM
                 isGranularityEnabled = true
                 granularity = 1f
                 labelCount = if (viewModel.xAxisValues.size > 10) 10 else viewModel.xAxisValues.size
                 valueFormatter = IndexAxisValueFormatter(viewModel.xAxisValues)
             }
-            axisLeft.textSize = 15f
-            axisLeft.axisMinimum = 0f
+            axisLeft.apply {
+                textSize = 15f
+                axisMinimum = 0f
+                isGranularityEnabled = true
+                granularity = 1f
+            }
             axisRight.isEnabled = false
         }
+
         //⑦chart更新
         binding.consumptionLineChart.let {
             it.xAxis.setAvoidFirstLastClipping(true)

@@ -72,14 +72,30 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 			.launchIn(viewModelScope)
 	}
 	
+	/**
+	 * 絞り込みボタンをタップした際に絞り込みダイアログの表示をViewへ要求する
+	 */
 	fun onSearchBtnClick() {
-		viewModelScope.launch { _message.emit(Message.DISPLAY_SEARCH_DIALOG) }
+		viewModelScope.launch { _message.emit(Message.DisplaySearchDialog) }
 	}
 	
+	/**
+	 * 在庫登録ボタンをタップした際に在庫登録画面への遷移をViewに要求する
+	 */
 	fun onRegisterBtnClick() {
-		viewModelScope.launch { _message.emit(Message.MOVE_TO_REGISTER_SCREEN) }
+		viewModelScope.launch { _message.emit(Message.MoveToRegisterScreen) }
 	}
 	
+	/**
+	 * 在庫一覧のアイテムをタップした際に在庫詳細画面への遷移をViewへ要求する
+	 */
+	fun onStockItemClick(stock: Stock) {
+		viewModelScope.launch { _message.emit(Message.MoveToDetailScreen(stock)) }
+	}
+	
+	/**
+	 * 在庫ソートボタンをタップした際に在庫をソートする
+	 */
 	fun onSortBtnClick() {
 		viewModelScope.launch {
 			useCase.switchSortType()
@@ -87,6 +103,11 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 		}
 	}
 	
+	/**
+	 * 絞り込みダイアログのアイテムを選択した際に
+	 * 表示する食材カテゴリーの選択状況を更新し
+	 * 新しい条件に合わせて在庫情報を更新する
+	 */
 	fun onDialogItemClick(category: String, nextStatus: Boolean) {
 		viewModelScope.launch {
 			useCase.setCategoryStatus(category, nextStatus)
@@ -95,6 +116,9 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 		}
 	}
 	
+	/**
+	 * 現在選択されているソートの種類に応じてソートボタンのテキストを書き換える
+	 */
 	private fun updateSortBtnText() {
 		_sortBtnText.value = when(useCase.currentSortType.value) {
 			StockManagerUseCase.StockSortType.ID_ASC -> { application.applicationContext.getString(R.string.sm_sort_register_oder_asc) }
@@ -102,6 +126,9 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 		}
 	}
 	
+	/**
+	 * 絞り込みの状態に応じて絞り込みボタンのテキストを書き換える
+	 */
 	private fun updateSearchBtnText() {
 		_searchBtnText.value =
 			if (true in categories.value.values.toBooleanArray()) {
@@ -112,9 +139,20 @@ class StockManagerViewModel(private val application: MyApplication) : AndroidVie
 	}
 	
 	// 画面遷移をviewに知らせるメッセージ
+	/*
 	enum class Message {
 		DISPLAY_SEARCH_DIALOG,
 		MOVE_TO_REGISTER_SCREEN,
 		MOVE_TO_DETAIL_SCREEN
+	}
+	 */
+	
+	sealed class Message {
+		object DisplaySearchDialog : Message()
+		object MoveToRegisterScreen : Message()
+		
+		data class MoveToDetailScreen(
+			val stock: Stock
+		) : Message()
 	}
 }
