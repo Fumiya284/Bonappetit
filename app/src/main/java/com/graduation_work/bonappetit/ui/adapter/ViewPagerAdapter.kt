@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.graduation_work.bonappetit.test_utils.MockFragment
+import com.graduation_work.bonappetit.ui.fragment.CalendarFragment
 import com.graduation_work.bonappetit.ui.fragment.HostHistoryFragment
 import com.graduation_work.bonappetit.ui.fragment.StockManagerFragment
 
@@ -24,7 +24,7 @@ class ViewPagerAdapter(
         return when(position) {
             0 -> { StockManagerFragment() }
             1 -> { HostHistoryFragment() }
-            else -> { MockFragment() }
+            else -> { CalendarFragment() }
         }
     }
 }

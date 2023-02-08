@@ -49,4 +49,11 @@ interface StockDao {
 
     @Query("SELECT * FROM stock where consumption_date > `limit`")
     suspend fun selectWastedStock(): List<StockEntity>
+
+    @Query("""
+        select * from stock
+        where `limit` between :first and :last
+        and (consumption_date is null or consumption_date = '')
+    """)
+    suspend fun selectStockListByThisMonth(first: String, last: String): List<StockEntity>
 }
