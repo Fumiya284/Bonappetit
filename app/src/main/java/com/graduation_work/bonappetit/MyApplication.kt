@@ -75,7 +75,7 @@ class MyApplication : Application() {
         }
         
         startKoin {
-            modules(appModule)
+            modules(appModule, repositoryModule, useCaseModule)
         }
     }
 }
