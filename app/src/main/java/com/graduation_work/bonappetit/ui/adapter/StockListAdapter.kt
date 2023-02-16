@@ -1,5 +1,7 @@
 package com.graduation_work.bonappetit.ui.adapter
 
+import android.animation.ObjectAnimator
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
@@ -9,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.graduation_work.bonappetit.databinding.StockListItemBinding
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 
 class StockListAdapter(
@@ -46,6 +50,14 @@ class StockListAdapter(
 				lifecycleOwner = viewLifecycleOwner
 				stock = item
 				this.viewModel = viewModel //現状viewModelはつかってない　こっちはあとで使う
+				
+				if (!(item.limit.isBefore(LocalDate.now()) || item.limit == LocalDate.now())) {
+					val remain = ChronoUnit.DAYS.between(LocalDate.now(), item.limit).toString()
+					Log.d("my_info", remain)
+					remainDate.text = """あと${remain}日"""
+				} else {
+					remainDate.text = "期限切れ"
+				}
 				
 				executePendingBindings()
 			}
