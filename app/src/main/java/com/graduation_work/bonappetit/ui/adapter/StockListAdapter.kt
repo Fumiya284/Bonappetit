@@ -1,13 +1,14 @@
 package com.graduation_work.bonappetit.ui.adapter
 
-import android.animation.ObjectAnimator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.graduation_work.bonappetit.R
 import com.graduation_work.bonappetit.databinding.StockListItemBinding
 import com.graduation_work.bonappetit.domain.dto.Stock
 import com.graduation_work.bonappetit.ui.view_model.StockManagerViewModel
@@ -57,6 +58,7 @@ class StockListAdapter(
 					remainDate.text = """あと${remain}日"""
 				} else {
 					remainDate.text = "期限切れ"
+					background.background = ContextCompat.getDrawable(this.root.context, R.drawable.sm_expired_item)
 				}
 				
 				executePendingBindings()

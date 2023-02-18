@@ -59,7 +59,7 @@
                 android:textSize="20sp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:background="@drawable/editable_area"
+                android:background="@drawable/sm_editable_area"
                 android:inputType="number"
                 android:afterTextChanged="@{(s) -> viewModel.onQuantityChange(s)}" />
 
@@ -79,7 +79,7 @@
             android:gravity="top"
             android:textColor="@color/black"
             android:text="@{viewModel.note}"
-            android:background="@drawable/editable_area"
+            android:background="@drawable/sm_editable_area"
             android:hint="@string/sd_note"
             android:textColorHint="@color/black"
             android:inputType="textMultiLine"
