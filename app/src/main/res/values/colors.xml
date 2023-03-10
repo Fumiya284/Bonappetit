@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="title">#A3E870</color>
+    <color name="expired">#F15B5B</color>
+    <color name="almost_limit">#EE7800</color>
 </resources>

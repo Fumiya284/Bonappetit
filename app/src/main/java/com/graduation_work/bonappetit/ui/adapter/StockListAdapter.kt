@@ -1,5 +1,6 @@
 package com.graduation_work.bonappetit.ui.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -50,15 +51,17 @@ class StockListAdapter(
 			binding.run {
 				lifecycleOwner = viewLifecycleOwner
 				stock = item
-				this.viewModel = viewModel //現状viewModelはつかってない　こっちはあとで使う
+				this.viewModel = viewModel
 				
-				if (!(item.limit.isBefore(LocalDate.now()) || item.limit == LocalDate.now())) {
-					val remain = ChronoUnit.DAYS.between(LocalDate.now(), item.limit).toString()
-					Log.d("my_info", remain)
+				val remain = ChronoUnit.DAYS.between(LocalDate.now(), item.limit) + 1
+				if (remain <= 0) {
+					background.background = ContextCompat.getDrawable(this.root.context, R.drawable.sm_expired_item)
+					remainDate.text = "期限切れ"
+				} else if (remain <= 3) {
+					background.background = ContextCompat.getDrawable(this.root.context, R.drawable.sm_close_item)
 					remainDate.text = """あと${remain}日"""
 				} else {
-					remainDate.text = "期限切れ"
-					background.background = ContextCompat.getDrawable(this.root.context, R.drawable.sm_expired_item)
+					remainDate.text = """あと${remain}日"""
 				}
 				
 				executePendingBindings()
